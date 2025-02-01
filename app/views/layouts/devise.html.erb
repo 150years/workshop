@@ -20,12 +20,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body class="centered-layout">
-    <% if alert.present? %>
-      <div popover class="flash" style="--flash-position: 2rem;" data-controller="element-removal" data-action="animationend->element-removal#remove" role="alert"><%= alert %></div>
-    <% end %>
-    <% if notice.present? %>
-      <div popover class="flash" style="--flash-position: 2rem;" data-controller="element-removal" data-action="animationend->element-removal#remove" role="alert"><%= notice %></div>
-    <% end %>
+    <%= render "alerts" %>
     <main>
       <%= yield %>
     </main>

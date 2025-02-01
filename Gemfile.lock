@@ -114,6 +114,7 @@ GEM
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
     crass (1.0.6)
+    css-zero (1.0.4)
     cssbundling-rails (1.4.1)
       railties (>= 6.0.0)
     date (3.4.1)
@@ -426,6 +427,7 @@ DEPENDENCIES
   bullet
   capybara
   capybara-screenshot
+  css-zero (= 1.0.4)
   cssbundling-rails
   debug
   dotenv-rails

@@ -2,16 +2,22 @@
 
 # == Schema Information
 #
-# Table name: companies
+# Table name: clients
 #
 #  id         :integer          not null, primary key
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  company_id :integer          not null
 #
-class Company < ApplicationRecord
-  validates :name, presence: true
-
-  has_many :users, dependent: :destroy
-  has_many :clients, dependent: :destroy
+# Indexes
+#
+#  index_clients_on_company_id  (company_id)
+#
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#
+class Client < ApplicationRecord
+  belongs_to :company
 end

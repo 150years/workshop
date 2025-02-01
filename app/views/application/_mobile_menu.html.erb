@@ -1,0 +1,22 @@
+<div class="hide@md" data-controller="dialog">
+  <button class="btn btn--icon" data-action="dialog#showModal">
+    <%= image_tag "menu.svg", size: 20, aria: { hidden: true } %>
+    <span class="sr-only">Open menu</span>
+  </button>
+  <dialog class="sheet sheet--left" data-dialog-target="menu" data-action="click->dialog#closeOnClickOutside">
+    <button class="btn btn--plain sheet__close" data-action="click->dialog#close">
+      <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+      <span class="sr-only">Close</span>
+    </button>
+    <div class="sheet__content flex flex-col items-start gap-4">
+      <span class="font-bold mb-4">Workshop</span>
+      <nav class="nav text-sm text-subtle">
+        <ul>
+          <li>
+            <%= link_to "Users", users_path, class: (request.path.include?("/users") ? "text-primary" : "") %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </dialog>
+</div>

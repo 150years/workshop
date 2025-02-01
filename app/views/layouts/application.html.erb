@@ -22,12 +22,13 @@
   <body class="header-layout">
     <%= render "alerts" %>
     <header id="header">
-      <div class="container">
-        <h1 class="font-bold text-2xl">Workshop</h1>
+      <div class="flex justify-between container">
+        <%= render "mobile_menu" %>
+        <%= render "header_menu" %>
       </div>
     </header>
     <main id="main">
-      <div class="container">
+      <div class="container flex flex-col gap">
         <%= yield %>
       </div>
     </main>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Core
@@ -15,6 +17,7 @@ gem 'bootsnap', require: false
 gem 'solid_cache'
 gem 'solid_queue'
 gem 'solid_cable'
+gem 'rails_app_version', '1.2.4'
 
 # Deploy
 gem 'kamal', require: false

@@ -2,11 +2,12 @@
 Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
-  root 'dashboard#index'
-
+  # It should be before users controller to avoid conflicts
   devise_for :users
 
+  root 'dashboard#index'
 
+  resources :users
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -1,0 +1,15 @@
+<% content_for :title, "Clients" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-4xl">Clients</h1>
+  <%= link_to "New client", new_client_path, class: "btn btn--primary" %>
+</div>
+
+<div id="clients" class="flex flex-col" style="gap: 2rem;">
+  <% @clients.each do |client| %>
+    <div class="flex flex-row items-center justify-between">
+      <%= render client %>
+      <%= link_to "Show this client", client, class: "btn" %>
+    </div>
+  <% end %>
+</div>

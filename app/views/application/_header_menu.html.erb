@@ -6,6 +6,7 @@
 
   <nav class="flex items-center gap text-sm text-subtle show@md" style="--column-gap: 1rem">
     <%= link_to "Users", users_path, class: (request.path.include?("/users") ? "text-primary" : "") %>
+    <%= link_to "Clients", clients_path, class: (request.path.include?("/clients") ? "text-primary" : "") %>
   </nav>
 </div>
 

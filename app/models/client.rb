@@ -5,6 +5,7 @@
 # Table name: clients
 #
 #  id         :integer          not null, primary key
+#  email      :string
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -19,5 +20,6 @@
 #  company_id  (company_id => companies.id)
 #
 class Client < ApplicationRecord
+  validates :name, presence: true
   belongs_to :company
 end

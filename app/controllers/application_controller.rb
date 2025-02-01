@@ -5,4 +5,10 @@ class ApplicationController < ActionController::Base
   # allow_browser versions: :modern
 
   before_action :authenticate_user!
+
+  private
+
+  def current_company
+    @current_company ||= current_user.company
+  end
 end

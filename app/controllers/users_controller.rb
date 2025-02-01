@@ -34,8 +34,6 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    params[:user].delete(:password) if params[:user][:password].blank?
-
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.', status: :see_other
     else
@@ -51,13 +49,14 @@ class UsersController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = current_company.users.find(params.expect(:id))
   end
 
-  # Only allow a list of trusted parameters through.
   def user_params
+    # Do not change password if it is blank. Used in Edit action.
+    params[:user].delete(:password) if params[:user][:password].blank?
+
     params.fetch(:user, {}).permit(:name, :email, :password)
   end
 end

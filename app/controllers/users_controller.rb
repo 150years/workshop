@@ -22,8 +22,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-
-    @user.company = current_user.company
+    @user.company = current_company
 
     if @user.save
       redirect_to @user, notice: 'User was successfully created.'

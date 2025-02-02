@@ -22,7 +22,7 @@ class ClientsController < ApplicationController
   # POST /clients
   def create
     @client = Client.new(client_params)
-    @client.company = current_user.company
+    @client.company = current_company
 
     if @client.save
       redirect_to @client, notice: 'Client was successfully created.'

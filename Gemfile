@@ -8,7 +8,6 @@ gem 'propshaft'
 gem 'sqlite3', '>= 2.1'
 gem 'puma', '>= 5.0'
 gem 'jsbundling-rails'
-gem 'cssbundling-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bootsnap', require: false

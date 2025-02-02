@@ -1,15 +1,14 @@
 <div class="flex items-center gap">
   <%= link_to "/", class: "flex items-center gap mie-2" do %>
-    <%= image_tag "loader-circle.svg", size: 24, aria: { hidden: true } %>
+    <%= image_tag "logo.webp", size: 40, aria: { hidden: true } %>
     <span class="font-bold">Workshop</span>
   <% end %>
-
   <nav class="flex items-center gap text-sm text-subtle show@md" style="--column-gap: 1rem">
     <%= link_to "Users", users_path, class: (request.path.include?("/users") ? "text-primary" : "") %>
     <%= link_to "Clients", clients_path, class: (request.path.include?("/clients") ? "text-primary" : "") %>
+    <%= link_to "Agents", agents_path, class: (request.path.include?("/agents") ? "text-primary" : "") %>
   </nav>
 </div>
-
 <div class="flex items-center gap">
   <button class="btn avatar">
     <%= image_tag "loader-circle.svg", size: 48, alt: "CN" %>

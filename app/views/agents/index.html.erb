@@ -1,0 +1,15 @@
+<% content_for :title, "Agents" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-4xl">Agents</h1>
+  <%= link_to "New agent", new_agent_path, class: "btn btn--primary" %>
+</div>
+
+<div id="agents" class="flex flex-col" style="gap: 2rem;">
+  <% @agents.each do |agent| %>
+    <div class="flex flex-row items-center justify-between">
+      <%= render agent %>
+      <%= link_to "Show this agent", agent, class: "btn" %>
+    </div>
+  <% end %>
+</div>

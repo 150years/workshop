@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   # It should be before users controller to avoid conflicts
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :clients
+  resources :agents
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -45,6 +47,14 @@ end
 #                                   PATCH  /clients/:id(.:format)                                                                            clients#update
 #                                   PUT    /clients/:id(.:format)                                                                            clients#update
 #                                   DELETE /clients/:id(.:format)                                                                            clients#destroy
+#                            agents GET    /agents(.:format)                                                                                 agents#index
+#                                   POST   /agents(.:format)                                                                                 agents#create
+#                         new_agent GET    /agents/new(.:format)                                                                             agents#new
+#                        edit_agent GET    /agents/:id/edit(.:format)                                                                        agents#edit
+#                             agent GET    /agents/:id(.:format)                                                                             agents#show
+#                                   PATCH  /agents/:id(.:format)                                                                             agents#update
+#                                   PUT    /agents/:id(.:format)                                                                             agents#update
+#                                   DELETE /agents/:id(.:format)                                                                             agents#destroy
 #  turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #  turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 # turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

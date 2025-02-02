@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_clients_on_company_id  (company_id)
+#  index_clients_on_company_id_and_email  (company_id,email)
 #
 # Foreign Keys
 #

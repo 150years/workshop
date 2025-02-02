@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_clients_on_company_id  (company_id)
+#  index_clients_on_company_id_and_email  (company_id,email)
 #
 # Foreign Keys
 #
@@ -21,5 +21,7 @@
 #
 class Client < ApplicationRecord
   validates :name, presence: true
+  validates :email, uniqueness: { scope: :company_id }, if: -> { email.present? }
+
   belongs_to :company
 end

@@ -1,4 +1,4 @@
-<%= render @client %>
+<%= render "clients/client", client: @client %>
 
 <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
   <%= link_to "Edit this client", edit_client_path(@client), class: "btn" %>

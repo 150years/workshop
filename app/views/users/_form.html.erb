@@ -10,16 +10,16 @@
     </div>
   <% end %>
   <div class="flex flex-col items-start gap-half mbe-2">
-    <%= form.label :password, class: "text-sm font-medium leading-none" %>
-    <%= form.password_field :password, class: "input" %>
+    <%= form.label :name, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
   <div class="flex flex-col items-start gap-half mbe-2">
     <%= form.label :email, class: "text-sm font-medium leading-none" %>
     <%= form.email_field :email, class: "input" %>
   </div>
   <div class="flex flex-col items-start gap-half mbe-2">
-    <%= form.label :name, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :name, class: "input" %>
+    <%= form.label :password, class: "text-sm font-medium leading-none" %>
+    <%= form.password_field :password, class: "input" %>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
     <%= button_tag tag.span(@user.persisted? ? "Update User" : "Create User"), class: "btn btn--primary btn--loading" %>

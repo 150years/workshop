@@ -19,7 +19,7 @@ gem 'solid_cable'
 gem 'rails_app_version', '1.2.4'
 
 # Application
-gem 'css-zero', '1.0.4'
+gem 'css-zero', '1.0.5'
 gem 'devise', '4.9.4'
 
 # Deploy

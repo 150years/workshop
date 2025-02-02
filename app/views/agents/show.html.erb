@@ -1,0 +1,7 @@
+<%= render "agents/agent", agent: @agent %>
+
+<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
+  <%= link_to "Edit this agent", edit_agent_path(@agent), class: "btn" %>
+  <%= link_to "Back to agents", agents_path, class: "btn" %>
+  <%= button_to "Destroy this agent", @agent, method: :delete, class: "btn" %>
+</div>

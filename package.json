@@ -2,16 +2,11 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "build": "bun bun.config.js",
-    "build:css": "postcss ./app/assets/stylesheets/application.postcss.css -o ./app/assets/builds/application.css"
+    "build": "bun bun.config.js"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.12",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.1",
-    "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.1.0",
-    "postcss-nesting": "^13.0.1"
+    "autoprefixer": "^10.4.20"
   }
 }

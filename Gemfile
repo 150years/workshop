@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Core
@@ -6,7 +8,6 @@ gem 'propshaft'
 gem 'sqlite3', '>= 2.1'
 gem 'puma', '>= 5.0'
 gem 'jsbundling-rails'
-gem 'cssbundling-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bootsnap', require: false
@@ -15,6 +16,11 @@ gem 'bootsnap', require: false
 gem 'solid_cache'
 gem 'solid_queue'
 gem 'solid_cable'
+gem 'rails_app_version', '1.2.4'
+
+# Application
+gem 'css-zero', '1.0.4'
+gem 'devise', '4.9.4'
 
 # Deploy
 gem 'kamal', require: false

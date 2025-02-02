@@ -1,0 +1,15 @@
+<% content_for :title, "Users" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-4xl">Users</h1>
+  <%= link_to "New user", new_user_path, class: "btn btn--primary" %>
+</div>
+
+<div id="users" class="flex flex-col" style="gap: 2rem;">
+  <% @users.each do |user| %>
+    <div class="flex flex-row items-center justify-between">
+      <%= render user %>
+      <%= link_to "Show this user", user, class: "btn" %>
+    </div>
+  <% end %>
+</div>

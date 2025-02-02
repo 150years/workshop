@@ -26,11 +26,9 @@
 #  company_id  (company_id => companies.id)
 #
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :registerable, :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  belongs_to :company
+
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
-
-  belongs_to :company
 end

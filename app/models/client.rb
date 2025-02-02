@@ -20,8 +20,16 @@
 #  company_id  (company_id => companies.id)
 #
 class Client < ApplicationRecord
+  belongs_to :company
+
   validates :name, presence: true
   validates :email, uniqueness: { scope: :company_id }, if: -> { email.present? }
 
-  belongs_to :company
+  before_validation :normalize_email, if: -> { email.present? }
+
+  private
+
+  def normalize_email
+    self.email = email.downcase.strip
+  end
 end

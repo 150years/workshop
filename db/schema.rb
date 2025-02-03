@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_02_165226) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_03_200440) do
   create_table "agents", force: :cascade do |t|
     t.string "name", null: false
     t.integer "company_id", null: false
@@ -34,6 +34,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_165226) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "components", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.string "code"
+    t.integer "color"
+    t.integer "unit"
+    t.integer "min_quantity"
+    t.integer "price", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_components_on_company_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -51,5 +63,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_165226) do
 
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
+  add_foreign_key "components", "companies"
   add_foreign_key "users", "companies"
 end

@@ -24,11 +24,11 @@
 #
 FactoryBot.define do
   factory :component do
-    company { nil }
-    code { 'MyString' }
-    colour { 1 }
-    unit { 1 }
+    code { Faker::Alphanumeric.alphanumeric(number: 10) }
+    color { 'red' }
+    unit { 'piece' }
     min_quantity { 1 }
     price { 1 }
+    company
   end
 end

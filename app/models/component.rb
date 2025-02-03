@@ -25,8 +25,8 @@
 class Component < ApplicationRecord
   belongs_to :company
 
-  enum :unit, { piece: 0, meter: 1, kilogram: 2 }
-  enum :color, { red: 0, green: 1, blue: 2, yellow: 3, black: 4, white: 5 }
+  enum :unit, { piece: 0, meter: 1, kilogram: 2 }, validate: true
+  enum :color, { red: 0, green: 1, blue: 2, yellow: 3, black: 4, white: 5 }, validate: true
 
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 end

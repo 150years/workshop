@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ComboboxController from "./combobox_controller"
+application.register("combobox", ComboboxController)
+
 import DialogController from "./dialog_controller"
 application.register("dialog", DialogController)
 

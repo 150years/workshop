@@ -1,0 +1,15 @@
+<% content_for :title, "Components" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-4xl">Components</h1>
+  <%= link_to "New component", new_component_path, class: "btn btn--primary" %>
+</div>
+
+<div id="components" class="flex flex-wrap" style="gap: 2rem;">
+  <% @components.each do |component| %>
+    <div class="flex flex-col gap">
+      <%= render component %>
+      <%= link_to "Show this component", component, class: "btn" %>
+    </div>
+  <% end %>
+</div>

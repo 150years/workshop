@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :users
   resources :clients
   resources :agents
+  resources :components
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -55,6 +56,14 @@ end
 #                                   PATCH  /agents/:id(.:format)                                                                             agents#update
 #                                   PUT    /agents/:id(.:format)                                                                             agents#update
 #                                   DELETE /agents/:id(.:format)                                                                             agents#destroy
+#                        components GET    /components(.:format)                                                                             components#index
+#                                   POST   /components(.:format)                                                                             components#create
+#                     new_component GET    /components/new(.:format)                                                                         components#new
+#                    edit_component GET    /components/:id/edit(.:format)                                                                    components#edit
+#                         component GET    /components/:id(.:format)                                                                         components#show
+#                                   PATCH  /components/:id(.:format)                                                                         components#update
+#                                   PUT    /components/:id(.:format)                                                                         components#update
+#                                   DELETE /components/:id(.:format)                                                                         components#destroy
 #  turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #  turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 # turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

@@ -5,14 +5,17 @@
 # Table name: components
 #
 #  id           :integer          not null, primary key
-#  code         :string
-#  color        :integer
-#  min_quantity :integer
+#  code         :string           not null
+#  color        :string
+#  dimensions   :json             not null
+#  min_quantity :integer          default(0), not null
+#  name         :string           not null
+#  note         :string
 #  price        :integer          default(0), not null
-#  unit         :integer
+#  unit         :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  company_id   :integer          not null
+#  company_id   :integer
 #
 # Indexes
 #
@@ -25,10 +28,13 @@
 FactoryBot.define do
   factory :component do
     code { Faker::Alphanumeric.alphanumeric(number: 10) }
-    color { 'red' }
-    unit { 'piece' }
+    name { Faker::Commerce.product_name }
+    color { 'Grey sahara / 8820 Sapphire grey sahara' }
+    unit { 'mm' }
+    dimensions { { width: 1000 } }
     min_quantity { 1 }
-    price { 1 }
+    price { 100 }
+    note { Faker::Lorem.sentence }
     company
   end
 end

@@ -9,8 +9,11 @@ RSpec.describe '/components', type: :request do
   let(:valid_attributes) do
     {
       code: 'MyString',
-      color: 'red',
-      unit: 'piece',
+      name: 'Product name',
+      note: 'This is a note',
+      color: 'red 01',
+      unit: 'mm',
+      dimensions: '{ width: 1000 }',
       min_quantity: 1,
       price: 1
     }

@@ -17,8 +17,23 @@
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :name, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-half mbe-4">
     <%= form.label :color, class: "text-sm font-medium leading-none" %>
-    <%= form.select :color, Component.colors.keys, {include_blank: "Select color..."}, data: { controller: "combobox" }  %>
+    <%= form.text_field :color, class: "input"  %>
+  </div>
+
+  <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :note, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :note, class: "input"  %>
+  </div>
+
+  <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :dimensions, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :dimensions, class: "input"  %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">

@@ -5,14 +5,17 @@
 # Table name: components
 #
 #  id           :integer          not null, primary key
-#  code         :string
-#  color        :integer
-#  min_quantity :integer
+#  code         :string           not null
+#  color        :string
+#  dimensions   :json             not null
+#  min_quantity :integer          default(0), not null
+#  name         :string           not null
+#  note         :string
 #  price        :integer          default(0), not null
-#  unit         :integer
+#  unit         :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  company_id   :integer          not null
+#  company_id   :integer
 #
 # Indexes
 #
@@ -23,10 +26,10 @@
 #  company_id  (company_id => companies.id)
 #
 class Component < ApplicationRecord
-  belongs_to :company
+  belongs_to :company, optional: true
 
-  enum :unit, { piece: 0, meter: 1, kilogram: 2 }, validate: true
-  enum :color, { red: 0, green: 1, blue: 2, yellow: 3, black: 4, white: 5 }, validate: true
+  enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5 }, validate: true, prefix: true # you can call c.unit_mm?
 
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :code, :name, :unit, :dimensions, :min_quantity, :price, presence: true
+  validates :price, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
 end

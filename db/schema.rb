@@ -35,12 +35,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_200440) do
   end
 
   create_table "components", force: :cascade do |t|
-    t.integer "company_id", null: false
-    t.string "code"
-    t.integer "color"
-    t.integer "unit"
-    t.integer "min_quantity"
+    t.integer "company_id"
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "color"
+    t.integer "unit", null: false
+    t.json "dimensions", default: {}, null: false
+    t.integer "min_quantity", default: 0, null: false
     t.integer "price", default: 0, null: false
+    t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_components_on_company_id"

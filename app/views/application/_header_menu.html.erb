@@ -7,6 +7,7 @@
     <%= link_to "Users", users_path, class: (request.path.include?("/users") ? "text-primary" : "") %>
     <%= link_to "Clients", clients_path, class: (request.path.include?("/clients") ? "text-primary" : "") %>
     <%= link_to "Agents", agents_path, class: (request.path.include?("/agents") ? "text-primary" : "") %>
+    <%= link_to "Components", components_path, class: (request.path.include?("/components") ? "text-primary" : "") %>
   </nav>
 </div>
 <div class="flex items-center gap">

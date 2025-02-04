@@ -41,8 +41,8 @@ RSpec.describe '/components', type: :request do
 
     it 'renders a list of components in current organization' do
       get components_url
-      expect(response.body).to include(component.code)
-      expect(response.body).not_to include(another_component.code)
+      expect(response.body).to include(CGI.escapeHTML(component.code))
+      expect(response.body).not_to include(CGI.escapeHTML(another_component.code))
     end
 
     context 'when user is not logged in' do

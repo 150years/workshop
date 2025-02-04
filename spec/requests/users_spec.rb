@@ -38,8 +38,8 @@ RSpec.describe '/users', type: :request do
 
     it 'renders a list of users in current organization' do
       get users_url
-      expect(response.body).to include(user.name)
-      expect(response.body).not_to include(another_user.name)
+      expect(response.body).to include(CGI.escapeHTML(user.name))
+      expect(response.body).not_to include(CGI.escapeHTML(another_user.name))
     end
 
     context 'when user is not logged in' do

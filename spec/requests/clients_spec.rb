@@ -33,8 +33,8 @@ RSpec.describe '/clients', type: :request do
 
     it 'renders a list of clients in current organization' do
       get clients_url
-      expect(response.body).to include(client.name)
-      expect(response.body).not_to include(another_client.name)
+      expect(response.body).to include(CGI.escapeHTML(client.name))
+      expect(response.body).not_to include(CGI.escapeHTML(another_client.name))
     end
 
     context 'when user is not logged in' do

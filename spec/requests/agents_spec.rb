@@ -30,8 +30,8 @@ RSpec.describe '/agents', type: :request do
 
     it 'renders a list of agents in current organization' do
       get agents_url
-      expect(response.body).to include(agent.name)
-      expect(response.body).not_to include(another_agent.name)
+      expect(response.body).to include(CGI.escapeHTML(agent.name))
+      expect(response.body).not_to include(CGI.escapeHTML(another_agent.name))
     end
 
     context 'when user is not logged in' do

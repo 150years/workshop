@@ -1,0 +1,29 @@
+<div id="<%= dom_id product %>" class="flex flex-col gap">
+  <div class="flex justify-center">
+    <%= image_or_placeholder(product.image, 200, 200) %>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Name:</h4>
+    <p class="leading-none"><%= product.name %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Width:</h4>
+    <p class="leading-none"><%= product.width %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Height:</h4>
+    <p class="leading-none"><%= product.height %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Comment:</h4>
+    <p class="leading-none"><%= product.comment %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Area: </h4>
+    <p class="leading-none"><%= product.area %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Perimeter: </h4>
+    <p class="leading-none"><%= product.perimeter %></p>
+  </div>
+</div>

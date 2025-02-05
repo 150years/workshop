@@ -1,7 +1,6 @@
 <div id="<%= dom_id component %>" class="card flex flex-col gap">
-  <%# Show component.image attachment %>
   <div class="flex justify-center">
-    <%= image_tag component.image.variant(resize_to_fit: [100, 400]) if component.image.attached? %>
+    <%= image_or_placeholder(component.image, 200, 200) %>
   </div>
   <div class="flex justify-between">
     <h4 class="font-medium leading-none">Code:</h4>

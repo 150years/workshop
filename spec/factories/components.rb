@@ -40,5 +40,11 @@ FactoryBot.define do
     price { 100 }
     note { Faker::Lorem.sentence }
     company
+
+    trait :with_image do
+      after(:build) do |component|
+        component.image.attach(io: Rails.root.join('spec/fixtures/files/image.jpg').open, filename: 'image.jpg', content_type: 'image/jpg')
+      end
+    end
   end
 end

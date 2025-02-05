@@ -7,12 +7,14 @@
 #  id           :integer          not null, primary key
 #  code         :string           not null
 #  color        :string
-#  dimensions   :json             not null
+#  length       :integer
 #  min_quantity :integer          default(0), not null
 #  name         :string           not null
 #  note         :string
 #  price        :integer          default(0), not null
 #  unit         :integer          not null
+#  weight       :integer
+#  width        :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
@@ -44,11 +46,13 @@ RSpec.describe Component, type: :model do
     it { is_expected.to validate_presence_of(:code) }
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:unit) }
-    it { is_expected.to validate_presence_of(:dimensions) }
     it { is_expected.to validate_presence_of(:min_quantity) }
     it { is_expected.to validate_presence_of(:price) }
 
     it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:length).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:width).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:weight).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:min_quantity).is_greater_than_or_equal_to(0) }
   end
 end

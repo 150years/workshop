@@ -8,7 +8,9 @@ class CreateComponents < ActiveRecord::Migration[8.0]
       t.string :name, null: false
       t.string :color
       t.integer :unit, null: false
-      t.json :dimensions, null: false, default: {}
+      t.integer :width
+      t.integer :length
+      t.integer :weight
       t.integer :min_quantity, null: false, default: 0
       t.integer :price, null: false, default: 0
       t.string :note

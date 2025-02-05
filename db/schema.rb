@@ -68,7 +68,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_214354) do
     t.string "name", null: false
     t.string "color"
     t.integer "unit", null: false
-    t.json "dimensions", default: {}, null: false
+    t.integer "width"
+    t.integer "length"
+    t.integer "weight"
     t.integer "min_quantity", default: 0, null: false
     t.integer "price", default: 0, null: false
     t.string "note"

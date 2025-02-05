@@ -13,7 +13,9 @@ RSpec.describe '/components', type: :request do
       note: 'This is a note',
       color: 'red 01',
       unit: 'mm',
-      dimensions: '{ width: 1000 }',
+      width: 1,
+      length: 1,
+      weight: 1,
       min_quantity: 1,
       price: 1
     }

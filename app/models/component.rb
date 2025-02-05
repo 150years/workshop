@@ -7,12 +7,14 @@
 #  id           :integer          not null, primary key
 #  code         :string           not null
 #  color        :string
-#  dimensions   :json             not null
+#  length       :integer
 #  min_quantity :integer          default(0), not null
 #  name         :string           not null
 #  note         :string
 #  price        :integer          default(0), not null
 #  unit         :integer          not null
+#  weight       :integer
+#  width        :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
@@ -32,6 +34,6 @@ class Component < ApplicationRecord
 
   has_one_attached :image
 
-  validates :code, :name, :unit, :dimensions, :min_quantity, :price, presence: true
-  validates :price, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :code, :name, :unit, :min_quantity, :price, presence: true
+  validates :price, :length, :width, :weight, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
 end

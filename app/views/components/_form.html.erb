@@ -28,7 +28,7 @@
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :note, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :note, class: "input"  %>
+    <%= form.text_area :note, rows: 3, class: "input"  %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
@@ -49,6 +49,11 @@
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :price, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :price, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :image, class: "text-sm font-medium leading-none" %>
+    <%= form.file_field :image, accept: "image/*", class: "input" %>
   </div>
 
   <div class="inline-flex items-center mbs-2 mie-1">

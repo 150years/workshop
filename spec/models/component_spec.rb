@@ -32,6 +32,10 @@ RSpec.describe Component, type: :model do
     it { is_expected.to belong_to(:company).optional }
   end
 
+  describe 'active storage' do
+    it { is_expected.to have_one_attached(:image) }
+  end
+
   describe 'enums' do
     it { is_expected.to define_enum_for(:unit).with_values(mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5).with_prefix }
   end

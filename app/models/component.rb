@@ -30,6 +30,8 @@ class Component < ApplicationRecord
 
   enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5 }, validate: true, prefix: true # you can call c.unit_mm?
 
+  has_one_attached :image
+
   validates :code, :name, :unit, :dimensions, :min_quantity, :price, presence: true
   validates :price, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
 end

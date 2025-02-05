@@ -2,19 +2,32 @@
 
 require 'rails_helper'
 
-RSpec.describe '/agents', type: :request do
+RSpec.describe '/components', type: :request do
   let(:user) { create(:user) }
-  let!(:agent) { create(:agent, company: user.company) }
-  let!(:another_agent) { create(:agent) }
+  let!(:component) { create(:component, company: user.company) }
+  let!(:another_component) { create(:component) }
   let(:valid_attributes) do
     {
-      name: 'Agent Name'
+      code: 'MyString',
+      name: 'Product name',
+      note: 'This is a note',
+      color: 'red 01',
+      unit: 'mm',
+      width: 1,
+      length: 1,
+      weight: 1,
+      min_quantity: 1,
+      price: 1
     }
   end
 
   let(:invalid_attributes) do
     {
-      name: ''
+      code: nil,
+      color: 1,
+      unit: 1,
+      min_quantity: 'invalid',
+      price: -1
     }
   end
 
@@ -24,14 +37,14 @@ RSpec.describe '/agents', type: :request do
 
   describe 'GET /index' do
     it 'renders a successful response' do
-      get agents_url
+      get components_url
       expect(response).to be_successful
     end
 
-    it 'renders a list of agents in current organization' do
-      get agents_url
-      expect(response.body).to include(CGI.escapeHTML(agent.name))
-      expect(response.body).not_to include(CGI.escapeHTML(another_agent.name))
+    it 'renders a list of components in current organization' do
+      get components_url
+      expect(response.body).to include(CGI.escapeHTML(component.code))
+      expect(response.body).not_to include(CGI.escapeHTML(another_component.code))
     end
 
     context 'when user is not logged in' do
@@ -40,7 +53,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        get agents_url
+        get components_url
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -48,12 +61,12 @@ RSpec.describe '/agents', type: :request do
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      get agent_url(agent)
+      get component_url(component)
       expect(response).to be_successful
     end
 
-    it 'renders 404 if agent does not belong to current organization' do
-      get agent_url(another_agent)
+    it 'renders 404 if component does not belong to current organization' do
+      get component_url(another_component)
       expect(response).to have_http_status(:not_found)
     end
 
@@ -63,7 +76,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        get agent_url(agent)
+        get component_url(component)
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -71,7 +84,7 @@ RSpec.describe '/agents', type: :request do
 
   describe 'GET /new' do
     it 'renders a successful response' do
-      get new_agent_url
+      get new_component_url
       expect(response).to be_successful
     end
 
@@ -81,7 +94,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        get new_agent_url
+        get new_component_url
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -89,12 +102,12 @@ RSpec.describe '/agents', type: :request do
 
   describe 'GET /edit' do
     it 'renders a successful response' do
-      get edit_agent_url(agent)
+      get edit_component_url(component)
       expect(response).to be_successful
     end
 
-    it 'renders 404 if agent does not belong to current organization' do
-      get edit_agent_url(another_agent)
+    it 'renders 404 if component does not belong to current organization' do
+      get edit_component_url(another_component)
       expect(response).to have_http_status(:not_found)
     end
 
@@ -104,7 +117,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        get edit_agent_url(agent)
+        get edit_component_url(component)
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -112,27 +125,27 @@ RSpec.describe '/agents', type: :request do
 
   describe 'POST /create' do
     context 'with valid parameters' do
-      it 'creates a new Agent' do
+      it 'creates a new Component' do
         expect do
-          post agents_url, params: { agent: valid_attributes }
-        end.to change(Agent, :count).by(1)
+          post components_url, params: { component: valid_attributes }
+        end.to change(Component, :count).by(1)
       end
 
-      it 'redirects to the created agent' do
-        post agents_url, params: { agent: valid_attributes }
-        expect(response).to redirect_to(agent_url(Agent.last))
+      it 'redirects to the created component' do
+        post components_url, params: { component: valid_attributes }
+        expect(response).to redirect_to(component_url(Component.last))
       end
     end
 
     context 'with invalid parameters' do
-      it 'does not create a new Agent' do
+      it 'does not create a new Component' do
         expect do
-          post agents_url, params: { agent: invalid_attributes }
-        end.to change(Agent, :count).by(0)
+          post components_url, params: { component: invalid_attributes }
+        end.to change(Component, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post agents_url, params: { agent: invalid_attributes }
+        post components_url, params: { component: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -143,7 +156,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        post agents_url, params: { agent: valid_attributes }
+        post components_url, params: { component: valid_attributes }
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -153,30 +166,30 @@ RSpec.describe '/agents', type: :request do
     context 'with valid parameters' do
       let(:new_attributes) do
         {
-          name: 'New Agent Name'
+          code: 'NewString'
         }
       end
 
-      it 'updates the requested agent' do
-        patch agent_url(agent), params: { agent: new_attributes }
-        expect(agent.reload.name).to eq('New Agent Name')
+      it 'updates the requested component' do
+        patch component_url(component), params: { component: new_attributes }
+        expect { component.reload }.to change(component, :code).to('NewString')
       end
 
-      it 'redirects to the agent' do
-        patch agent_url(agent), params: { agent: new_attributes }
-        expect(response).to redirect_to(agent_url(agent))
+      it 'redirects to the component' do
+        patch component_url(component), params: { component: new_attributes }
+        expect(response).to redirect_to(component_url(component))
       end
     end
 
     context 'with invalid parameters' do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        patch agent_url(agent), params: { agent: invalid_attributes }
+        patch component_url(component), params: { component: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
-    it 'renders 404 if agent does not belong to current organization' do
-      patch agent_url(another_agent), params: { agent: valid_attributes }
+    it 'renders 404 if component does not belong to current organization' do
+      patch component_url(another_component), params: { component: valid_attributes }
       expect(response).to have_http_status(:not_found)
     end
 
@@ -186,26 +199,24 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        patch agent_url(agent), params: { agent: valid_attributes }
+        patch component_url(component), params: { component: valid_attributes }
         expect(response).to redirect_to(new_user_session_url)
       end
     end
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested agent' do
-      expect do
-        delete agent_url(agent)
-      end.to change(Agent, :count).by(-1)
+    it 'destroys the requested component' do
+      expect { delete component_url(component) }.to change(Component, :count).by(-1)
     end
 
-    it 'redirects to the agents list' do
-      delete agent_url(agent)
-      expect(response).to redirect_to(agents_url)
+    it 'redirects to the components list' do
+      delete component_url(component)
+      expect(response).to redirect_to(components_url)
     end
 
-    it 'renders 404 if agent does not belong to current organization' do
-      delete agent_url(another_agent)
+    it 'renders 404 if component does not belong to current organization' do
+      delete component_url(another_component)
       expect(response).to have_http_status(:not_found)
     end
 
@@ -215,7 +226,7 @@ RSpec.describe '/agents', type: :request do
       end
 
       it 'redirects to sign in page' do
-        delete agent_url(agent)
+        delete component_url(component)
         expect(response).to redirect_to(new_user_session_url)
       end
     end

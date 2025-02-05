@@ -1,0 +1,45 @@
+<div id="<%= dom_id component %>" class="card flex flex-col gap">
+  <div class="flex justify-center">
+    <%= image_or_placeholder(component.image, 200, 200) %>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Code:</h4>
+    <p class="leading-none"><%= component.code %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Name:</h4>
+    <p class="leading-none"><%= component.name %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Description:</h4>
+    <p class="leading-none"><%= component.note %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Color:</h4>
+    <p class="leading-none"><%= component.color %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Unit:</h4>
+    <p class="leading-none"><%= component.unit %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Length:</h4>
+    <p class="leading-none"><%= component.length %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Width:</h4>
+    <p class="leading-none"><%= component.width %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Weight:</h4>
+    <p class="leading-none"><%= component.weight %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Min quantity:</h4>
+    <p class="leading-none"><%= component.min_quantity %></p>
+  </div>
+  <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Price:</h4>
+    <p class="leading-none"><%= component.price %></p>
+  </div>
+</div>

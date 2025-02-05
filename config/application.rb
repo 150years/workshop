@@ -39,5 +39,8 @@ module Workshop
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Active Storage
+    config.active_storage.variant_processor = :vips
   end
 end

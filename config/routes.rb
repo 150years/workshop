@@ -12,7 +12,12 @@ Rails.application.routes.draw do
   resources :clients
   resources :agents
   resources :components
-  resources :products
+  resources :products, param: :product_id do
+    member do
+      resources :product_components, except: %i[index]
+    end
+  end
+
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -65,6 +70,22 @@ end
 #                                   PATCH  /components/:id(.:format)                                                                         components#update
 #                                   PUT    /components/:id(.:format)                                                                         components#update
 #                                   DELETE /components/:id(.:format)                                                                         components#destroy
+#                product_components GET    /products/:product_id/product_components(.:format)                                                product_components#index
+#                                   POST   /products/:product_id/product_components(.:format)                                                product_components#create
+#             new_product_component GET    /products/:product_id/product_components/new(.:format)                                            product_components#new
+#            edit_product_component GET    /products/:product_id/product_components/:id/edit(.:format)                                       product_components#edit
+#                 product_component GET    /products/:product_id/product_components/:id(.:format)                                            product_components#show
+#                                   PATCH  /products/:product_id/product_components/:id(.:format)                                            product_components#update
+#                                   PUT    /products/:product_id/product_components/:id(.:format)                                            product_components#update
+#                                   DELETE /products/:product_id/product_components/:id(.:format)                                            product_components#destroy
+#                          products GET    /products(.:format)                                                                               products#index
+#                                   POST   /products(.:format)                                                                               products#create
+#                       new_product GET    /products/new(.:format)                                                                           products#new
+#                      edit_product GET    /products/:product_id/edit(.:format)                                                              products#edit
+#                           product GET    /products/:product_id(.:format)                                                                   products#show
+#                                   PATCH  /products/:product_id(.:format)                                                                   products#update
+#                                   PUT    /products/:product_id(.:format)                                                                   products#update
+#                                   DELETE /products/:product_id(.:format)                                                                   products#destroy
 #  turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #  turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 # turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

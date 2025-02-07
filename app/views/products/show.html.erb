@@ -1,5 +1,14 @@
 <%= render "products/product", product: @product %>
-
+<h3>Components</h3>
+<div id="components" class="flex flex-col" style="gap: 2rem;">
+  <%# Add button to add product component %>
+  <%= link_to "Add product component", new_product_component_path, class: "btn btn--primary self-end" %>
+  <% @product.product_components.each do |product_component| %>
+    <div class="flex flex-col items-start gap">
+      <%= render product_component %>
+    </div>
+  <% end %>
+</div>
 <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
   <%= link_to "Edit this product", edit_product_path(@product), class: "btn" %>
   <%= link_to "Back to products", products_path, class: "btn" %>

@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
-  create_table "product_components", id: false, force: :cascade do |t|
+  create_table "product_components", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "component_id", null: false
     t.integer "quantity", default: 1, null: false

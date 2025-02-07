@@ -4,6 +4,7 @@
 #
 # Table name: product_components
 #
+#  id           :integer          not null, primary key
 #  quantity     :integer          default(1), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -24,5 +25,16 @@ class ProductComponent < ApplicationRecord
   belongs_to :product
   belongs_to :component
 
+  after_validation :add_errors_to_component_id
+
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
+
+  private
+
+  def add_errors_to_component_id
+    # We need to add errors to the component_id attribute, to show it is as invalid on the form,
+    # but i don't want to duplicate messages for the same error
+    errors.add(:component_id, errors[:component].first) if errors[:component].present?
+    errors.delete(:component)
+  end
 end

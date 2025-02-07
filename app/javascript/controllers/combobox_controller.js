@@ -15,14 +15,28 @@ export default class extends Controller {
     } else {
       this.tomSelect = new TomSelect(this.element, this.#selectSettings)
     }
+
+    this.applyValidationClasses() // Apply error styling if form has errors
   }
 
   disconnect() {
     this.tomSelect.destroy()
   }
 
+  applyValidationClasses() {
+    const wrapper = this.element.closest(".ts-wrapper") // Find TomSelect wrapper
+    if (!wrapper) return
+
+    // Check if the select has an error (Rails adds aria-invalid or .is-invalid)
+    if (this.element.classList.contains("is-invalid") || this.element.getAttribute("aria-invalid") === "true") {
+      wrapper.classList.add("is-invalid")
+    } else {
+      wrapper.classList.remove("is-invalid")
+    }
+  }
+
   async load(query, callback) {
-    const response     = await get(this.urlValue, { responseKind: "json", query: { q: query } })
+    const response = await get(this.urlValue, { responseKind: "json", query: { q: query } })
     const jsonResponse = await response.json
     callback(jsonResponse)
   }
@@ -40,7 +54,7 @@ export default class extends Controller {
       option_create: (data, escape) => {
         return `<div class="create">${this.optionCreateValue} <b>${escape(data.input)}</b>...</div>`
       },
-      no_results: () =>  {
+      no_results: () => {
         return `<div class="no-results">${this.noResultsValue}</div>`
       }
     }

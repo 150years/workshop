@@ -15,6 +15,10 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
+  describe 'associations' do
+    it { should have_many(:product_components).dependent(:destroy) }
+  end
+
   describe 'active storage' do
     it { should have_one_attached(:image) }
   end

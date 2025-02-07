@@ -29,10 +29,10 @@
 #
 class Component < ApplicationRecord
   belongs_to :company, optional: true
+  has_many :product_components, dependent: :destroy
+  has_one_attached :image
 
   enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5 }, validate: true, prefix: true # you can call c.unit_mm?
-
-  has_one_attached :image
 
   validates :code, :name, :unit, :min_quantity, :price, presence: true
   validates :price, :length, :width, :weight, :min_quantity, numericality: { greater_than_or_equal_to: 0 }

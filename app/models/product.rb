@@ -13,6 +13,7 @@
 #  updated_at :datetime         not null
 #
 class Product < ApplicationRecord
+  has_many :product_components, dependent: :destroy
   has_one_attached :image
 
   validates :name, :width, :height, presence: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_05_200753) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_200753) do
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
+  create_table "product_components", id: false, force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "component_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["component_id"], name: "index_product_components_on_component_id"
+    t.index ["product_id"], name: "index_product_components_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
     t.integer "width", default: 0, null: false
@@ -108,5 +118,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_200753) do
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
+  add_foreign_key "product_components", "components"
+  add_foreign_key "product_components", "products"
   add_foreign_key "users", "companies"
 end

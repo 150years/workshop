@@ -26,11 +26,17 @@ require 'rails_helper'
 RSpec.describe ProductComponent, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:product) }
-    it { is_expected.to belong_to(:component) }
+    it { is_expected.to belong_to(:component).without_validating_presence }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:quantity) }
     it { is_expected.to validate_numericality_of(:quantity).only_integer.is_greater_than(0) }
+    it 'validates presence of component' do
+      product_component = build(:product_component, component: nil)
+
+      expect(product_component).not_to be_valid
+      expect(product_component.errors[:component_id]).to include('must exist')
+    end
   end
 end

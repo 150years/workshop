@@ -4,9 +4,6 @@ class ProductComponentsController < ApplicationController
   before_action :set_product
   before_action :set_product_component, except: %i[new create]
 
-  # GET /product_components/1
-  def show; end
-
   # GET /product_components/new
   def new
     @product_component = @product.product_components.new

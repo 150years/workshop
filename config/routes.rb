@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :components
   resources :products, param: :product_id do
     member do
-      resources :product_components, except: %i[index]
+      resources :product_components, except: %i[index show]
     end
   end
 

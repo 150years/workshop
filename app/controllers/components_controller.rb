@@ -5,7 +5,7 @@ class ComponentsController < ApplicationController
 
   # GET /components
   def index
-    @components = current_company.components.includes(image_attachment: :blob)
+    @components = current_company.components.includes(image_attachment: [blob: { variant_records: :blob }])
   end
 
   # GET /components/1

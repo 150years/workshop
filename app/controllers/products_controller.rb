@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all
+    @products = Product.includes(image_attachment: [blob: { variant_records: :blob }])
   end
 
   # GET /products/1

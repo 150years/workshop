@@ -2,6 +2,15 @@
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.alert         = false
+    Bullet.bullet_logger = false
+    Bullet.console       = false
+    Bullet.rails_logger  = false
+    Bullet.add_footer    = true
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.

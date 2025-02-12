@@ -2,7 +2,6 @@
   <% if component.errors.any? %>
     <div class="alert alert--negative flex flex-col gap-half mbe-4" role="alert">
       <h2 class="font-medium leading-none"><%= pluralize(component.errors.count, "error") %> prohibited this component from being saved:</h2>
-
       <ul class="text-sm mis-3" style="list-style: disc">
         <% component.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,63 +9,51 @@
       </ul>
     </div>
   <% end %>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :code, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :code, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :name, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :name, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :color, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :color, class: "input"  %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :note, class: "text-sm font-medium leading-none" %>
     <%= form.text_area :note, rows: 3, class: "input"  %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :unit, class: "text-sm font-medium leading-none" %>
     <%= form.select :unit, Component.units.keys, {include_blank: "Select unit..."}, data: { controller: "combobox" }  %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :length, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :length, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :width, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :width, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :weight, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :weight, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :min_quantity, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :min_quantity, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :price, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :price, class: "input" %>
   </div>
-
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :image, class: "text-sm font-medium leading-none" %>
     <%= form.file_field :image, accept: "image/*", class: "input" %>
   </div>
-
   <div class="inline-flex items-center mbs-2 mie-1">
-    <%= form.submit class: "btn btn--primary" %>
+    <%= button_tag tag.span(component.persisted? ? "Update Component" : "Create Component"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

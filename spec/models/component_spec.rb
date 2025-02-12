@@ -32,6 +32,7 @@ require 'rails_helper'
 RSpec.describe Component, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:company).optional }
+    it { is_expected.to have_many(:product_components).dependent(:destroy) }
   end
 
   describe 'active storage' do

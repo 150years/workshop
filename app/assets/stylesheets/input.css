@@ -26,14 +26,6 @@
     font-weight: var(--font-medium);
   }
 
-  &:user-invalid {
-    border-color: var(--color-negative);
-  }
-
-  &:user-invalid ~ .invalid-feedback {
-    display: flex;
-  }
-
   &:disabled {
     cursor: not-allowed; opacity: var(--opacity-50);
   }
@@ -71,8 +63,16 @@
   &:focus-visible {
     outline: var(--input-outline-size, 2px) solid var(--color-selected-dark);
   }
+}
 
-  .field_with_errors & {
-    border-color: var(--color-negative);
-  }
+.input.is-invalid, .ts-wrapper.is-invalid .ts-control {
+  border-color: var(--color-negative);
+}
+
+.ts-wrapper.is-invalid .ts-control {
+  border-color: var(--color-negative);
+}
+
+.is-invalid ~ .invalid-feedback {
+  display: flex;
 }

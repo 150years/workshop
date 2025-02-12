@@ -22,6 +22,6 @@
     <%= form.number_field :quantity, class: "input" %>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
-    <%= form.submit class: "btn btn--primary" %>
+    <%= button_tag tag.span(product_component.persisted? ? "Update Product component" : "Create Product component"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

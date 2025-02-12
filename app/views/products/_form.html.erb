@@ -30,6 +30,6 @@
     <%= form.file_field :image, accept: "image/*", class: "input" %>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
-    <%= form.submit class: "btn btn--primary" %>
+    <%= button_tag tag.span(product.persisted? ? "Update Product" : "Create Product"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

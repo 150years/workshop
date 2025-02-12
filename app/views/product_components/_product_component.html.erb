@@ -6,6 +6,6 @@
   </div>
   <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
   <%= link_to "Edit this product component", edit_product_component_path(@product, product_component), class: "btn" %>
-  <%= button_to "Destroy this product component", product_component_path(id: @product), method: :delete, class: "btn" %>
+  <%= button_to "Destroy this product component", product_component_path(id: product_component.id), method: :delete, class: "btn" %>
 </div>
 </div>

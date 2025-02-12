@@ -5,9 +5,9 @@
   <%= link_to "New product", new_product_path, class: "btn btn--primary" %>
 </div>
 
-<div id="products" class="flex flex-col" style="gap: 2rem;">
+<div id="products" class="flex flex-wrap" style="gap: 2rem;">
   <% @products.each do |product| %>
-    <div class="flex flex-col items-start gap">
+    <div class="flex flex-col gap">
       <%= render product %>
       <%= link_to "Show this product", product, class: "btn" %>
     </div>

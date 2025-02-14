@@ -6,7 +6,7 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string
-#  status     :integer          default(0), not null
+#  status     :integer          default("quotation"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  agent_id   :integer          not null
@@ -29,6 +29,7 @@ class Order < ApplicationRecord
   belongs_to :company
   belongs_to :client
   belongs_to :agent
+  has_many :order_versions, dependent: :destroy
 
   enum :status,
        {

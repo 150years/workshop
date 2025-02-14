@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_194144) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_211105) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_194144) do
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
+  create_table "order_versions", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "total_amount", default: 0, null: false
+    t.integer "agent_comm", default: 0, null: false
+    t.text "comment"
+    t.text "version_note"
+    t.boolean "final_version", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_versions_on_order_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "company_id", null: false
     t.integer "client_id", null: false
@@ -131,6 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_194144) do
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
+  add_foreign_key "order_versions", "orders"
   add_foreign_key "orders", "agents"
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "companies"

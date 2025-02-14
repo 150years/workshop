@@ -21,6 +21,7 @@
 #
 class Client < ApplicationRecord
   belongs_to :company
+  has_many :orders, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { scope: :company_id }, if: -> { email.present? }

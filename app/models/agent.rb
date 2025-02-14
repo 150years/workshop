@@ -20,6 +20,7 @@
 #
 class Agent < ApplicationRecord
   belongs_to :company
+  has_many :orders, dependent: :restrict_with_error
 
   validates :name, presence: true
 end

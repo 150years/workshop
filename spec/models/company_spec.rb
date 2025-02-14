@@ -17,6 +17,7 @@ RSpec.describe Company, type: :model do
     it { is_expected.to have_many(:clients).dependent(:destroy) }
     it { is_expected.to have_many(:agents).dependent(:destroy) }
     it { is_expected.to have_many(:components).dependent(:destroy) }
+    it { is_expected.to have_many(:orders).dependent(:destroy) }
   end
 
   describe 'validations' do

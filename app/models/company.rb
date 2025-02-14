@@ -14,6 +14,7 @@ class Company < ApplicationRecord
   has_many :clients, dependent: :destroy
   has_many :agents, dependent: :destroy
   has_many :components, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   validates :name, presence: true
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_211105) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_221709) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -121,6 +121,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_211105) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order_version_id", null: false
+    t.integer "company_id", null: false
+    t.index ["company_id"], name: "index_products_on_company_id"
+    t.index ["order_version_id"], name: "index_products_on_order_version_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -149,5 +153,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_211105) do
   add_foreign_key "orders", "companies"
   add_foreign_key "product_components", "components"
   add_foreign_key "product_components", "products"
+  add_foreign_key "products", "companies"
+  add_foreign_key "products", "order_versions"
   add_foreign_key "users", "companies"
 end

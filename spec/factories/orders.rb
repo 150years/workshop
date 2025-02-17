@@ -28,10 +28,13 @@
 FactoryBot.define do
   factory :order do
     association :company
-    association :client, factory: :client, company: company
-    association :agent, factory: :agent, company: company
     sequence(:name) { |n| "Order #{n}" }
     status { 0 }
+
+    after(:build) do |order|
+      order.client ||= create(:client, company: order.company)
+      order.agent ||= create(:agent, company: order.company)
+    end
   end
 
   trait :competed do

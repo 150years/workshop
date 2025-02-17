@@ -27,6 +27,7 @@ require 'rails_helper'
 RSpec.describe OrderVersion, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:order).required }
+    it { is_expected.to have_many(:products).dependent(:destroy) }
   end
 
   describe 'validations' do

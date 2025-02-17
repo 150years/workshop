@@ -24,6 +24,7 @@
 #
 class OrderVersion < ApplicationRecord
   belongs_to :order
+  has_many :products, dependent: :destroy
 
   validates :total_amount, :agent_comm, presence: true,
                                         numericality: { only_integer: true, greater_than_or_equal_to: 0 }

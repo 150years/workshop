@@ -12,7 +12,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  company_id       :integer          not null
-#  order_version_id :integer          not null
+#  order_version_id :integer
 #
 # Indexes
 #
@@ -29,7 +29,7 @@ require 'rails_helper'
 RSpec.describe Product, type: :model do
   describe 'associations' do
     it { should belong_to(:company) }
-    it { should belong_to(:order_version) }
+    it { should belong_to(:order_version).optional }
     it { should have_many(:product_components).dependent(:destroy) }
   end
 

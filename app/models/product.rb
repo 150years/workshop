@@ -12,7 +12,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  company_id       :integer          not null
-#  order_version_id :integer          not null
+#  order_version_id :integer
 #
 # Indexes
 #
@@ -26,7 +26,7 @@
 #
 class Product < ApplicationRecord
   belongs_to :company
-  belongs_to :order_version
+  belongs_to :order_version, optional: true
   has_many :product_components, dependent: :destroy
   has_one_attached :image
 

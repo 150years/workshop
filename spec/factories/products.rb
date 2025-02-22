@@ -12,7 +12,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  company_id       :integer          not null
-#  order_version_id :integer          not null
+#  order_version_id :integer
 #
 # Indexes
 #

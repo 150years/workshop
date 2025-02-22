@@ -22,6 +22,7 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
+    @product.company = current_company
 
     if @product.save
       redirect_to @product, notice: 'Product was successfully created.'

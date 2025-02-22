@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :product_components, except: %i[index show]
     end
   end
+  resources :orders
 
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

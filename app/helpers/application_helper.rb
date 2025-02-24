@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pagy::Frontend
+
   def mobile_menu_button_class(path)
     "btn #{request.path.include?(path) ? 'btn--secondary' : 'btn--borderless'}"
   end

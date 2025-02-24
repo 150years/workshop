@@ -1,4 +1,4 @@
-<div id="<%= dom_id order %>" class="flex flex-col gap">
+<div id="<%= dom_id order %>" class="card flex flex-col gap">
   <div class="flex items-center justify-between w-full gap">
     <h2 class="font-bold text-2xl">#<%= order.id %></h2>
     <span class="font-bold text-2xl"><%= order.name %></span>
@@ -16,6 +16,11 @@
     <div class="flex items-center gap">
       <span class="font-bold">Agent:</span>
       <span><%= order.agent.name %></span>
+    </div>
+
+    <div class="flex flex-col gap">
+      <span class="font-bold">Order Versions:</span>
+      <%= render order.order_versions %>
     </div>
   </div>
 </div>

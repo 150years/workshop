@@ -1,0 +1,11 @@
+<div id="<%= dom_id order_version %>" class="flex flex-col gap">
+  <p>Agent Commission: <%= order_version.agent_comm %></p>
+  <p>Total Amount: <%= order_version.total_amount %></p>
+  <p>Comment: <%= order_version.comment %></p>
+  <p>Version Note: <%= order_version.version_note %></p>
+  <p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
+  <div class="products">
+    <h3>Products:</h3>
+    <%= render order_version.products %>
+  </div>
+</div>

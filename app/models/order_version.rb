@@ -29,4 +29,6 @@ class OrderVersion < ApplicationRecord
   validates :total_amount, :agent_comm, presence: true,
                                         numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :agent_comm, numericality: { less_than_or_equal_to: 100 }
+
+  scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
 end

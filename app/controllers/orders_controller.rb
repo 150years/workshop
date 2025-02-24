@@ -3,10 +3,14 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[show edit update destroy]
   before_action :set_clients_and_agents, except: %i[index show destroy]
+  before_action :set_order_version, only: %i[show]
 
   # GET /orders
   def index
-    @orders = current_company.orders
+    orders = current_company.orders.includes(%i[agent client]).order(created_at: :desc)
+
+    @search = orders.ransack(params[:q])
+    @pagy, @orders = pagy(@search.result)
   end
 
   # GET /orders/1
@@ -60,5 +64,13 @@ class OrdersController < ApplicationController
 
   def order_params
     params.expect(order: %i[client_id agent_id name status])
+  end
+
+  def set_order_version
+    @order_version = if params[:order_version].present?
+                       @order.order_versions.find_by(id: params[:version])
+                     else
+                       @order.order_versions.final_or_latest
+                     end
   end
 end

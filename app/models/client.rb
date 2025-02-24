@@ -28,6 +28,14 @@ class Client < ApplicationRecord
 
   before_validation :normalize_email, if: -> { email.present? }
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id name email]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[company orders]
+  end
+
   private
 
   def normalize_email

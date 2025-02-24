@@ -42,4 +42,24 @@ class Order < ApplicationRecord
          completed: 6,
          canceled: 7
        }
+
+  before_commit :create_order_version, on: %i[create]
+
+  def self.human_statuses
+    statuses.keys.map(&:humanize)
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id name status created_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[client agent]
+  end
+
+  private
+
+  def create_order_version
+    order_versions.create!
+  end
 end

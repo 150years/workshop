@@ -3,7 +3,9 @@
   <td><%= check_box_tag "selected_ids[]", order.id, class: "checkbox", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
   <td class="whitespace-nowrap"><%= order.id %></td>
   <td class="whitespace-nowrap">
+    <%= link_to order, data: {turbo_frame: "_top"} do %>
     <span><%= order.name %></span>
+    <% end %>
   </td>
   <td class="whitespace-nowrap">
     <div class="flex items-center gap">

@@ -18,3 +18,6 @@ application.register("element-removal", ElementRemovalController)
 
 import FormController from "./form_controller"
 application.register("form", FormController)
+
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)

@@ -3,7 +3,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[show edit update destroy]
   before_action :set_clients_and_agents, except: %i[index show destroy]
-  before_action :set_order_version, only: %i[show]
+  before_action :set_order_versions, only: %i[show]
 
   # GET /orders
   def index
@@ -66,11 +66,7 @@ class OrdersController < ApplicationController
     params.expect(order: %i[client_id agent_id name status])
   end
 
-  def set_order_version
-    @order_version = if params[:order_version].present?
-                       @order.order_versions.find_by(id: params[:version])
-                     else
-                       @order.order_versions.final_or_latest
-                     end
+  def set_order_versions
+    @order_versions = @order.order_versions.order(created_at: :desc)
   end
 end

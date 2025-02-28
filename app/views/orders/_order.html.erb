@@ -17,10 +17,12 @@
       <span class="font-bold">Agent:</span>
       <span><%= order.agent.name %></span>
     </div>
-
     <div class="flex flex-col gap">
-      <span class="font-bold">Order Versions:</span>
-      <%= render order.order_versions %>
+      <span class="font-bold">Order Versions</span>
+      <div class="tabs" style="max-inline-size: 400px" data-controller="tabs">
+        <%= order_version_tabs(@order_versions) %>
+      </div>
+      <%# render order.order_versions %>
     </div>
   </div>
 </div>

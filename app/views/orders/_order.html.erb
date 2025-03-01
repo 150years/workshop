@@ -19,8 +19,8 @@
     </div>
     <div class="flex flex-col gap">
       <span class="font-bold">Order Versions</span>
-      <div class="tabs" style="max-inline-size: 400px" data-controller="tabs">
-        <%= order_version_tabs(@order_versions) %>
+      <div class="tabs" data-controller="tabs">
+        <%= order_version_tabs(order, @order_versions) %>
       </div>
     </div>
   </div>

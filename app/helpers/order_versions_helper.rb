@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
 module OrderVersionsHelper
-  def order_version_tabs(order_versions)
-    return if order_versions.blank?
-
-    buttons = order_versions_buttons(order_versions)
+  def order_version_tabs(order, order_versions)
+    buttons = order_versions_buttons(order, order_versions)
 
     tabs = order_versions_tabs(order_versions)
 
-    content_tag(:div, safe_join(buttons), class: 'tabs__list mbe-4',
+    content_tag(:div, safe_join(buttons), class: 'tabs__list mbe-4 overflow-y-auto',
                                           data: { action: 'keydown.left->tabs#prev keydown.right->tabs#next' },
                                           role: 'tablist') + safe_join(tabs)
   end
 
   private
 
-  def order_versions_buttons(order_versions)
-    order_versions.map do |order_version|
+  def order_versions_buttons(order, order_versions)
+    new_version_button = link_to '➕ New Version', new_order_version_path(order.id),
+                                 class: 'btn btn--tab'
+
+    version_buttons = order_versions.map do |order_version|
       date = order_version.created_at.strftime('%d-%m-%Y')
       tag.button(date,
                  type: 'button',
@@ -26,6 +27,8 @@ module OrderVersionsHelper
                  role: 'tab',
                  'aria-controls': dom_id(order_version))
     end
+
+    [new_version_button] + version_buttons
   end
 
   def order_versions_tabs(order_versions)

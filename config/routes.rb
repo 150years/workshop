@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :orders do
-    resources :versions, except: %i[index show], controller: 'order_versions'
+    resources :versions, except: %i[index], controller: 'order_versions'
   end
 
 

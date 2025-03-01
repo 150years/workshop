@@ -4,6 +4,10 @@ class OrderVersionsController < ApplicationController
   before_action :set_order_version, except: %i[new create]
   # layout false
 
+  def show
+    @order_version = OrderVersion.find(params[:id])
+  end
+
   # GET /order_versions/new
   def new
     @order_version = OrderVersion.new

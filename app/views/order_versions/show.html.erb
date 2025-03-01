@@ -1,0 +1,5 @@
+<%= render @order_version %>
+
+<% content_for :title, "Order ##{@order_version.order_id} Version #{@order_version.created_at}" %>
+
+<%= render "order_versions/order_version", order_version: @order_version %>

@@ -8,7 +8,7 @@ module OrderVersionsHelper
 
     tabs = order_versions_tabs(order_versions)
 
-    content_tag(:div, safe_join(buttons), class: 'tabs__list',
+    content_tag(:div, safe_join(buttons), class: 'tabs__list mbe-4',
                                           data: { action: 'keydown.left->tabs#prev keydown.right->tabs#next' },
                                           role: 'tablist') + safe_join(tabs)
   end
@@ -16,26 +16,39 @@ module OrderVersionsHelper
   private
 
   def order_versions_buttons(order_versions)
-    order_versions.map do |version|
-      date = version.created_at.strftime('%d-%m-%Y')
+    order_versions.map do |order_version|
+      date = order_version.created_at.strftime('%d-%m-%Y')
       tag.button(date,
                  type: 'button',
-                 id: "trigger_#{version.id}",
+                 id: "trigger_#{order_version.id}",
                  class: 'btn btn--tab',
                  data: { 'tabs-target': 'button', action: 'tabs#select' },
                  role: 'tab',
-                 'aria-controls': "tab_#{version.id}")
+                 'aria-controls': dom_id(order_version))
     end
   end
 
   def order_versions_tabs(order_versions)
-    order_versions.map do |version|
-      content_tag(:div, "Version #{version.id} details",
-                  hidden: true,
-                  id: "tab_#{version.id}",
-                  data: { 'tabs-target': 'tab' },
-                  role: 'tabpanel',
-                  'aria-labelledby': "trigger_#{version.id}")
+    order_versions.map do |order_version|
+      turbo_frame_tag order_version, src: order_version_path(order_version.order_id, order_version.id),
+                                     data: { 'tabs-target': 'tab' },
+                                     class: 'mt-6',
+                                     role: 'tabpanel',
+                                     'aria-labelledby': "trigger_#{order_version.id}",
+                                     loading: 'lazy' do
+        <<~HTML.html_safe
+          <div class="flex items-center gap">
+            <div class="flex flex-col gap w-full">
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+              <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>
+            </div>
+          </div>
+        HTML
+      end
     end
   end
 end

@@ -1,4 +1,4 @@
-<div id="<%= dom_id order_version %>" class="flex flex-col gap">
+<%= turbo_frame_tag order_version, class: "flex flex-col gap" do %>
   <p>Agent Commission: <%= order_version.agent_comm %></p>
   <p>Total Amount: <%= order_version.total_amount %></p>
   <p>Comment: <%= order_version.comment %></p>
@@ -8,4 +8,4 @@
     <h3>Products:</h3>
     <%= render order_version.products %>
   </div>
-</div>
+<% end %>

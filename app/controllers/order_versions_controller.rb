@@ -56,6 +56,6 @@ class OrderVersionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_version_params
-    params.fetch(:order_version, {})
+    params.expect(order_version: %i[total_amount agent_comm version_note comment final_version])
   end
 end

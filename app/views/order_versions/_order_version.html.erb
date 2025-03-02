@@ -4,8 +4,46 @@
   <p>Comment: <%= order_version.comment %></p>
   <p>Version Note: <%= order_version.version_note %></p>
   <p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
-  <div class="products">
-    <h3>Products:</h3>
-    <%= render order_version.products %>
+  <div class="mbs-2">
+    <div class="flex items-center justify-between w-full gap mbe-2">
+      <h2 class="font-bold text-lg">Products</h2>
+      <div data-controller="dialog">
+        <button type="button" class="btn" data-action="dialog#showModal">Add Product</button>
+        <dialog class="dialog" style="--dialog-size: 430px;" data-dialog-target="menu" data-action="click->dialog#closeOnClickOutside" aria-label="Edit profile">
+          <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
+            <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+            <span class="sr-only">Close</span>
+          </button>
+          <div class="dialog__content">
+            <%= render "products/form", product: Product.new(order_version: order_version) %>
+          </div>
+        </dialog>
+      </div>
+    </div>
+    <table class="table">
+      <caption>A list of your products.</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Width</th>
+          <th>Height</th>
+          <th>Area</th>
+          <th>Perimeter</th>
+          <th>Comment</th>
+          <th class="text-end">Price</th>
+        </tr>
+      </thead>
+      <tbody id="<%= dom_id(order_version, 'products') %>">
+        <%= render partial: "products/product_order_row", collection: order_version.products, as: :product %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">Total</td>
+          <td class="text-end">
+            $<%= 0 %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 <% end %>

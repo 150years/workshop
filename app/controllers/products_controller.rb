@@ -2,10 +2,11 @@
 
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_order_version, only: %i[create]
 
   # GET /products
   def index
-    @products = Product.includes(image_attachment: [blob: { variant_records: :blob }])
+    @products = current_company.products.includes(image_attachment: [blob: { variant_records: :blob }])
   end
 
   # GET /products/1
@@ -23,9 +24,15 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     @product.company = current_company
+    @product.order_version_id = @order_version.id if @order_version
 
     if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
+      if @order_version
+        render turbo_stream: turbo_stream.append([@order_version, 'products'],
+                                                 partial: 'products/product_order_row', locals: { product: @product })
+      else
+        redirect_to @product, notice: 'Product was successfully created.'
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -51,12 +58,14 @@ class ProductsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_product
     @product = Product.find(params.expect(:product_id))
   end
 
-  # Only allow a list of trusted parameters through.
+  def set_order_version
+    @order_version = (current_company.order_versions.find(params[:order_version_id]) if params[:order_version_id])
+  end
+
   def product_params
     params.expect(product: %i[name width height comment image])
   end

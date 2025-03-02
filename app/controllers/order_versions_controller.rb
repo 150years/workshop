@@ -20,6 +20,7 @@ class OrderVersionsController < ApplicationController
   def create
     @order_version = OrderVersion.new(order_version_params)
     @order_version.order = @order
+    @order_version.company = @order.company
 
     if @order_version.save
       redirect_to @order, notice: 'Order version was successfully created.'

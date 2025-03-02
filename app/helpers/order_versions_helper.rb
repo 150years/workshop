@@ -35,7 +35,6 @@ module OrderVersionsHelper
     order_versions.map do |order_version|
       turbo_frame_tag order_version, src: order_version_path(order_version.order_id, order_version.id),
                                      data: { 'tabs-target': 'tab' },
-                                     class: 'mt-6',
                                      role: 'tabpanel',
                                      'aria-labelledby': "trigger_#{order_version.id}",
                                      loading: 'lazy' do

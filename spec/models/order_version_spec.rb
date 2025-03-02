@@ -12,15 +12,18 @@
 #  version_note  :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  company_id    :integer          not null
 #  order_id      :integer          not null
 #
 # Indexes
 #
-#  index_order_versions_on_order_id  (order_id)
+#  index_order_versions_on_company_id  (company_id)
+#  index_order_versions_on_order_id    (order_id)
 #
 # Foreign Keys
 #
-#  order_id  (order_id => orders.id)
+#  company_id  (company_id => companies.id)
+#  order_id    (order_id => orders.id)
 #
 require 'rails_helper'
 

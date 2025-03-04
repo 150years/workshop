@@ -1,9 +1,9 @@
 <tr id="<%= dom_id(product) %>">
-  <th><%= product.name %></th>
+  <th><%= link_to product.name, product, target: "_top" %></th>
   <td><%= product.width %> cm</td>
   <td><%= product.height %> cm</td>
   <td><%= product.area %> cm²</td>
   <td><%= product.perimeter %> cm</td>
   <td><%= product.comment.presence || '—' %></td>
-  <td class="text-end">$<%= 0 %></td>
+  <td class="text-end">$<%= product.price %></td>
 </tr>

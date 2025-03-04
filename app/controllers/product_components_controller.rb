@@ -41,11 +41,11 @@ class ProductComponentsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find(params.expect(:product_id))
+    @product = current_company.products.find(params.expect(:product_id))
   end
 
   def set_product_component
-    @product_component = ProductComponent.find(params.expect(:id))
+    @product_component = @product.product_components.find(params.expect(:id))
   end
 
   def product_component_params

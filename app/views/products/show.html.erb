@@ -2,7 +2,7 @@
 <h3>Components</h3>
 <div id="components" class="flex flex-col" style="gap: 2rem;">
   <%# Add button to add product component %>
-  <%= link_to "Add product component", new_product_component_path, class: "btn btn--primary self-end" %>
+  <%= link_to "Add product component", new_product_product_component_path(@product), class: "btn btn--primary self-end" %>
   <% @product.product_components.each do |product_component| %>
     <div class="flex flex-col items-start gap">
       <%= render product_component %>

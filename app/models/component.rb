@@ -36,4 +36,21 @@ class Component < ApplicationRecord
 
   validates :code, :name, :unit, :min_quantity, :price, presence: true
   validates :price, :length, :width, :weight, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
+
+  # If component price has changed, then it should call update_price on products that use this component
+  after_save :update_products_total_amount, if: -> { saved_change_to_price? }
+
+  def update_products_total_amount
+    product_components.each do |product_component|
+      product_component.product.update_price
+    end
+  end
+
+  def area
+    width * length
+  end
+
+  def perimeter
+    2 * (width + length)
+  end
 end

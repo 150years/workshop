@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = current_company.products.includes(image_attachment: [blob: { variant_records: :blob }])
+    @products = current_company.products.includes(image_attachment: [blob: { variant_records: :blob }]).where(order_version_id: nil)
   end
 
   # GET /products/1
@@ -60,7 +60,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = current_company.products.find(params.expect(:product_id))
+    @product = current_company.products.find(params.expect(:id))
   end
 
   def set_order_version

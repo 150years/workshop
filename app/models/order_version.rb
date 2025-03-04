@@ -35,4 +35,9 @@ class OrderVersion < ApplicationRecord
   validates :agent_comm, numericality: { less_than_or_equal_to: 100 }
 
   scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
+
+  def update_total_amount
+    self.total_amount = products.sum(&:price)
+    save
+  end
 end

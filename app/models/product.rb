@@ -8,6 +8,7 @@
 #  comment          :string
 #  height           :integer          default(0), not null
 #  name             :string           not null
+#  price            :integer          default(0), not null
 #  width            :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -32,6 +33,20 @@ class Product < ApplicationRecord
 
   validates :name, :width, :height, presence: true
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
+
+  after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
+  # If product belongs to order_version, then it should call update_total_amount on order_version if product price has changed
+  after_save :update_order_version_total_amount, if: -> { order_version.present? && saved_change_to_price? }
+
+  def update_price
+    # Price is calculated by summing the prices of all components. In join table we also have quantity of each component.
+    self.price = product_components.joins(:component).sum('components.price * product_components.quantity')
+    save
+  end
+
+  def update_order_version_total_amount
+    order_version.update_total_amount
+  end
 
   def area
     width * height

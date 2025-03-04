@@ -3,7 +3,6 @@
 class OrderVersionsController < ApplicationController
   before_action :set_order
   before_action :set_order_version, except: %i[new create]
-  # layout false
 
   def show
   end

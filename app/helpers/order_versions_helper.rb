@@ -11,6 +11,10 @@ module OrderVersionsHelper
                                           role: 'tablist') + safe_join(tabs)
   end
 
+  def new_product(order_version)
+    Product.new(order_version: order_version)
+  end
+
   private
 
   def order_versions_buttons(order, order_versions)

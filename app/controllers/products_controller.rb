@@ -28,8 +28,9 @@ class ProductsController < ApplicationController
 
     if @product.save
       if @order_version
-        render turbo_stream: turbo_stream.append([@order_version, 'products'],
-                                                 partial: 'products/product_order_row', locals: { product: @product })
+        render turbo_stream: turbo_stream.update(@order_version, partial: 'order_versions/order_version',
+                                                                 locals: { order_version: @order_version })
+
       else
         redirect_to @product, notice: 'Product was successfully created.'
       end
@@ -59,7 +60,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find(params.expect(:product_id))
+    @product = current_company.products.find(params.expect(:product_id))
   end
 
   def set_order_version

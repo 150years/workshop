@@ -37,8 +37,6 @@ export default class extends Controller {
 
     this.tabTargets.forEach((element, index) => {
       element.hidden = index !== this.indexValue
-      // Set loading="eager" on the current tab
-      element.loading = index === this.indexValue ? "eager" : "lazy"
     })
   }
 

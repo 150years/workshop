@@ -15,6 +15,7 @@
         </button>
         <div class="dialog__content">
           <%= turbo_frame_tag(new_product(order_version), order_version.id) do %>
+            <h1 class="font-bold text-4xl mbe-4">New product</h1>
             <%= render "products/form", product: new_product(order_version) %>
           <% end %>
         </div>

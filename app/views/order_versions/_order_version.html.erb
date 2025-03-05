@@ -8,7 +8,7 @@
     <h2 class="font-bold text-lg">Products</h2>
     <div data-controller="dialog">
       <button type="button" class="btn" data-action="dialog#showModal">Add Product</button>
-      <dialog class="dialog" style="--dialog-size: 430px;" data-dialog-target="menu" data-action="click->dialog#closeOnClickOutside" aria-label="Edit profile">
+      <dialog class="dialog" data-dialog-target="menu" aria-label="Edit profile">
         <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
           <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
           <span class="sr-only">Close</span>

@@ -60,7 +60,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = current_company.products.find(params.expect(:id))
+    @product = current_company.products.includes(product_components: [:component]).find(params.expect(:id))
   end
 
   def set_order_version

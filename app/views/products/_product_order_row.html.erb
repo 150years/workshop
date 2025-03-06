@@ -1,7 +1,11 @@
 <tr data-controller="dialog">
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
-    <dialog class="dialog" data-dialog-target="menu" data-action="click->dialog#closeOnClickOutside">
+    <dialog class="dialog" data-dialog-target="menu">
+      <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
+        <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+        <span class="sr-only">Close</span>
+      </button>
       <div class="dialog__content">
         <%= turbo_frame_tag product, src: product_path(product), loading: "lazy" do %>
           <div class="flex flex-col gap">

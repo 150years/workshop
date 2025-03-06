@@ -60,6 +60,6 @@ class Order < ApplicationRecord
   private
 
   def create_order_version
-    order_versions.create!
+    order_versions.create!(company: company, version_note: 'Initial version')
   end
 end

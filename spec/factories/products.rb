@@ -28,10 +28,13 @@
 FactoryBot.define do
   factory :product do
     company
-    order_version
     name { Faker::Commerce.product_name }
     width { Random.rand(1000) }
     height { Random.rand(1000) }
     comment { Faker::Lorem.sentence }
+  end
+
+  trait :with_order_version do
+    order_version { create(:order_version, company: company) }
   end
 end

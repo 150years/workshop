@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="flex items-center justify-between gap w-full" style="--row-gap: .5rem">
-    <%= link_to "Edit this product component", edit_product_product_component_path(@product, product_component), class: "btn" %>
-    <%= button_to "Remove", product_product_component_path(@product, product_component), method: :delete, class: "btn" %>
+    <%= link_to "Edit this product component", edit_product_component_path(@product, product_component), class: "btn" %>
+    <%= button_to "Remove", product_component_path(@product, product_component), method: :delete, class: "btn" %>
   </div>
 </div>

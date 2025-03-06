@@ -28,6 +28,7 @@
 FactoryBot.define do
   factory :order_version do
     order
+    company
     total_amount { rand(0..10_000) }
     agent_comm { rand(0..100) }
     comment { 'MyText' }

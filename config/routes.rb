@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :agents
   resources :components
   resources :products do
-    resources :product_components, except: %i[index show]
+    resources :components, except: %i[index show], controller: 'product_components'
   end
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'

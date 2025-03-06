@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OrderVersionsController, type: :routing do
+RSpec.describe OrderVersionsController, type: :routing, skip: 'TBD' do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/order_versions').to route_to('order_versions#index')

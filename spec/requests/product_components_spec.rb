@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe '/product_components', type: :request do
-  let(:user) { create(:user) }
-  let(:product) { create(:product) }
+  let!(:user) { create(:user) }
+  let(:product) { create(:product, company: user.company) }
   let(:component) { create(:component) }
   let(:product_component) { ProductComponent.create!(product: product, component: component, quantity: 1) }
   let(:valid_attributes) do

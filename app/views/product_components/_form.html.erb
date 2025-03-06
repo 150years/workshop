@@ -1,4 +1,4 @@
-<%= form_with(model: product_component, html: { contents: true }) do |form| %>
+<%= form_with(model: product_component, url: product_component.persisted? ? product_component_path(@product, product_component) : product_components_path(@product)) do |form| %>
   <% if product_component.errors.any? %>
     <div class="alert alert--negative flex flex-col gap-half mbe-4" role="alert">
       <h2 class="font-medium leading-none"><%= pluralize(product_component.errors.count, "error") %> prohibited this product_component from being saved:</h2>

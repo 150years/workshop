@@ -1,11 +1,19 @@
-<div id="<%= dom_id product_component %>" class="flex flex-col gap">
-  <%# Show component name, product_component quantaty  %>
-  <div class="flex flex-col gap-half">
-    <h3 class="font-medium leading-none"><%= product_component.component.code %></h3>
-    <p class="text-sm"><%= product_component.quantity %></p>
+<div id="<%= dom_id product_component %>" class="flex flex-col gap grow">
+  <div class="card">
+    <h3 class="text-lg font-semibold"><%= product_component.component.code %> - <%= product_component.component.name %></h3>
+    <div class="flex justify-between items-center grow">
+      <div>
+        <p class="text-sm text-subtle">Unit: <%= product_component.component.unit %></p>
+        <p class="text-sm text-subtle">Color: <%= product_component.component.color %></p>
+      </div>
+      <div class="flex items-center">
+        <span class="text-lg mie-2">X</span>
+        <p class="text-xl font-bold"><%= product_component.quantity %></p>
+      </div>
+    </div>
   </div>
-  <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
-  <%= link_to "Edit this product component", edit_product_component_path(@product, product_component), class: "btn" %>
-  <%= button_to "Destroy this product component", product_component_path(id: product_component.id), method: :delete, class: "btn" %>
-</div>
+  <div class="flex items-center justify-between gap w-full" style="--row-gap: .5rem">
+    <%= link_to "Edit this product component", edit_product_component_path(@product, product_component), class: "btn" %>
+    <%= button_to "Remove", product_component_path(@product, product_component), method: :delete, class: "btn" %>
+  </div>
 </div>

@@ -28,6 +28,7 @@ RSpec.describe Client, type: :model do
 
   context 'associations' do
     it { is_expected.to belong_to(:company) }
+    it { is_expected.to have_many(:orders).dependent(:restrict_with_error) }
   end
 
   context 'validations' do

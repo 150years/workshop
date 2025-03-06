@@ -1,0 +1,27 @@
+<div id="<%= dom_id order %>" class="card flex flex-col gap">
+  <div class="flex items-center justify-between w-full gap">
+    <h2 class="font-bold text-2xl">#<%= order.id %></h2>
+    <span class="font-bold text-2xl"><%= order.name %></span>
+    <div class="badge badge--primary"><%= order.status.humanize %></div>
+    <div class="flex items-center gap">
+      <%= link_to "Edit", edit_order_path(order), class: "btn" %>
+      <%= button_to "Destroy", order, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn--danger" %>
+    </div>
+  </div>
+  <div class="flex flex-col gap">
+    <div class="flex items-center gap">
+      <span class="font-bold">Client:</span>
+      <span><%= order.client.name %></span>
+    </div>
+    <div class="flex items-center gap">
+      <span class="font-bold">Agent:</span>
+      <span><%= order.agent.name %></span>
+    </div>
+    <div class="flex flex-col gap">
+      <span class="font-bold">Order Versions</span>
+      <div class="tabs" data-controller="tabs">
+        <%= order_version_tabs(order, @order_versions) %>
+      </div>
+    </div>
+  </div>
+</div>

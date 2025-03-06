@@ -29,6 +29,14 @@ class ProductComponent < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
+  after_create :update_product_price
+  after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
+  after_destroy :update_product_price
+
+  def update_product_price
+    product.update_price
+  end
+
   private
 
   def add_errors_to_component_id

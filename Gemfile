@@ -21,6 +21,8 @@ gem 'rails_app_version', '1.2.4'
 # Application
 gem 'css-zero', '1.1.7'
 gem 'devise', '4.9.4'
+gem 'pagy', '~> 9.3.3'
+gem 'ransack', '~> 4.2.1'
 
 # Deploy
 gem 'kamal', require: false

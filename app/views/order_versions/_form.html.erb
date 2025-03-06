@@ -1,0 +1,32 @@
+<%= form_with(model: order_version, html: { contents: true }) do |form| %>
+  <% if order_version.errors.any? %>
+    <div class="alert alert--negative flex flex-col gap-half mbe-4" role="alert">
+      <h2 class="font-medium leading-none"><%= pluralize(order_version.errors.count, "error") %> prohibited this order_version from being saved:</h2>
+      <ul class="text-sm mis-3" style="list-style: disc">
+        <% order_version.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="flex flex-col gap">
+    <%= form.label :version_note, class: "font-bold text-sm" %>
+    <%= form.text_field :version_note, class: "input" %>
+  </div>
+    <div class="flex flex-col gap">
+    <%= form.label :agent_comm, "Agent commission", class: "font-bold text-sm" %>
+    <%= form.number_field :agent_comm, class: "input", required: true %>
+  </div>
+  <div class="flex flex-col gap">
+    <%= form.label :comment, class: "font-bold text-sm" %>
+    <%= form.text_field :comment, class: "input" %>
+  </div>
+  <div class="flex items-center gap">
+    <%= check_box_tag :final_version, 0, false, class: "checkbox" %>
+    <%= label_tag :final_version, "Final version", class: "text-sm" %>
+  </div>
+
+  <div class="inline-flex items-center mbs-2 mie-1">
+    <%= form.submit class: "btn btn--primary" %>
+  </div>
+<% end %>

@@ -12,10 +12,11 @@ Rails.application.routes.draw do
   resources :clients
   resources :agents
   resources :components
-  resources :products, param: :product_id do
-    member do
-      resources :product_components, except: %i[index show]
-    end
+  resources :products do
+    resources :components, except: %i[index show], controller: 'product_components'
+  end
+  resources :orders do
+    resources :versions, except: %i[index], controller: 'order_versions'
   end
 
 

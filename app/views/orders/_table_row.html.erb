@@ -1,0 +1,31 @@
+
+<tr>
+  <td><%= check_box_tag "selected_ids[]", order.id, class: "checkbox", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
+  <td class="whitespace-nowrap"><%= order.id %></td>
+  <td class="whitespace-nowrap">
+    <%= link_to order, data: {turbo_frame: "_top"} do %>
+    <span><%= order.name %></span>
+    <% end %>
+  </td>
+  <td class="whitespace-nowrap">
+    <div class="flex items-center gap">
+      <%= image_tag status_icons[order.status], class: "icon", size: 16, aria: { hidden: true } %>
+      <span><%= order.status.titleize %></span>
+    </div>
+  </td>
+  <td class="whitespace-nowrap">
+    <span><%= order.agent&.name %></span>
+  </td>
+  <td class="whitespace-nowrap">
+    <span><%= order.client&.name %></span>
+  </td>
+  <td class="whitespace-nowrap">
+    <span><%= order.created_at %></span>
+  </td>
+  <td class="whitespace-nowrap">
+    <%= button_tag class: "btn btn--plain p-1" do %>
+      <%= image_tag "ellipsis.svg", size: 16, aria: { hidden: true } %>
+      <span class="sr-only">Open menu</span>
+    <% end %>
+  </td>
+</tr>

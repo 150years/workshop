@@ -1,0 +1,50 @@
+<p>Agent Commission: <%= order_version.agent_comm %></p>
+<p>Total Amount: <%= order_version.total_amount %></p>
+<p>Comment: <%= order_version.comment %></p>
+<p>Version Note: <%= order_version.version_note %></p>
+<p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
+<div class="mbs-2">
+  <div class="flex items-center justify-between w-full gap mbe-2">
+    <h2 class="font-bold text-lg">Products</h2>
+    <div data-controller="dialog">
+      <button type="button" class="btn" data-action="dialog#showModal">Add Product</button>
+      <dialog class="dialog" data-dialog-target="menu" aria-label="Edit profile">
+        <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
+          <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Close</span>
+        </button>
+        <div class="dialog__content">
+          <%= turbo_frame_tag(new_product(order_version), order_version.id) do %>
+            <h1 class="font-bold text-4xl mbe-4">New product</h1>
+            <%= render "products/form", product: new_product(order_version) %>
+          <% end %>
+        </div>
+      </dialog>
+    </div>
+  </div>
+  <table class="table">
+    <caption>A list of your products.</caption>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Width</th>
+        <th>Height</th>
+        <th>Area</th>
+        <th>Perimeter</th>
+        <th>Comment</th>
+        <th class="text-end">Price</th>
+      </tr>
+    </thead>
+    <tbody id="<%= dom_id(order_version, 'products') %>">
+      <%= render partial: "products/product_order_row", collection: order_version.products, as: :product %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="6">Total</td>
+        <td class="text-end">
+          $<%= order_version.total_amount %>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

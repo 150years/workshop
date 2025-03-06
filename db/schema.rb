@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_04_191456) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
+  create_table "order_versions", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "total_amount", default: 0, null: false
+    t.integer "agent_comm", default: 0, null: false
+    t.text "comment"
+    t.text "version_note"
+    t.boolean "final_version", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "company_id", null: false
+    t.index ["company_id"], name: "index_order_versions_on_company_id"
+    t.index ["order_id"], name: "index_order_versions_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.integer "client_id", null: false
+    t.integer "agent_id", null: false
+    t.string "name"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_orders_on_agent_id"
+    t.index ["client_id"], name: "index_orders_on_client_id"
+    t.index ["company_id"], name: "index_orders_on_company_id"
+  end
+
   create_table "product_components", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "component_id", null: false
@@ -96,6 +123,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order_version_id"
+    t.integer "company_id", null: false
+    t.integer "price", default: 0, null: false
+    t.index ["company_id"], name: "index_products_on_company_id"
+    t.index ["order_version_id"], name: "index_products_on_order_version_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,7 +150,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_124503) do
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
+  add_foreign_key "order_versions", "companies"
+  add_foreign_key "order_versions", "orders"
+  add_foreign_key "orders", "agents"
+  add_foreign_key "orders", "clients"
+  add_foreign_key "orders", "companies"
   add_foreign_key "product_components", "components"
   add_foreign_key "product_components", "products"
+  add_foreign_key "products", "companies"
+  add_foreign_key "products", "order_versions"
   add_foreign_key "users", "companies"
 end

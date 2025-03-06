@@ -1,0 +1,7 @@
+<% content_for :title, "Order ##{@order.id}" %>
+
+<%= render "orders/order", order: @order %>
+
+<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
+  <%= link_to "Back to orders", orders_path, class: "btn" %>
+</div>

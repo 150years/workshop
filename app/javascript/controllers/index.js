@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import CheckAllController from "./check_all_controller"
+application.register("check-all", CheckAllController)
+
 import ComboboxController from "./combobox_controller"
 application.register("combobox", ComboboxController)
 
@@ -12,3 +15,9 @@ application.register("dialog", DialogController)
 
 import ElementRemovalController from "./element_removal_controller"
 application.register("element-removal", ElementRemovalController)
+
+import FormController from "./form_controller"
+application.register("form", FormController)
+
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)

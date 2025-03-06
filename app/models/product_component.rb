@@ -29,7 +29,6 @@ class ProductComponent < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
-  # When product_component is created/deleted or quantity or component is changed, we need to update the price of the product
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
   after_destroy :update_product_price

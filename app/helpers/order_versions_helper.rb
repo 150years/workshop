@@ -19,14 +19,14 @@ module OrderVersionsHelper
 
   def order_versions_buttons(order, order_versions)
     new_version_button = link_to '➕ New Version', new_order_version_path(order.id),
-                                 class: 'btn btn--tab'
+                                 class: 'btn tabs__button'
 
     version_buttons = order_versions.map do |order_version|
       date = order_version.created_at.strftime('%d-%m-%Y')
       tag.button(date,
                  type: 'button',
                  id: "trigger_#{order_version.id}",
-                 class: 'btn btn--tab',
+                 class: 'btn tabs__button',
                  data: { 'tabs-target': 'button', action: 'tabs#select' },
                  role: 'tab',
                  'aria-controls': dom_id(order_version))
@@ -42,7 +42,7 @@ module OrderVersionsHelper
                                      role: 'tabpanel',
                                      'aria-labelledby': "trigger_#{order_version.id}",
                                      loading: 'lazy' do
-        <<~HTML.html_safe
+        <<~HTML.html_safe # rubocop:disable Rails/OutputSafety
           <div class="flex items-center gap">
             <div class="flex flex-col gap w-full">
               <div class="skeleton" style="height: var(--size-4); width: 800px;"></div>

@@ -49,11 +49,11 @@ class Order < ApplicationRecord
     statuses.keys.map(&:humanize)
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[id name status created_at]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     %w[client agent]
   end
 

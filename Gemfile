@@ -19,7 +19,7 @@ gem 'solid_cable'
 gem 'rails_app_version', '1.2.4'
 
 # Application
-gem 'css-zero', '1.1.7'
+gem 'css-zero', '1.1.10'
 gem 'devise', '4.9.4'
 gem 'pagy', '~> 9.3.3'
 gem 'ransack', '~> 4.3.0'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_04_191456) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_11_192822) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -68,14 +68,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_04_191456) do
     t.string "name", null: false
     t.string "color"
     t.integer "unit", null: false
-    t.integer "width"
-    t.integer "length"
+    t.decimal "width", precision: 7, scale: 1
+    t.decimal "length", precision: 7, scale: 1
     t.integer "weight"
-    t.integer "min_quantity", default: 0, null: false
+    t.decimal "min_quantity", precision: 7, scale: 1
     t.integer "price", default: 0, null: false
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "thickness", precision: 7, scale: 1
+    t.decimal "height", precision: 7, scale: 1
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
@@ -109,7 +111,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_04_191456) do
   create_table "product_components", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "component_id", null: false
-    t.integer "quantity", default: 1, null: false
+    t.decimal "quantity", precision: 7, scale: 1, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["component_id"], name: "index_product_components_on_component_id"

@@ -5,7 +5,7 @@
 # Table name: product_components
 #
 #  id           :integer          not null, primary key
-#  quantity     :integer          default(1), not null
+#  quantity     :decimal(7, 1)    default(0.0), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  component_id :integer          not null
@@ -27,7 +27,7 @@ class ProductComponent < ApplicationRecord
 
   after_validation :add_errors_to_component_id
 
-  validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }

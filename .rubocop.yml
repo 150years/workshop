@@ -1,8 +1,7 @@
 inherit_mode:
   merge:
     - Exclude
-
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
 

@@ -5,7 +5,7 @@
 # Table name: product_components
 #
 #  id           :integer          not null, primary key
-#  quantity     :integer          default(1), not null
+#  quantity     :decimal(7, 1)    default(0.0), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  component_id :integer          not null
@@ -31,7 +31,7 @@ RSpec.describe ProductComponent, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:quantity) }
-    it { is_expected.to validate_numericality_of(:quantity).only_integer.is_greater_than(0) }
+    it { is_expected.to validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
     it 'validates presence of component' do
       product_component = build(:product_component, component: nil)
 

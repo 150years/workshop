@@ -5,7 +5,7 @@
 # Table name: product_components
 #
 #  id           :integer          not null, primary key
-#  quantity     :integer          default(1), not null
+#  quantity     :decimal(7, 1)    default(0.0), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  component_id :integer          not null
@@ -25,6 +25,6 @@ FactoryBot.define do
   factory :product_component do
     product
     component
-    quantity { 1 }
+    quantity { 1.0 }
   end
 end

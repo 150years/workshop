@@ -34,7 +34,9 @@ class Component < ApplicationRecord
   has_many :product_components, dependent: :destroy
   has_one_attached :image
 
-  enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6 }, validate: true, prefix: true # you can call "c.unit_mm?"
+  # Call "component.unit_mm?" to check if the unit is mm
+  enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6 },
+       validate: true, prefix: true
 
   validates :code, :name, :unit, :min_quantity, :price, presence: true
   validates :price, :length, :width, :height, :thickness, :weight, :min_quantity,

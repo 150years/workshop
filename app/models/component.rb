@@ -7,14 +7,16 @@
 #  id           :integer          not null, primary key
 #  code         :string           not null
 #  color        :string
-#  length       :integer
-#  min_quantity :integer          default(0), not null
+#  height       :decimal(7, 1)
+#  length       :decimal(7, 1)
+#  min_quantity :decimal(7, 1)
 #  name         :string           not null
 #  note         :string
 #  price        :integer          default(0), not null
+#  thickness    :decimal(7, 1)
 #  unit         :integer          not null
 #  weight       :integer
-#  width        :integer
+#  width        :decimal(7, 1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
@@ -35,7 +37,8 @@ class Component < ApplicationRecord
   enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6 }, validate: true, prefix: true # you can call "c.unit_mm?"
 
   validates :code, :name, :unit, :min_quantity, :price, presence: true
-  validates :price, :length, :width, :weight, :min_quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, :length, :width, :height, :thickness, :weight, :min_quantity,
+            numericality: { greater_than_or_equal_to: 0.0 }
 
   # If component price has changed, then it should call update_price on products that use this component
   after_save :update_products_total_amount, if: -> { saved_change_to_price? }

@@ -14,4 +14,14 @@ module ApplicationHelper
       content_tag(:div, '', class: 'skeleton rounded-lg', style: "height: #{height}px; width: #{width}px;")
     end
   end
+
+  def app_version
+    Rails.root.join('VERSION').read.strip
+  rescue Errno::ENOENT
+    'dev' # Fallback if the file is missing
+  end
+
+  def release_notes
+    YAML.load_file(Rails.root.join('release_notes.yml'))['releases']
+  end
 end

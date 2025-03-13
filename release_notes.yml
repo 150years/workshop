@@ -1,0 +1,38 @@
+releases:
+  - version: "0.5.1"
+    date: "13-03-2025"
+    notes:
+      - "Added release notes"
+  - version: "0.5.0"
+    date: "11-03-2025"
+    notes:
+      - "Components: Added new unit lines"
+      - "Components: Added new attributes: height and thickness"
+      - "Components: Changed all dimension attributes and min_quantity to decimal with 1 precision (0.1)"
+      - "Product components: Changed quantity to decimal with 1 precision (0.1)"
+  - version: "0.4.1"
+    date: "10-03-2025"
+    notes:
+      - "Dependencies updates"
+  - version: "0.4.0"
+    date: "09-03-2025"
+    notes:
+      - "Added orders"
+      - "Dependencies updates"
+  - version: "0.3.1"
+    date: "10-02-2025"
+    notes:
+      - "Added products"
+      - "Dependencies updates"
+  - version: "0.2.0"
+    date: "05-02-2025"
+    notes:
+      - "Added components"
+  - version: "0.1.1"
+    date: "02-02-2025"
+    notes:
+      - "Dependencies updates"
+  - version: "0.1.0"
+    date: "02-02-2025"
+    notes:
+      - "Setup companies, users, clients and agents"

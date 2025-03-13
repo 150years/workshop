@@ -1,4 +1,5 @@
-<div>
-  <h1 class="font-bold text-4xl">Dashboard#index</h1>
-  <p>Find me in app/views/dashboard/index.html.erb</p>
+<h1 class="font-bold text-4xl">Dashboard</h1>
+<div class="card flex flex-col gap prose text-fluid-xs">
+  <h2 class="font-bold text-2xl">Release Notes</h2>
+  <%= render collection: release_notes.first(5), partial: "release_note", as: :release_note %>
 </div>

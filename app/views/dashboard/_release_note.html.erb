@@ -1,0 +1,9 @@
+<div>
+  <h3>Version: <%= release_note["version"] %></h2>
+  <p>Release Date: <%= release_note["date"] %></p>
+  <ul>
+    <% release_note["notes"].each do |note| %>
+      <li><%= note %></li>
+    <% end %>
+  </ul>
+</div>

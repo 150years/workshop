@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/products', type: :request, skip: 'TBD' do
+RSpec.describe '/products', type: :request do
   let(:user) { create(:user) }
   let!(:product) { create(:product, company: user.company) }
   let(:valid_attributes) do
@@ -118,6 +118,24 @@ RSpec.describe '/products', type: :request, skip: 'TBD' do
       end
     end
 
+    context 'with order version' do
+      let(:order_version) { create(:order_version, company: user.company) }
+
+      it 'creates a new Product' do
+        expect do
+          post products_url, params: { product: valid_attributes, order_version_id: order_version.id }
+        end.to change(Product, :count).by(1)
+      end
+
+      it 'renders turbo response to update order version' do
+        post products_url, params: { product: valid_attributes, order_version_id: order_version.id }
+
+        expect(response.body).to include('turbo-stream')
+        expect(response.body).to include("order_version_#{order_version.id}")
+        expect(response.body).to include(order_version.id.to_s)
+      end
+    end
+
     context 'with invalid parameters' do
       it 'does not create a new Product' do
         expect do
@@ -189,6 +207,19 @@ RSpec.describe '/products', type: :request, skip: 'TBD' do
     it 'redirects to the products list' do
       delete product_url(product)
       expect(response).to redirect_to(products_url)
+    end
+
+    context 'with order version' do
+      let(:order_version) { create(:order_version, company: user.company) }
+      let!(:product) { create(:product, company: user.company, order_version: order_version) }
+
+      it 'renders turbo response to update order version' do
+        delete product_url(product)
+
+        expect(response.body).to include('turbo-stream')
+        expect(response.body).to include("order_version_#{order_version.id}")
+        expect(response.body).to include(order_version.id.to_s)
+      end
     end
 
     context 'when user is not logged in' do

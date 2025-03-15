@@ -56,8 +56,9 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy!
     if @product.order_version
-      render turbo_stream: turbo_stream.update(@product.order_version, partial: 'order_versions/order_version',
-                                                                       locals: { order_version: @product.order_version })
+      render turbo_stream: turbo_stream.update(@product.order_version,
+                                               partial: 'order_versions/order_version',
+                                               locals: { order_version: @product.order_version })
     else
       redirect_to products_path, notice: 'Product template was successfully destroyed.', status: :see_other
     end

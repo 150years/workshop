@@ -1,4 +1,9 @@
 releases:
+  - version: "0.6.0"
+    date: "15-03-2025"
+    notes:
+      - "Added confirmation dialog for all delete actions"
+      - "Added link to dashboard on mobile menu"
   - version: "0.5.1"
     date: "13-03-2025"
     notes:

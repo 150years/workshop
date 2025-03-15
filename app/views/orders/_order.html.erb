@@ -5,7 +5,7 @@
     <div class="badge badge--primary"><%= order.status.humanize %></div>
     <div class="flex items-center gap">
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
-      <%= button_to "Destroy", order, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn--danger" %>
+      <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
     </div>
   </div>
   <div class="flex flex-col gap">

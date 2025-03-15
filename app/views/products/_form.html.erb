@@ -12,10 +12,29 @@
   <% if product.order_version_id  %>
     <%= hidden_field_tag :order_version_id, product.order_version_id %>
   <% end %>
-  <div class="flex flex-col items-start gap-half mbe-4">
-    <%= form.label :name, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :name, class: "input" %>
-  </div>
+  <% if product.from_template  %>
+    <%= form.hidden_field :from_template %>
+    <div class="flex flex-col gap-half mbe-4">
+      <%= form.label :template_id, class: "text-sm font-medium leading-none" %>
+      <%= form.select :template_id,
+        options_from_collection_for_select(current_company.products.templates, :id, ->(p) { "#{p.name} - #{p.comment}" }, product.template_id),
+        { include_blank: "Select template..." },
+        { data: { controller: "combobox" } } %>
+    </div>
+  <% else %>
+    <div class="flex flex-col items-start gap-half mbe-4">
+      <%= form.label :name, class: "text-sm font-medium leading-none" %>
+      <%= form.text_field :name, class: "input" %>
+    </div>
+    <div class="flex flex-col items-start gap-half mbe-4">
+      <%= form.label :comment, class: "text-sm font-medium leading-none" %>
+      <%= form.text_field :comment, class: "input" %>
+    </div>
+    <div class="flex flex-col gap-half mbe-4">
+      <%= form.label :image, class: "text-sm font-medium leading-none" %>
+      <%= form.file_field :image, accept: "image/*", class: "input" %>
+    </div>
+  <% end %>
   <div class="flex flex-col items-start gap-half mbe-4">
     <%= form.label :width, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :width, class: "input" %>
@@ -24,15 +43,14 @@
     <%= form.label :height, class: "text-sm font-medium leading-none" %>
     <%= form.number_field :height, class: "input" %>
   </div>
-  <div class="flex flex-col items-start gap-half mbe-4">
-    <%= form.label :comment, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :comment, class: "input" %>
-  </div>
-  <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :image, class: "text-sm font-medium leading-none" %>
-    <%= form.file_field :image, accept: "image/*", class: "input" %>
-  </div>
-  <div class="inline-flex items-center mbs-2 mie-1">
+  <div class="flex items-center justify-between mbs-2 mie-1">
+    <% if product.persisted? %>
+      <%= link_to "Cancel", product, class: "btn btn--secondary" %>
+    <% elsif product.order_version_id %>
+      <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#reload:prevent" } %>
+    <% else %>
+      <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#back:prevent" } %>
+    <% end %>
     <%= button_tag tag.span(product.persisted? ? "Update Product" : "Create Product"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

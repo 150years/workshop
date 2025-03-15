@@ -2,7 +2,7 @@
 
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
-  before_action :set_order_version, only: %i[create]
+  before_action :set_order_version, only: %i[new create]
 
   # GET /products
   def index
@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
 
   # GET /products/new
   def new
-    @product = Product.new
+    @product = Product.new(order_version_id: @order_version&.id, from_template: params[:from_template])
   end
 
   # GET /products/1/edit
@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
                                                                  locals: { order_version: @order_version })
 
       else
-        redirect_to @product, notice: 'Product was successfully created.'
+        redirect_to @product, notice: 'Product template was successfully created.'
       end
     else
       render :new, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class ProductsController < ApplicationController
     product_params.delete(:image) if product_params[:image].blank?
 
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was successfully updated.', status: :see_other
+      redirect_to @product, notice: 'Product template was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -55,7 +55,13 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy!
-    redirect_to products_path, notice: 'Product was successfully destroyed.', status: :see_other
+    if @product.order_version
+      render turbo_stream: turbo_stream.update(@product.order_version,
+                                               partial: 'order_versions/order_version',
+                                               locals: { order_version: @product.order_version })
+    else
+      redirect_to products_path, notice: 'Product template was successfully destroyed.', status: :see_other
+    end
   end
 
   private
@@ -69,6 +75,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.expect(product: %i[name width height comment image])
+    params.expect(product: %i[name width height comment image from_template template_id])
   end
 end

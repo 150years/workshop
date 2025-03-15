@@ -28,6 +28,11 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
+  describe 'attributes' do
+    it { should respond_to(:from_template) }
+    it { should respond_to(:template_id) }
+  end
+
   describe 'associations' do
     it { should belong_to(:company) }
     it { should belong_to(:order_version).optional }
@@ -44,6 +49,31 @@ RSpec.describe Product, type: :model do
     it { should validate_presence_of(:height) }
     it { should validate_numericality_of(:width).is_greater_than_or_equal_to(0) }
     it { should validate_numericality_of(:height).is_greater_than_or_equal_to(0) }
+  end
+
+  describe '#copy_template' do
+    let(:product) { Product.new(company: template.company) }
+    let(:template) { create(:product, :with_image) }
+    let!(:product_component) { create(:product_component, product: template) }
+
+    before do
+      product.from_template = true
+      product.template_id = template.id
+      product.save
+    end
+
+    it 'copies the product attributes' do
+      expect(product.name).to eq(template.name)
+      expect(product.comment).to eq(template.comment)
+    end
+
+    it "copies the product's image" do
+      expect(product.image).to be_attached
+    end
+
+    it 'copies the product components' do
+      expect(product.product_components.first.component).to eq(product_component.component)
+    end
   end
 
   describe '#area' do

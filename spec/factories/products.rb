@@ -34,6 +34,12 @@ FactoryBot.define do
     comment { Faker::Lorem.sentence }
   end
 
+  trait :with_image do
+    after(:build) do |product|
+      product.image.attach(io: Rails.root.join('spec/fixtures/files/image.jpg').open, filename: 'image.jpg', content_type: 'image/jpg')
+    end
+  end
+
   trait :with_order_version do
     order_version { create(:order_version, company: company) }
   end

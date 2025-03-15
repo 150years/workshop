@@ -1,4 +1,9 @@
 releases:
+  - version: "0.7.0"
+    date: "16-03-2025"
+    notes:
+      - "Products: renamed Products to Products templates"
+      - "Orders: added ability to create products from products templates"
   - version: "0.6.0"
     date: "15-03-2025"
     notes:

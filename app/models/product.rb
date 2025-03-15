@@ -26,16 +26,23 @@
 #  order_version_id  (order_version_id => order_versions.id)
 #
 class Product < ApplicationRecord
+  attribute :from_template, :boolean, default: false
+  attribute :template_id, :integer
+
   belongs_to :company
   belongs_to :order_version, optional: true
   has_many :product_components, dependent: :destroy
-  has_one_attached :image
+  has_one_attached :image, dependent: :purge
+
+  before_validation :copy_template, if: -> { from_template? }, on: :create
 
   validates :name, :width, :height, presence: true
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
 
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
   after_save :update_order_version_total_amount, if: -> { order_version.present? && saved_change_to_price? }
+
+  scope :templates, -> { where(order_version: nil) }
 
   def update_price
     self.price = product_components.joins(:component).sum('components.price * product_components.quantity')
@@ -52,5 +59,29 @@ class Product < ApplicationRecord
 
   def perimeter
     2 * (width + height)
+  end
+
+  private
+
+  def find_template
+    @template = company.products.find_by(id: template_id, order_version: nil)
+
+    return if @template
+
+    errors.add(:template_id, :not_found)
+  end
+
+  def copy_template
+    template = company.products.find_by(id: template_id, order_version: nil)
+
+    if template
+      self.name = template.name
+      self.comment = template.comment
+      image.attach(template.image.blob)
+      self.product_components = template.product_components.map(&:dup)
+    else
+      errors.add(:template_id, :not_found)
+      throw :abort
+    end
   end
 end

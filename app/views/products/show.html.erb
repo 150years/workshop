@@ -13,7 +13,9 @@
   </div>
   <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
     <%= link_to "Edit this product", edit_product_path(@product), class: "btn" %>
-    <%= link_to "Back to products", products_path, class: "btn" %>
+    <% unless @product.order_version %>
+      <%= link_to "Back to products", products_path, class: "btn" %>
+    <% end %>
     <%= link_to "Destroy this product", @product, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
   </div>
 <% end %>

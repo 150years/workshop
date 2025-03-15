@@ -19,6 +19,9 @@ application.register("element-removal", ElementRemovalController)
 import FormController from "./form_controller"
 application.register("form", FormController)
 
+import NavigationController from "./navigation_controller"
+application.register("navigation", NavigationController)
+
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 

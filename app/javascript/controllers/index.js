@@ -21,3 +21,6 @@ application.register("form", FormController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
+
+import TurboConfirmController from "./turbo_confirm_controller"
+application.register("turbo-confirm", TurboConfirmController)

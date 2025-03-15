@@ -1,4 +1,8 @@
 releases:
+  - version: "0.7.1"
+    date: "16-03-2025"
+    notes:
+      - "Dependencies updates: updated rails to 8.0.2"
   - version: "0.7.0"
     date: "16-03-2025"
     notes:

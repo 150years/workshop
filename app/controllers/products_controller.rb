@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
     if @product.save
       if @order_version
         render turbo_stream: turbo_stream.update(@order_version, partial: 'order_versions/order_version',
-                                                                 locals: { order_version: @order_version })
+                                                                 locals: { order_version: @product.order_version })
 
       else
         redirect_to @product, notice: 'Product template was successfully created.'

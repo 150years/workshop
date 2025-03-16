@@ -41,7 +41,9 @@ class Product < ApplicationRecord
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
 
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
-  after_save :update_order_version_total_amount, if: -> { order_version.present? && saved_change_to_price? }
+  before_commit :update_order_version_total_amount, if: lambda {
+    order_version.present? && saved_change_to_price?
+  }, on: %i[update create]
 
   scope :templates, -> { where(order_version: nil) }
 

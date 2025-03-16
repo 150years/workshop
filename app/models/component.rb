@@ -32,6 +32,7 @@
 class Component < ApplicationRecord
   belongs_to :company, optional: true
   has_many :product_components, dependent: :destroy
+  has_many :products, through: :product_components
   has_one_attached :image
 
   # Call "component.unit_mm?" to check if the unit is mm

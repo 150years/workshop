@@ -1,0 +1,12 @@
+<tr>
+  <th><%= product.id %></th>
+  <td><%# product.image %> Image</td>
+  <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
+  <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
+  <td><%= UnitConverter.mm_to_m(product.height) %> m</td>
+  <td><%= product.area_m2 %> m²</td>
+  <td><%= product.area_ft2 %> ft²</td>
+  <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
+  <td><%= product.comment.presence || '—' %></td>
+  <td class="text-end">$<%= product.price %></td>
+</tr>

@@ -1,13 +1,82 @@
 <% content_for :title, "Products" %>
-<div class="flex items-center justify-between mbe-4">
-  <h1 class="font-bold text-4xl">Product templates</h1>
-  <%= link_to "New product template", new_product_path, class: "btn btn--primary" %>
-</div>
-<div id="products" class="flex flex-wrap" style="gap: 2rem;">
-  <% @products.each do |product| %>
-    <div class="flex flex-col gap">
-      <%= render product %>
-      <%= link_to "Show this product template", product, class: "btn" %>
+<div id="product_templates" class="container flex flex-col">
+  <div class="container flex flex-col">
+    <div class="flex flex-col mbe-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="font-bold text-4xl">Product templates</h1>
+          <p class="text-subtle">Here's a list of your product templates</p>
+        </div>
+        <%= link_to "New template", new_product_path, class: "btn btn--primary" %>
+      </div>
+    </div>
+  </div>
+  <%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
+    <div class="flex items-center grow gap">
+      <%= form.search_field :name_or_comment_cont_any, placeholder: "Name, comment", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#search", turbo_permanent: true } %>
+      <div class="container flex flex-col grow">
+        <%= form.select :with_only_components, options_for_select(current_company.components.pluck(:name, :id), params.dig(:q, :with_only_components)),
+  { include_blank: "Includes components...", include_hidden: false},
+  { multiple: true, data: { controller: "combobox", action: "change->form#submit" } } %>
+      </div>
+      <%= link_to "Reset", products_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params.has_key?(:q)%>
     </div>
   <% end %>
 </div>
+<%= turbo_frame_tag :products_table do %>
+  <div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :id, class: "flex items-center") %></th>
+          <th>Image</th>
+          <th><%= sort_link(@search, :name, class: "flex items-center") %></th>
+          <th>Width, m</th>
+          <th>Height, m</th>
+          <th>Area, m²</th>
+          <th>Area, ft²</th>
+          <th>Perimeter, m</th>
+          <th>Comment</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @products.blank? %>
+          <tr>
+            <td colspan="10" class="text-center p-8">No Results.</td>
+          </tr>
+        <% else %>
+          <%= render partial: "products/table_row", collection: @products, as: :product, cached: true  %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex items-center">
+    <div class="text-sm text-subtle show@md">Showing <%= @pagy.in %> of <%= @pagy.count %> record(s).</div>
+    <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+      <%= form_with url: pagy_url_for(@pagy, 1), class: "flex items-center gap show@md", method: :get, data: { controller: "form", action: "change->form#submit" } do |form| %>
+        <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>
+        <%= form.select :limit, [10, 20, 30, 40, 50], { selected: @pagy.limit }, { class: "input", style: "--input-inline-size: 70px" } %>
+      <% end %>
+      <div class="text-sm font-medium"><%= "Page #{@pagy.page} of #{@pagy.pages}" %></div>
+      <nav class="flex items-center gap shrink-0" style="--btn-padding: .5rem;" aria-label="Pagination">
+        <%= link_to pagy_url_for(@pagy, 1), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+          <%= image_tag "chevrons-left.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to first page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+          <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to previous page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+          <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to next page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.last), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+          <%= image_tag "chevrons-right.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to last page</span>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+<% end %>

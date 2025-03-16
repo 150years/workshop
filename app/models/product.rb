@@ -60,7 +60,7 @@ class Product < ApplicationRecord
     joins(:product_components)
       .group('products.id')
       .where(product_components: { component_id: component_ids })
-      .having('COUNT(product_components.component_id) = ?', component_ids.size)
+      .having('COUNT(DISTINCT product_components.component_id) = ?', component_ids.size)
   end
 
   def self.ransackable_scopes(_auth_object = nil)

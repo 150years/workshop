@@ -1,6 +1,10 @@
 releases:
+  - version: "0.8.1"
+    date: "16-03-2025"
+    notes:
+      - "Fix: search by product component when product has several identical components"
   - version: "0.8.0"
-    date: "17-03-2025"
+    date: "16-03-2025"
     notes:
       - "Products: table for index page with search"
       - "Products: added area in m2 and ft2"

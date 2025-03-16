@@ -1,6 +1,6 @@
 <tr>
   <th><%= product.id %></th>
-  <td><%# product.image %> Image</td>
+  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
   <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
   <td><%= UnitConverter.mm_to_m(product.height) %> m</td>

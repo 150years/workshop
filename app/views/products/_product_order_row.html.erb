@@ -1,5 +1,5 @@
 <tr data-controller="dialog">
-  <td><%# product.image %> Image</td>
+  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
     <dialog class="dialog" data-dialog-target="menu">

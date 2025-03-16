@@ -33,7 +33,7 @@ class ProductComponent < ApplicationRecord
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
   after_destroy :update_product_price
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[id component_id product_id]
   end
 

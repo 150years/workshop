@@ -83,6 +83,20 @@ RSpec.describe Product, type: :model do
     end
   end
 
+  describe '#area_ft2' do
+    it 'returns the product area in ft2' do
+      product = Product.new(width: 50, height: 10)
+      expect(product.area_ft2).to eq(0.00538195)
+    end
+  end
+
+  describe '#area_m2' do
+    it 'returns the product area in m2' do
+      product = Product.new(width: 50, height: 10)
+      expect(product.area_m2).to eq(0.0005)
+    end
+  end
+
   describe '#perimeter' do
     it 'returns the product perimeter' do
       product = Product.new(width: 5, height: 10)

@@ -57,6 +57,14 @@ class Product < ApplicationRecord
     width * height
   end
 
+  def area_m2
+    UnitConverter.mm2_to_m2(area)
+  end
+
+  def area_ft2
+    UnitConverter.mm2_to_ft2(area)
+  end
+
   def perimeter
     2 * (width + height)
   end

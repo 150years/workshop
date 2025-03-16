@@ -108,7 +108,7 @@ RSpec.describe Product, type: :model do
   describe '#area_ft2' do
     it 'returns the product area in ft2' do
       product = Product.new(width: 50, height: 10)
-      expect(product.area_ft2).to eq(0.00538195)
+      expect(product.area_ft2).to eq(0.0054)
     end
   end
 

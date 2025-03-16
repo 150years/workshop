@@ -6,6 +6,7 @@ releases:
       - "Products: added area in m2 and ft2"
       - "Order products: display all values converted"
       - "Fix: corrected order price calculation"
+      - "Fix: double rendering of order products"
   - version: "0.7.1"
     date: "16-03-2025"
     notes:

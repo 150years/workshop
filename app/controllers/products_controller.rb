@@ -6,8 +6,10 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = current_company.products.includes(image_attachment: [blob: { variant_records: :blob }])
-                               .where(order_version_id: nil)
+    products = current_company.products.with_image_variants.where(order_version_id: nil)
+
+    @search = products.ransack(params[:q])
+    @pagy, @products = pagy(@search.result(distinct: true))
   end
 
   # GET /products/1
@@ -30,7 +32,7 @@ class ProductsController < ApplicationController
     if @product.save
       if @order_version
         render turbo_stream: turbo_stream.update(@order_version, partial: 'order_versions/order_version',
-                                                                 locals: { order_version: @order_version })
+                                                                 locals: { order_version: @product.order_version })
 
       else
         redirect_to @product, notice: 'Product template was successfully created.'

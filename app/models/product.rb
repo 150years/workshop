@@ -32,6 +32,7 @@ class Product < ApplicationRecord
   belongs_to :company
   belongs_to :order_version, optional: true
   has_many :product_components, dependent: :destroy
+  has_many :components, through: :product_components
   has_one_attached :image, dependent: :purge
 
   before_validation :copy_template, if: -> { from_template? }, on: :create
@@ -40,9 +41,31 @@ class Product < ApplicationRecord
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
 
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
-  after_save :update_order_version_total_amount, if: -> { order_version.present? && saved_change_to_price? }
+  before_commit :update_order_version_total_amount, if: lambda {
+    order_version.present? && saved_change_to_price?
+  }, on: %i[update create]
 
   scope :templates, -> { where(order_version: nil) }
+  scope :with_image_variants, -> { includes(image_attachment: [blob: { variant_records: :blob }]) }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id name comment]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[product_components]
+  end
+
+  def self.with_only_components(*component_ids)
+    joins(:product_components)
+      .group('products.id')
+      .where(product_components: { component_id: component_ids })
+      .having('COUNT(product_components.component_id) = ?', component_ids.size)
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    [:with_only_components]
+  end
 
   def update_price
     self.price = product_components.joins(:component).sum('components.price * product_components.quantity')
@@ -55,6 +78,14 @@ class Product < ApplicationRecord
 
   def area
     width * height
+  end
+
+  def area_m2
+    UnitConverter.mm2_to_m2(area)
+  end
+
+  def area_ft2
+    UnitConverter.mm2_to_ft2(area)
   end
 
   def perimeter

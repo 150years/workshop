@@ -1,4 +1,3 @@
-<%= render "order_versions/order_version", order_version: @order_version  %>
 <% content_for :title, "Order ##{@order_version.order_id} Version #{@order_version.created_at}" %>
 <%= turbo_frame_tag @order_version, class: "flex flex-col gap" do %>
   <%= render "order_versions/order_version", order_version: @order_version %>

@@ -1,4 +1,5 @@
 <tr data-controller="dialog">
+  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
     <dialog class="dialog" data-dialog-target="menu">
@@ -15,10 +16,11 @@
       </div>
     </dialog>
   </th>
-  <td><%= product.width %> cm</td>
-  <td><%= product.height %> cm</td>
-  <td><%= product.area %> cm²</td>
-  <td><%= product.perimeter %> cm</td>
+  <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
+  <td><%= UnitConverter.mm_to_m(product.height) %> m</td>
+  <td><%= product.area_m2 %> m²</td>
+  <td><%= product.area_ft2 %> ft²</td>
+  <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
   <td><%= product.comment.presence || '—' %></td>
   <td class="text-end">$<%= product.price %></td>
 </tr>

@@ -46,6 +46,7 @@ class Product < ApplicationRecord
   }, on: %i[update create]
 
   scope :templates, -> { where(order_version: nil) }
+  scope :with_image_variants, -> { includes(image_attachment: [blob: { variant_records: :blob }]) }
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id name comment]

@@ -38,7 +38,7 @@
       </tr>
     </thead>
     <tbody id="<%= dom_id(order_version, 'products') %>">
-      <%= render partial: "products/product_order_row", collection: order_version.products, as: :product %>
+      <%= render partial: "products/product_order_row", collection: order_version.products.with_image_variants, as: :product, cached: true %>
     </tbody>
     <tfoot>
       <tr>

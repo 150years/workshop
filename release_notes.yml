@@ -6,6 +6,10 @@ releases:
       - "Products: by default order products by id in table"
       - "Tables: unified total record displayed count"
       - "Fix: content missing when removing product component in orders"
+  - version: "0.8.2"
+    date: "18-03-2025"
+    notes:
+      - "Dependencies updates"
   - version: "0.8.1"
     date: "16-03-2025"
     notes:

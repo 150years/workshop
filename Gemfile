@@ -16,12 +16,12 @@ gem 'bootsnap', require: false
 gem 'solid_cache'
 gem 'solid_queue'
 gem 'solid_cable'
-gem 'rails_app_version', '1.2.4'
+gem 'rails_app_version', '1.3.2'
 
 # Application
-gem 'css-zero', '1.1.10'
+gem 'css-zero', '1.1.13'
 gem 'devise', '4.9.4'
-gem 'pagy', '~> 9.3.3'
+gem 'pagy', '~> 9.3.4'
 gem 'ransack', '~> 4.3.0'
 
 # Deploy

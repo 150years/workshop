@@ -15,7 +15,7 @@
 #  price        :integer          default(0), not null
 #  thickness    :decimal(7, 1)
 #  unit         :integer          not null
-#  weight       :integer
+#  weight       :decimal(7, 1)
 #  width        :decimal(7, 1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -53,7 +53,7 @@ class Component < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    super
+    authorizable_ransackable_associations
   end
 
   def update_products_total_amount

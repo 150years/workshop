@@ -15,7 +15,7 @@
 #  price        :integer          default(0), not null
 #  thickness    :decimal(7, 1)
 #  unit         :integer          not null
-#  weight       :integer
+#  weight       :decimal(7, 1)
 #  width        :decimal(7, 1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

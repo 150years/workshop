@@ -18,10 +18,4 @@ module UnitConverter
 
     (mm2_to_m2(value) * 10.7639).round(4)
   end
-
-  def self.g_to_kg(value)
-    return nil if value.nil?
-
-    (value.to_f / 1000).round(4)
-  end
 end

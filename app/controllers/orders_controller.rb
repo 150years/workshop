@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    orders = current_company.orders.order(created_at: :desc)
+    orders = current_company.orders.order(id: :desc)
 
     @search = orders.ransack(params[:q])
     @pagy, @orders = pagy(@search.result)

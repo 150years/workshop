@@ -20,7 +20,6 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body class="header-layout">
-    <%= render "alerts" %>
     <%= render "turbo_confirm" %>
     <header id="header">
       <div class="flex justify-between container">
@@ -33,5 +32,6 @@
         <%= yield %>
       </div>
     </main>
+    <%= render "alerts" %>
   </body>
 </html>

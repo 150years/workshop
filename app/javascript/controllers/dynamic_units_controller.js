@@ -9,6 +9,8 @@ export default class extends Controller {
 
   updateUnitText() {
     const selectedUnit = this.unitSelectTarget.value;
-    this.unitTextTarget.textContent = selectedUnit || "Units";
+    if (selectedUnit) {
+      this.unitTextTarget.textContent = selectedUnit;
+    }
   }
 }

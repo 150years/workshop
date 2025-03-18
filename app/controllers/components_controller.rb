@@ -5,7 +5,10 @@ class ComponentsController < ApplicationController
 
   # GET /components
   def index
-    @components = current_company.components.includes(image_attachment: [blob: { variant_records: :blob }])
+    components = current_company.components.with_image_variants.order(id: :desc)
+
+    @search = components.ransack(params[:q])
+    @pagy, @components = pagy(@search.result(distinct: true))
   end
 
   # GET /components/1

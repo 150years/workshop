@@ -1,15 +1,81 @@
 <% content_for :title, "Components" %>
-
-<div class="flex items-center justify-between mbe-4">
-  <h1 class="font-bold text-4xl">Components</h1>
-  <%= link_to "New component", new_component_path, class: "btn btn--primary" %>
-</div>
-
-<div id="components" class="flex flex-wrap" style="gap: 2rem;">
-  <% @components.each do |component| %>
-    <div class="flex flex-col gap">
-      <%= render component %>
-      <%= link_to "Show this component", component, class: "btn" %>
+<div id="components" class="container flex flex-col">
+  <div class="container flex flex-col">
+    <div class="flex flex-col mbe-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="font-bold text-4xl">Components</h1>
+          <p class="text-subtle">Here's a list of your components</p>
+        </div>
+        <%= link_to "New component", new_component_path, class: "btn btn--primary" %>
+      </div>
+    </div>
+  </div>
+  <%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
+    <div class="flex items-center grow gap">
+      <%= form.search_field :name_or_code_cont_any, placeholder: "Name, code", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#search", turbo_permanent: true } %>
+      <%= form.select :unit_eq, Component.units.transform_keys(&:titleize), { include_blank: "Any unit" }, { class: "input", style: "--input-inline-size: 130px", data: {action: "change->form#submit"} } %>
+      <%= link_to "Reset", components_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params.has_key?(:q)%>
     </div>
   <% end %>
 </div>
+
+<%= turbo_frame_tag :components_table do %>
+  <div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
+    <table class="table" data-controller="check-all">
+      <thead>
+        <tr>
+          <th><%= sort_link(@search, :id, class: "flex items-center") %></th>
+          <th>Image</th>
+          <th><%= sort_link(@search, :code, class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :name, class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :color, class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :unit, class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :length, "Length, mm", class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :width, "Width, mm", class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :thickness, "Thck, mm", class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :weight, "Weight, kg", class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :min_quantity, "Min qty", class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :price, class: "flex items-center") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @components.blank? %>
+          <tr>
+            <td colspan="6" class="text-center p-8">No Results.</td>
+          </tr>
+        <% else %>
+          <%= render partial: "components/table_row", collection: @components, as: :component, cached: true  %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex items-center">
+    <div class="text-sm text-subtle show@md">Displaying <%= @pagy.in %> of <%= @pagy.count %> record(s).</div>
+    <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+      <%= form_with url: pagy_url_for(@pagy, 1), class: "flex items-center gap show@md", method: :get, data: { controller: "form", action: "change->form#submit" } do |form| %>
+        <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>
+        <%= form.select :limit, [10, 20, 30, 40, 50], { selected: @pagy.limit }, { class: "input", style: "--input-inline-size: 70px" } %>
+      <% end %>
+      <div class="text-sm font-medium"><%= "Page #{@pagy.page} of #{@pagy.pages}" %></div>
+      <nav class="flex items-center gap shrink-0" style="--btn-padding: .5rem;" aria-label="Pagination">
+        <%= link_to pagy_url_for(@pagy, 1), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+          <%= image_tag "chevrons-left.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to first page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+          <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to previous page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+          <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to next page</span>
+        <% end %>
+        <%= link_to pagy_url_for(@pagy, @pagy.last), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+          <%= image_tag "chevrons-right.svg", size: 16, aria: { hidden: true } %>
+          <span class="sr-only">Go to last page</span>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+<% end %>

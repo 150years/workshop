@@ -13,6 +13,9 @@ application.register("combobox", ComboboxController)
 import DialogController from "./dialog_controller"
 application.register("dialog", DialogController)
 
+import DynamicUnitsController from "./dynamic_units_controller"
+application.register("dynamic-units", DynamicUnitsController)
+
 import ElementRemovalController from "./element_removal_controller"
 application.register("element-removal", ElementRemovalController)
 

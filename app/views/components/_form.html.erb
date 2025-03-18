@@ -1,4 +1,4 @@
-<%= form_with(model: component, html: { contents: true }) do |form| %>
+<%= form_with(model: component, html: { contents: true, data: {controller: "dynamic-units"}}) do |form| %>
   <% if component.errors.any? %>
     <div class="alert alert--negative flex flex-col gap-half mbe-4" role="alert">
       <h2 class="font-medium leading-none"><%= pluralize(component.errors.count, "error") %> prohibited this component from being saved:</h2>
@@ -27,7 +27,7 @@
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :unit, class: "text-sm font-medium leading-none" %>
-    <%= form.select :unit, Component.units.keys, {include_blank: "Select unit..."}, data: { controller: "combobox" }  %>
+    <%= form.select :unit, Component.units.keys, {include_blank: "Select unit..."}, data: { controller: "combobox", action: "change->dynamic-units#updateUnitText", dynamic_units_target: "unitSelect" }  %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :length, class: "text-sm font-medium leading-none" %>
@@ -51,7 +51,10 @@
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :min_quantity, class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :min_quantity, min: 0, step: 0.1, class: "input" %>
+    <div class="input input--actor flex items-center gap">
+      <%= form.number_field :min_quantity, min: 0, step: 0.1 %>
+      <span data-dynamic-units-target="unitText">Units</span>
+    </div>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :price, class: "text-sm font-medium leading-none" %>

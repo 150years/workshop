@@ -46,6 +46,16 @@ class Component < ApplicationRecord
   # If component price has changed, then it should call update_price on products that use this component
   after_save :update_products_total_amount, if: -> { saved_change_to_price? }
 
+  scope :with_image_variants, -> { includes(image_attachment: [blob: { variant_records: :blob }]) }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id code name color unit length width height thickness weight min_quantity price]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    super
+  end
+
   def update_products_total_amount
     product_components.each do |product_component|
       product_component.product.update_price

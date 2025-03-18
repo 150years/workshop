@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    products = current_company.products.with_image_variants.where(order_version_id: nil)
+    products = current_company.products.with_image_variants.where(order_version_id: nil).order(id: :desc)
 
     @search = products.ransack(params[:q])
     @pagy, @products = pagy(@search.result(distinct: true))

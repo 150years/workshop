@@ -1,0 +1,14 @@
+<tr>
+  <th><%= component.id %></th>
+  <td><%= image_or_placeholder(component.image, 100, 100) %></td>
+  <th><%= component.code %></th>
+  <th><%= link_to component.name, component, data: {turbo_frame: "_top"} %></th>
+  <th><%= component.color %></th>
+  <th><%= component.unit %></th>
+  <th><%= component.length %></th>
+  <th><%= component.width %></th>
+  <th><%= component.thickness %></th>
+  <th><%= UnitConverter.g_to_kg(component.weight) %></th>
+  <th><%= component.min_quantity %></th>
+  <td class="text-end">$<%= component.price %></td>
+</tr>

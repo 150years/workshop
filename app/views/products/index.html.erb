@@ -52,7 +52,7 @@
     </table>
   </div>
   <div class="flex items-center">
-    <div class="text-sm text-subtle show@md">Showing <%= @pagy.in %> of <%= @pagy.count %> record(s).</div>
+    <div class="text-sm text-subtle show@md">Displaying <%= @pagy.in %> of <%= @pagy.count %> record(s).</div>
     <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
       <%= form_with url: pagy_url_for(@pagy, 1), class: "flex items-center gap show@md", method: :get, data: { controller: "form", action: "change->form#submit" } do |form| %>
         <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>

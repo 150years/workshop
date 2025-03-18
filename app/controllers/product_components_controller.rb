@@ -35,7 +35,7 @@ class ProductComponentsController < ApplicationController
   # DELETE /product_components/1
   def destroy
     @product_component.destroy!
-    redirect_to product_path, notice: 'Product component was successfully destroyed.', status: :see_other
+    redirect_to @product, notice: 'Product component was successfully destroyed.', status: :see_other
   end
 
   private

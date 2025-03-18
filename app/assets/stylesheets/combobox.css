@@ -1,4 +1,4 @@
-@import url("https://esm.sh/tom-select@2.4.2/dist/css/tom-select.min.css");
+@import url("https://esm.sh/tom-select@2.4.3/dist/css/tom-select.min.css");
 
 .ts-control {
   align-items: center;
@@ -26,19 +26,21 @@
   font-size: var(--text-sm);
   line-height: inherit;
 
-  /* Final state of exit animation and setup */
-  opacity: 0;
-  transform: var(--scale-95);
+  /* Setup transition */
   transition-behavior: allow-discrete;
   transition-duration: var(--time-150);
   transition-property: display, opacity, transform;
 
-  /* Final state of entry animation */
+  /* Exit stage to */
+  opacity: 0;
+  transform: var(--scale-95);
+
+  /* On stage */
   .dropdown-active & {
     opacity: 1; transform: var(--scale-100);
   }
 
-  /* Initial state of entry animation */
+  /* Enter stage from */
   @starting-style {
     .dropdown-active & {
       opacity: 0; transform: var(--scale-95);

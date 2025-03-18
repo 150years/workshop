@@ -4,6 +4,7 @@ releases:
     notes:
       - "Components: changed weight value to kg with 1 precision (0.1)"
       - "Fix: alerts showing on top of the page"
+      - "CI: increased required minimum coverage to 90%"
   - version: "0.9.0"
     date: "18-03-2025"
     notes:

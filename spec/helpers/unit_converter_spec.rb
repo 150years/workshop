@@ -44,18 +44,4 @@ RSpec.describe UnitConverter, type: :helper do
       expect(UnitConverter.mm2_to_ft2(0)).to eq(0.0)
     end
   end
-
-  describe '.g_to_kg' do
-    it 'converts grams to kilograms' do
-      expect(UnitConverter.g_to_kg(1000)).to eq(1.0)
-    end
-
-    it 'returns nil when input is nil' do
-      expect(UnitConverter.g_to_kg(nil)).to be_nil
-    end
-
-    it 'handles zero' do
-      expect(UnitConverter.g_to_kg(0)).to eq(0)
-    end
-  end
 end

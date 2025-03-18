@@ -47,7 +47,7 @@
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :weight, class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :weight, min: 0, class: "input" %>
+    <%= form.number_field :weight, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :min_quantity, class: "text-sm font-medium leading-none" %>

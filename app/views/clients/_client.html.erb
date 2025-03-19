@@ -1,6 +1,9 @@
-<div id="<%= dom_id client %>" class="flex flex-col gap">
-  <div class="flex flex-col gap-half">
-    <h3 class="font-semibold leading-none"><%= client.name %></h3>
-    <p class="text-sm text-subtle"><%= client.email %></p>
-  </div>
-</div>
+<td><%= link_to client.name, edit_client_path(client) %></td>
+<td><%= client.phone %></td>
+<td><%= client.email %></td>
+<td><%= client.address %></td>
+<td><%= client.tax_id %></td>
+<td>
+  <%= link_to "Edit", edit_client_path(client)%>
+  <%= link_to "Destroy", client, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+</td>

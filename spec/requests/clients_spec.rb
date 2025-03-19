@@ -156,7 +156,7 @@ RSpec.describe '/clients', type: :request do
 
       it 'redirects to the client' do
         patch client_url(client), params: { client: new_attributes }
-        expect(response).to redirect_to(client_url(client))
+        expect(response).to redirect_to(clients_path)
       end
 
       it 'renders 404 if client does not belong to current organization' do

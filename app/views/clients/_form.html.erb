@@ -14,10 +14,24 @@
     <%= form.text_field :name, class: "input" %>
   </div>
   <div class="flex flex-col items-start gap-half mbe-2">
+    <%= form.label :phone, class: "text-sm font-medium leading-none" %>
+    <%= form.phone_field :phone, class: "input" %>
+  </div>
+  <div class="flex flex-col items-start gap-half mbe-2">
     <%= form.label :email, class: "text-sm font-medium leading-none" %>
     <%= form.email_field :email, class: "input" %>
   </div>
-  <div class="inline-flex items-center mbs-2 mie-1">
-    <%= button_tag tag.span(@client.persisted? ? "Update Client" : "Create Client"), class: "btn btn--primary btn--loading" %>
+  <div class="flex flex-col items-start gap-half mbe-2">
+    <%= form.label :address, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :address, class: "input" %>
+  </div>
+  <div class="flex flex-col items-start gap-half mbe-2">
+    <%= form.label :tax_id, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :tax_id, class: "input" %>
+  </div>
+  <div class="flex items-center gap" style="--column-gap: 1rem; block-size: 1.5rem;">
+    <div><%= button_tag tag.span(@client.persisted? ? "Update Client" : "Create Client"), class: "btn btn--primary btn--loading" %></div>
+    <hr class="border-is border-dark b-full" aria-hidden="true">
+    <div>    <%= link_to "Back to clients", clients_path, class: "btn" %></div>
   </div>
 <% end %>

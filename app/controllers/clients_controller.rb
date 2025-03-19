@@ -34,7 +34,7 @@ class ClientsController < ApplicationController
   # PATCH/PUT /clients/1
   def update
     if @client.update(client_params)
-      redirect_to @client, notice: 'Client was successfully updated.', status: :see_other
+      redirect_to clients_path, notice: 'Client was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end

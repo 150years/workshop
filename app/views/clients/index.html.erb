@@ -6,9 +6,21 @@
 </div>
 
 <div id="clients" class="flex flex-col" style="gap: 2rem;">
-  <% @clients.each do |client| %>
-    <div class="flex flex-row items-center justify-between">
-      <%= render client %>
-    </div>
-  <% end %>
+   <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Tax_id</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <% @clients.each do |client| %>
+      <tr>
+          <%= render client %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

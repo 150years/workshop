@@ -5,11 +5,14 @@
 # Table name: clients
 #
 #  id         :integer          not null, primary key
+#  address    :string
 #  email      :string
 #  name       :string           not null
+#  phone      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  company_id :integer          not null
+#  tax_id     :string
 #
 # Indexes
 #

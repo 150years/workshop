@@ -24,6 +24,7 @@ gem 'devise', '4.9.4'
 gem 'pagy', '~> 9.3.4'
 gem 'ransack', '~> 4.3.0'
 gem 'money-rails', '~> 1.12'
+gem 'dentaku', '~> 3.5.4'
 
 # Deploy
 gem 'kamal', require: false

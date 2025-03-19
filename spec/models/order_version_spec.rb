@@ -4,16 +4,16 @@
 #
 # Table name: order_versions
 #
-#  id            :integer          not null, primary key
-#  agent_comm    :integer          default(0), not null
-#  comment       :text
-#  final_version :boolean          default(FALSE), not null
-#  total_amount  :integer          default(0), not null
-#  version_note  :text
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  company_id    :integer          not null
-#  order_id      :integer          not null
+#  id                 :integer          not null, primary key
+#  agent_comm         :integer          default(0), not null
+#  comment            :text
+#  final_version      :boolean          default(FALSE), not null
+#  total_amount_cents :integer          default(0), not null
+#  version_note       :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  company_id         :integer          not null
+#  order_id           :integer          not null
 #
 # Indexes
 #
@@ -34,9 +34,7 @@ RSpec.describe OrderVersion, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:total_amount) }
     it { is_expected.to validate_presence_of(:agent_comm) }
-    it { is_expected.to validate_numericality_of(:total_amount).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:agent_comm).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:agent_comm).is_less_than_or_equal_to(100) }
   end

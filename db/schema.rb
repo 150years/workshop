@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[8.0].define(version: 2025_03_19_184557) do
+=======
+ActiveRecord::Schema[8.0].define(version: 2025_03_19_170621) do
+>>>>>>> main
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -63,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_184557) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "currency", default: "THB", null: false
   end
 
   create_table "components", force: :cascade do |t|
@@ -75,7 +80,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_184557) do
     t.decimal "length", precision: 7, scale: 1
     t.decimal "weight", precision: 7, scale: 1
     t.decimal "min_quantity", precision: 7, scale: 1
-    t.integer "price", default: 0, null: false
+    t.integer "price_cents", default: 0, null: false
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,7 +91,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_184557) do
 
   create_table "order_versions", force: :cascade do |t|
     t.integer "order_id", null: false
-    t.integer "total_amount", default: 0, null: false
+    t.integer "total_amount_cents", default: 0, null: false
     t.integer "agent_comm", default: 0, null: false
     t.text "comment"
     t.text "version_note"
@@ -130,7 +135,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_184557) do
     t.datetime "updated_at", null: false
     t.integer "order_version_id"
     t.integer "company_id", null: false
-    t.integer "price", default: 0, null: false
+    t.integer "price_cents", default: 0, null: false
     t.index ["company_id"], name: "index_products_on_company_id"
     t.index ["order_version_id"], name: "index_products_on_order_version_id"
   end

@@ -5,6 +5,7 @@
 # Table name: companies
 #
 #  id         :integer          not null, primary key
+#  currency   :string           default("THB"), not null
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -23,5 +24,7 @@ RSpec.describe Company, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:currency) }
+    it { is_expected.to validate_inclusion_of(:currency).in_array(%w[USD THB]) }
   end
 end

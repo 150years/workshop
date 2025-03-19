@@ -4,16 +4,16 @@
 #
 # Table name: order_versions
 #
-#  id            :integer          not null, primary key
-#  agent_comm    :integer          default(0), not null
-#  comment       :text
-#  final_version :boolean          default(FALSE), not null
-#  total_amount  :integer          default(0), not null
-#  version_note  :text
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  company_id    :integer          not null
-#  order_id      :integer          not null
+#  id                 :integer          not null, primary key
+#  agent_comm         :integer          default(0), not null
+#  comment            :text
+#  final_version      :boolean          default(FALSE), not null
+#  total_amount_cents :integer          default(0), not null
+#  version_note       :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  company_id         :integer          not null
+#  order_id           :integer          not null
 #
 # Indexes
 #
@@ -26,18 +26,20 @@
 #  order_id    (order_id => orders.id)
 #
 class OrderVersion < ApplicationRecord
+  delegate :currency, to: :company, allow_nil: true
+  monetize :total_amount_cents, with_model_currency: :currency
+
   belongs_to :company
   belongs_to :order
   has_many :products, dependent: :destroy
 
-  validates :total_amount, :agent_comm, presence: true,
-                                        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :agent_comm, numericality: { less_than_or_equal_to: 100 }
+  validates :agent_comm, presence: true,
+                         numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
 
   def update_total_amount
-    self.total_amount = products.sum(&:price)
+    self.total_amount_cents = products.sum(&:price_cents)
     save
   end
 end

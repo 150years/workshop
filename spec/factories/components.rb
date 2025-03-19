@@ -12,7 +12,7 @@
 #  min_quantity :decimal(7, 1)
 #  name         :string           not null
 #  note         :string
-#  price        :integer          default(0), not null
+#  price_cents  :integer          default(0), not null
 #  thickness    :decimal(7, 1)
 #  unit         :integer          not null
 #  weight       :decimal(7, 1)

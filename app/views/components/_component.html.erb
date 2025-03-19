@@ -1,45 +1,72 @@
-<div id="<%= dom_id component %>" class="card flex flex-col gap">
-  <div class="flex justify-center">
-    <%= image_or_placeholder(component.image, 200, 200) %>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Code:</h4>
-    <p class="leading-none"><%= component.code %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Name:</h4>
-    <p class="leading-none"><%= component.name %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Description:</h4>
-    <p class="leading-none"><%= component.note %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Color:</h4>
-    <p class="leading-none"><%= component.color %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Unit:</h4>
-    <p class="leading-none"><%= component.unit %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Length:</h4>
-    <p class="leading-none"><%= component.length %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Width:</h4>
-    <p class="leading-none"><%= component.width %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Weight:</h4>
-    <p class="leading-none"><%= component.weight %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Min quantity:</h4>
-    <p class="leading-none"><%= component.min_quantity %></p>
-  </div>
-  <div class="flex justify-between">
-    <h4 class="font-medium leading-none">Price:</h4>
-    <p class="leading-none"><%= component.price %></p>
+<div class="card w-full p-4">
+  <div class="flex flex-col gap">
+    <!-- Image Column -->
+    <div class="flex justify-center items-center">
+      <%= image_or_placeholder(component.image, 200, 200) %>
+    </div>
+    <!-- Information Column -->
+    <div class="container flex flex-wrap gap" style="--column-gap: 6rem">
+      <!-- Main Info -->
+      <div class="flex flex-col" style="max-width: 40%">
+        <h3 class="flex gap-half font-bold text-xl mbe-5"><%= image_tag "file-text.svg", size: 16, aria: { hidden: true }%> Main Info</h3>
+        <div class="flex justify-between">
+          <span class="font-medium">Code</span>
+          <span><%= component.code %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-medium">Name</span>
+          <span><%= component.name %></span>
+        </div>
+        <div>
+          <span class="font-medium">Description</span>
+          <br>
+          <span class="text-right"><%= component.note %></span>
+        </div>
+      </div>
+      <div class="flex flex-col grow">
+        <!-- Attributes group -->
+        <h3 class="flex gap-half font-bold text-xl mbe-5"><%= image_tag "layers.svg", size: 16, aria: { hidden: true }%> Attributes</h3>
+        <div class="flex justify-between items-center">
+          <span class="font-medium">Unit</span>
+          <span class="badge"><%= component.unit %></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="font-medium">Color</span>
+          <span><%= component.color %></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="font-medium">Min Qty</span>
+          <span><%= component.min_quantity %> <%= component.unit %></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="font-medium">Price per unit</span>
+          <span><%= number_to_currency(component.price / 100.0) %></span>
+        </div>
+      </div>
+      <!-- Dimensions group -->
+      <div class="flex flex-col grow">
+        <h3 class="flex gap-half font-bold text-xl mbe-5"><%= image_tag "ruler.svg", size: 16, aria: { hidden: true }%> Dimensions</h3>
+        <div class="group flex justify-between items-center">
+          <span class="font-medium">Length</span>
+          <span><%= component.length %> mm</span>
+        </div>
+        <div class="group flex justify-between items-center">
+          <span class="font-medium">Width</span>
+          <span><%= component.width %> mm</span>
+        </div>
+        <div class="group flex justify-between items-center">
+          <span class="font-medium">Height</span>
+          <span><%= component.height %> mm</span>
+        </div>
+        <div class="group flex justify-between items-center">
+          <span class="font-medium">Thickness</span>
+          <span><%= component.thickness %> mm</span>
+        </div>
+        <div class="group flex justify-between items-center">
+          <span class="font-medium">Weight</span>
+          <span><%= component.weight %> kg</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

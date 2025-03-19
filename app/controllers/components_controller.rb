@@ -59,7 +59,7 @@ class ComponentsController < ApplicationController
   end
 
   def component_params
-    params.expect(component: {}).permit(:code, :name, :note, :color, :unit, :length, :width, :weight, :min_quantity,
-                                        :price, :image)
+    params.expect(component: {}).permit(:code, :name, :note, :color, :unit, :length, :width, :height, :thickness,
+                                        :weight, :min_quantity, :price, :image)
   end
 end

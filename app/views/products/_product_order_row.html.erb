@@ -22,5 +22,5 @@
   <td><%= product.area_ft2 %> ft²</td>
   <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
   <td><%= product.comment.presence || '—' %></td>
-  <td class="text-end">$<%= product.price %></td>
+  <td class="text-end"><%= product.price.format %></td>
 </tr>

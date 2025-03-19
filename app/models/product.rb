@@ -8,7 +8,7 @@
 #  comment          :string
 #  height           :integer          default(0), not null
 #  name             :string           not null
-#  price            :integer          default(0), not null
+#  price_cents      :integer          default(0), not null
 #  width            :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -29,6 +29,10 @@ class Product < ApplicationRecord
   attribute :from_template, :boolean, default: false
   attribute :template_id, :integer
 
+  delegate :currency, to: :company, allow_nil: true
+
+  monetize :price_cents, with_model_currency: :currency
+
   belongs_to :company
   belongs_to :order_version, optional: true
   has_many :product_components, dependent: :destroy
@@ -42,7 +46,7 @@ class Product < ApplicationRecord
 
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
   before_commit :update_order_version_total_amount, if: lambda {
-    order_version.present? && saved_change_to_price?
+    order_version.present? && saved_change_to_price_cents?
   }, on: %i[update create]
 
   scope :templates, -> { where(order_version: nil) }
@@ -68,7 +72,7 @@ class Product < ApplicationRecord
   end
 
   def update_price
-    self.price = product_components.joins(:component).sum('components.price * product_components.quantity')
+    self.price_cents = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
     save
   end
 

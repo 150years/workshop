@@ -12,7 +12,7 @@
 #  min_quantity :decimal(7, 1)
 #  name         :string           not null
 #  note         :string
-#  price        :integer          default(0), not null
+#  price_cents  :integer          default(0), not null
 #  thickness    :decimal(7, 1)
 #  unit         :integer          not null
 #  weight       :decimal(7, 1)
@@ -51,9 +51,7 @@ RSpec.describe Component, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:unit) }
     it { is_expected.to validate_presence_of(:min_quantity) }
-    it { is_expected.to validate_presence_of(:price) }
 
-    it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:length).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:width).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:height).is_greater_than_or_equal_to(0) }

@@ -23,6 +23,7 @@ gem 'css-zero', '1.1.13'
 gem 'devise', '4.9.4'
 gem 'pagy', '~> 9.3.4'
 gem 'ransack', '~> 4.3.0'
+gem 'money-rails', '~> 1.12'
 
 # Deploy
 gem 'kamal', require: false

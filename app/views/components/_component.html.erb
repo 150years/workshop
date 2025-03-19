@@ -40,7 +40,7 @@
         </div>
         <div class="flex justify-between items-center">
           <span class="font-medium">Price per unit</span>
-          <span><%= number_to_currency(component.price / 100.0) %></span>
+          <span><%= component.price.format %></span>
         </div>
       </div>
       <!-- Dimensions group -->

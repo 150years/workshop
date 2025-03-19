@@ -5,6 +5,7 @@
 # Table name: product_components
 #
 #  id           :integer          not null, primary key
+#  formula      :string
 #  quantity     :decimal(7, 1)    default(0.0), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

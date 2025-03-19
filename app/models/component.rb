@@ -12,7 +12,7 @@
 #  min_quantity :decimal(7, 1)
 #  name         :string           not null
 #  note         :string
-#  price        :integer          default(0), not null
+#  price_cents  :integer          default(0), not null
 #  thickness    :decimal(7, 1)
 #  unit         :integer          not null
 #  weight       :decimal(7, 1)
@@ -30,6 +30,9 @@
 #  company_id  (company_id => companies.id)
 #
 class Component < ApplicationRecord
+  delegate :currency, to: :company, allow_nil: true
+  monetize :price_cents, with_model_currency: :currency
+
   belongs_to :company, optional: true
   has_many :product_components, dependent: :destroy
   has_many :products, through: :product_components
@@ -39,12 +42,12 @@ class Component < ApplicationRecord
   enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6 },
        validate: true, prefix: true
 
-  validates :code, :name, :unit, :min_quantity, :price, presence: true
-  validates :price, :length, :width, :height, :thickness, :weight, :min_quantity,
+  validates :code, :name, :unit, :min_quantity, presence: true
+  validates :length, :width, :height, :thickness, :weight, :min_quantity,
             numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   # If component price has changed, then it should call update_price on products that use this component
-  after_save :update_products_total_amount, if: -> { saved_change_to_price? }
+  after_save :update_products_total_amount, if: -> { saved_change_to_price_cents? }
 
   scope :with_image_variants, -> { includes(image_attachment: [blob: { variant_records: :blob }]) }
 

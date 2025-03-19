@@ -37,8 +37,8 @@ RSpec.describe '/orders', type: :request do
     it 'only returns orders from the current company' do
       get orders_url
 
-      expect(response.body).to include(order.name)
-      expect(response.body).not_to include(another_order.name)
+      expect(response.body).to include(CGI.escapeHTML(order.name))
+      expect(response.body).not_to include(CGI.escapeHTML(another_order.name))
     end
 
     context 'when user is not logged in' do
@@ -62,9 +62,9 @@ RSpec.describe '/orders', type: :request do
     it 'displays order details' do
       get order_url(order)
 
-      expect(response.body).to include(order.name)
-      expect(response.body).to include(order.client.name)
-      expect(response.body).to include(order.agent.name)
+      expect(response.body).to include(CGI.escapeHTML(order.name))
+      expect(response.body).to include(CGI.escapeHTML(order.client.name))
+      expect(response.body).to include(CGI.escapeHTML(order.agent.name))
     end
 
     context 'when trying to access an order from another company' do

@@ -1,4 +1,10 @@
 releases:
+  - version: "0.14.0"
+    date: "20-03-2025"
+    notes:
+      - "Products: added formulas for component count calculations"
+      - "Order versions: live updates to order version table if product price has changed"
+      - "Tests: improved coverage to 97%"
   - version: "0.13.0"
     date: "19-03-2025"
     notes:

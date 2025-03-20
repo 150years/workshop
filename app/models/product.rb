@@ -45,6 +45,7 @@ class Product < ApplicationRecord
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
 
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
+  after_save :recalculate_product_components_amount, if: -> { saved_change_to_width? || saved_change_to_height? }
   before_commit :update_order_version_total_amount, if: lambda {
     order_version.present? && saved_change_to_price_cents?
   }, on: %i[update create]
@@ -76,10 +77,6 @@ class Product < ApplicationRecord
     save
   end
 
-  def update_order_version_total_amount
-    order_version.update_total_amount
-  end
-
   def area
     width * height
   end
@@ -97,6 +94,18 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def recalculate_product_components_amount
+    # We need to update the quantity of each product component and save
+    product_components.each do |product_component|
+      product_component.update_quantity
+      product_component.save
+    end
+  end
+
+  def update_order_version_total_amount
+    order_version.update_total_amount
+  end
 
   def find_template
     @template = company.products.find_by(id: template_id, order_version: nil)

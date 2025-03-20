@@ -43,16 +43,14 @@ class ProductComponent < ApplicationRecord
     %w[products]
   end
 
-  def update_product_price
-    product.update_price
-  end
-
   def update_quantity
     self.quantity = calculate_quantity
   end
 
   def calculate_quantity
     return component.min_quantity if formula.blank?
+
+    return @quantity if defined?(@quantity)
 
     calculator = Dentaku::Calculator.new
 
@@ -67,11 +65,13 @@ class ProductComponent < ApplicationRecord
       component_width: component.width
     }
 
-    calculator.evaluate!(formula, variables)
-  rescue Dentaku::UnboundVariableError => e
+    @quantity = calculator.evaluate!(formula, variables)
+  rescue Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
     errors.add(:formula, e.message)
-  rescue Dentaku::ZeroDivisionError => e
-    errors.add(:formula, e.message)
+  end
+
+  def update_product_price
+    product.update_price
   end
 
   private

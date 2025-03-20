@@ -5,6 +5,7 @@
 # Table name: product_components
 #
 #  id           :integer          not null, primary key
+#  formula      :string
 #  quantity     :decimal(7, 1)    default(0.0), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -25,10 +26,11 @@ class ProductComponent < ApplicationRecord
   belongs_to :product
   belongs_to :component
 
-  after_validation :add_errors_to_component_id
-
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
+  after_validation :add_errors_to_component_id
+  after_validation :calculate_quantity, if: -> { component_id.present? }
+  before_save :update_quantity
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
   after_destroy :update_product_price
@@ -41,11 +43,41 @@ class ProductComponent < ApplicationRecord
     %w[products]
   end
 
+  def update_quantity
+    self.quantity = calculate_quantity
+  end
+
+  def calculate_quantity
+    return component.min_quantity if formula.blank?
+    return @quantity if defined?(@quantity)
+
+    @quantity = evaluate_quantity
+  rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
+    errors.add(:formula, e.message)
+  end
+
   def update_product_price
     product.update_price
   end
 
   private
+
+  def evaluate_quantity
+    Dentaku::Calculator.new.evaluate!(formula, calculation_variables)
+  end
+
+  def calculation_variables
+    {
+      product_height: product.height,
+      product_width: product.width,
+      component_height: component.height,
+      component_length: component.length,
+      component_min_quantity: component.min_quantity,
+      component_thickness: component.thickness,
+      component_weight: component.weight,
+      component_width: component.width
+    }
+  end
 
   def add_errors_to_component_id
     # We need to add errors to the component_id attribute, to show it is as invalid on the form,

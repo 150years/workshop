@@ -6,18 +6,18 @@ RSpec.describe '/product_components', type: :request do
   let!(:user) { create(:user) }
   let(:product) { create(:product, company: user.company) }
   let(:component) { create(:component) }
-  let(:product_component) { ProductComponent.create!(product: product, component: component, quantity: 1) }
+  let(:product_component) { ProductComponent.create!(product: product, component: component) }
   let(:valid_attributes) do
     {
       component_id: component.id,
-      quantity: 1
+      formula: 1
     }
   end
 
   let(:invalid_attributes) do
     {
       component_id: nil,
-      quantity: -1
+      formula: 'o / 0'
     }
   end
 
@@ -104,13 +104,13 @@ RSpec.describe '/product_components', type: :request do
     context 'with valid parameters' do
       let(:new_attributes) do
         {
-          quantity: 2
+          formula: 2
         }
       end
 
       it 'updates the requested product_component' do
         patch product_component_url(product, product_component), params: { product_component: new_attributes }
-        expect { product_component.reload }.to change(product_component, :quantity).from(1).to(2)
+        expect { product_component.reload }.to change { product_component.quantity.to_f }.from(1.0).to(2.0)
       end
 
       it 'redirects to the product' do

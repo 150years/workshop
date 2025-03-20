@@ -36,6 +36,10 @@ class OrderVersion < ApplicationRecord
   validates :agent_comm, presence: true,
                          numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
+  after_commit do
+    broadcast_update_to self
+  end
+
   scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
 
   def update_total_amount

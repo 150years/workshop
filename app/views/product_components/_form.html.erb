@@ -16,10 +16,34 @@
         { include_blank: "Select component..." },
         { data: { controller: "combobox" } } %>
   </div>
-
-  <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :quantity, class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :quantity, min: 0, step: 0.1, class: "input" %>
+  <div class="flex flex-col gap-half">
+    <%= form.label :formula, "Quantity calculation formula", class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :formula, class: "input" %>
+  </div>
+  <div class="accordion mbe-4">
+    <details name="instructions">
+      <summary>Instructions</summary>
+      <div class="prose mbe-4" style="font-size: 1em;">
+        <p>You can use the following variables in your formulas:</p>
+        <h5>Product Variables:</h5>
+        <ul>
+          <li><code>product_height</code></li>
+          <li><code>product_width</code></li>
+        </ul>
+        <h5>Component Variables:</h5>
+        <ul>
+          <li><code>component_height</code></li>
+          <li><code>component_length</code></li>
+          <li><code>component_min_quantity</code></li>
+          <li><code>component_thickness</code></li>
+          <li><code>component_weight</code></li>
+          <li><code>component_width</code></li>
+        </ul>
+        <h5>Example Usage:</h5>
+        <pre><code>(product_height * product_width) / (component_length * component_width) * component_min_quantity</code></pre>
+        <p>Formula supports basic mathematical operations (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>), parentheses for grouping, and standard mathematical functions.</p>
+      </div>
+    </details>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
     <%= button_tag tag.span(product_component.persisted? ? "Update Product component" : "Create Product component"), class: "btn btn--primary btn--loading" %>

@@ -122,6 +122,9 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     debug_inspector (1.2.0)
+    dentaku (3.5.4)
+      bigdecimal
+      concurrent-ruby
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -472,6 +475,7 @@ DEPENDENCIES
   capybara-screenshot
   css-zero (= 1.1.13)
   debug
+  dentaku (~> 3.5.4)
   devise (= 4.9.4)
   dotenv-rails
   factory_bot_rails

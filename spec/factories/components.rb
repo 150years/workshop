@@ -35,12 +35,12 @@ FactoryBot.define do
     name { Faker::Commerce.product_name }
     color { 'Grey sahara / 8820 Sapphire grey sahara' }
     unit { 'mm' }
-    width { 100.5 }
+    width { 100 }
     length { 100 }
     height { 100.0 }
     thickness { 100 }
     weight { 100 }
-    min_quantity { 1.1 }
+    min_quantity { 1.0 }
     price { 100 }
     note { Faker::Lorem.sentence }
     company

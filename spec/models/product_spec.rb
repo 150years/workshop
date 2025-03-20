@@ -33,6 +33,10 @@ RSpec.describe Product, type: :model do
     it { should respond_to(:template_id) }
   end
 
+  describe 'delegations' do
+    it { should delegate_method(:currency).to(:company) }
+  end
+
   describe 'associations' do
     it { should belong_to(:company) }
     it { should belong_to(:order_version).optional }
@@ -50,6 +54,95 @@ RSpec.describe Product, type: :model do
     it { should validate_presence_of(:height) }
     it { should validate_numericality_of(:width).is_greater_than_or_equal_to(0) }
     it { should validate_numericality_of(:height).is_greater_than_or_equal_to(0) }
+  end
+
+  describe 'callbacks' do
+    describe '#copy_template' do
+      it 'calls copy_template if created from template' do
+        product = build(:product, from_template: true)
+
+        expect(product).to receive(:copy_template)
+
+        product.valid?
+      end
+    end
+
+    describe '#update_order_version_total_amount' do
+      it 'calls update_order_version_total_amount after destroy if it has order version' do
+        product = create(:product, order_version: create(:order_version))
+
+        expect(product).to receive(:update_order_version_total_amount)
+
+        product.destroy
+      end
+
+      it 'does not call update_order_version_total_amount after destroy if it does not have order version' do
+        product = create(:product)
+
+        expect(product).not_to receive(:update_order_version_total_amount)
+
+        product.destroy
+      end
+    end
+
+    describe '#recalculate_product_components_amount' do
+      it 'calls recalculate_product_components_amount if width or height changed' do
+        product = create(:product)
+
+        expect(product).to receive(:recalculate_product_components_amount)
+
+        product.update(width: 10)
+
+        expect(product).to receive(:recalculate_product_components_amount)
+
+        product.update(height: 10)
+      end
+
+      it 'does not call recalculate_product_components_amount if width or height did not change' do
+        product = create(:product)
+
+        expect(product).not_to receive(:recalculate_product_components_amount)
+
+        product.update(name: 'New name')
+      end
+    end
+
+    describe '#update_order_version_total_amount' do
+      it 'calls update_order_version_total_amount after save if price changed' do
+        product = create(:product, order_version: create(:order_version))
+
+        expect(product).to receive(:update_order_version_total_amount)
+
+        product.update(price_cents: 100)
+      end
+
+      it 'does not call update_order_version_total_amount after save if price did not change' do
+        product = create(:product, order_version: create(:order_version))
+
+        expect(product).not_to receive(:update_order_version_total_amount)
+
+        product.update(name: 'New name')
+      end
+
+      it 'does not call update_order_version_total_amount after save if it does not have order version' do
+        product = create(:product)
+
+        expect(product).not_to receive(:update_order_version_total_amount)
+
+        product.update(price_cents: 100)
+      end
+    end
+  end
+
+  describe 'scopes' do
+    describe '.templates' do
+      it 'returns only products without order version' do
+        create(:product, order_version: create(:order_version)) # Product with order version
+        template = create(:product, order_version: nil)
+
+        expect(Product.templates).to match_array([template])
+      end
+    end
   end
 
   describe 'self.with_only_components(*component_ids)' do
@@ -73,28 +166,21 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  describe '#copy_template' do
-    let(:product) { Product.new(company: template.company) }
-    let(:template) { create(:product, :with_image) }
-    let!(:product_component) { create(:product_component, product: template) }
+  describe '#update_price' do
+    let(:product) { create(:product) }
+    let(:component1) { create(:component, price_cents: 100) }
+    let(:component2) { create(:component, price_cents: 200) }
 
     before do
-      product.from_template = true
-      product.template_id = template.id
-      product.save
+      create(:product_component, product: product, component: component1)
+      create(:product_component, product: product, component: component2)
+
+      # We need to update quantity of components without triggering callbacks
+      product.product_components.update_all(quantity: 2) # rubocop:disable Rails/SkipsModelValidations
     end
 
-    it 'copies the product attributes' do
-      expect(product.name).to eq(template.name)
-      expect(product.comment).to eq(template.comment)
-    end
-
-    it "copies the product's image" do
-      expect(product.image).to be_attached
-    end
-
-    it 'copies the product components' do
-      expect(product.product_components.first.component).to eq(product_component.component)
+    it 'updates the product price' do
+      expect { product.update_price }.to change { product.price_cents }.from(300).to(600)
     end
   end
 
@@ -123,6 +209,52 @@ RSpec.describe Product, type: :model do
     it 'returns the product perimeter' do
       product = Product.new(width: 5, height: 10)
       expect(product.perimeter).to eq(30)
+    end
+  end
+
+  describe '#recalculate_product_components_amount' do
+    let(:product) { create(:product, width: 1, height: 1) }
+    let!(:product_component1) { create(:product_component, product: product, formula: 'product_width') }
+    let!(:product_component2) { create(:product_component, product: product, formula: 'product_height') }
+
+    it 'updates the quantity of each product component' do
+      expect { product.reload.update(width: 777, height: 888) }
+        .to change { product_component1.reload.quantity }
+        .from(1).to(777)
+        .and change { product_component2.reload.quantity }
+        .from(1).to(888)
+    end
+  end
+
+  describe '#copy_template' do
+    let(:product) { Product.new(company: template.company) }
+    let(:template) { create(:product, :with_image) }
+    let!(:product_component) { create(:product_component, product: template) }
+
+    before do
+      product.from_template = true
+      product.template_id = template.id
+      product.save
+    end
+
+    it 'copies the product attributes' do
+      expect(product.name).to eq(template.name)
+      expect(product.comment).to eq(template.comment)
+    end
+
+    it "copies the product's image" do
+      expect(product.image).to be_attached
+    end
+
+    it 'copies the product components' do
+      expect(product.product_components.first.component).to eq(product_component.component)
+    end
+
+    context 'when template does not exist' do
+      let(:product) { Product.new(company: create(:company)) }
+      it 'adds an error' do
+        expect(product.errors[:template_id]).to include('not found')
+      end
     end
   end
 end

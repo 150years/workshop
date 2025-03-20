@@ -49,6 +49,6 @@ class ProductComponentsController < ApplicationController
   end
 
   def product_component_params
-    params.expect(product_component: %i[component_id quantity])
+    params.expect(product_component: %i[component_id formula])
   end
 end

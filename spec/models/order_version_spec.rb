@@ -33,6 +33,10 @@ RSpec.describe OrderVersion, type: :model do
     it { is_expected.to have_many(:products).dependent(:destroy) }
   end
 
+  describe 'delegations' do
+    it { should delegate_method(:currency).to(:company) }
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:agent_comm) }
     it { is_expected.to validate_numericality_of(:agent_comm).only_integer.is_greater_than_or_equal_to(0) }

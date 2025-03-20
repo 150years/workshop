@@ -48,24 +48,10 @@ class ProductComponent < ApplicationRecord
   end
 
   def calculate_quantity
-    return self.component.min_quantity if formula.blank? # rubocop:disable Style/RedundantSelf
-
+    return component.min_quantity if formula.blank?
     return @quantity if defined?(@quantity)
 
-    calculator = Dentaku::Calculator.new
-
-    variables = {
-      product_height: product.height,
-      product_width: product.width,
-      component_height: component.height,
-      component_length: component.length,
-      component_min_quantity: component.min_quantity,
-      component_thickness: component.thickness,
-      component_weight: component.weight,
-      component_width: component.width
-    }
-
-    @quantity = calculator.evaluate!(formula, variables)
+    @quantity = evaluate_quantity
   rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
     errors.add(:formula, e.message)
   end
@@ -75,6 +61,23 @@ class ProductComponent < ApplicationRecord
   end
 
   private
+
+  def evaluate_quantity
+    Dentaku::Calculator.new.evaluate!(formula, calculation_variables)
+  end
+
+  def calculation_variables
+    {
+      product_height: product.height,
+      product_width: product.width,
+      component_height: component.height,
+      component_length: component.length,
+      component_min_quantity: component.min_quantity,
+      component_thickness: component.thickness,
+      component_weight: component.weight,
+      component_width: component.width
+    }
+  end
 
   def add_errors_to_component_id
     # We need to add errors to the component_id attribute, to show it is as invalid on the form,

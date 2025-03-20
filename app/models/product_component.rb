@@ -29,7 +29,7 @@ class ProductComponent < ApplicationRecord
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_validation :add_errors_to_component_id
-  after_validation :calculate_quantity
+  after_validation :calculate_quantity, if: -> { component_id.present? }
   before_save :update_quantity
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
@@ -48,7 +48,7 @@ class ProductComponent < ApplicationRecord
   end
 
   def calculate_quantity
-    return component.min_quantity if formula.blank?
+    return self.component.min_quantity if formula.blank? # rubocop:disable Style/RedundantSelf
 
     return @quantity if defined?(@quantity)
 
@@ -66,7 +66,7 @@ class ProductComponent < ApplicationRecord
     }
 
     @quantity = calculator.evaluate!(formula, variables)
-  rescue Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
+  rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
     errors.add(:formula, e.message)
   end
 

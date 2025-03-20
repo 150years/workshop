@@ -45,10 +45,6 @@ class Order < ApplicationRecord
 
   before_commit :create_order_version, on: %i[create]
 
-  def self.human_statuses
-    statuses.keys.map(&:humanize)
-  end
-
   def self.ransackable_attributes(_auth_object = nil)
     %w[id name status created_at]
   end

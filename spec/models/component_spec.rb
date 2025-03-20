@@ -46,6 +46,10 @@ RSpec.describe Component, type: :model do
     it { is_expected.to define_enum_for(:unit).with_values(mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6).with_prefix }
   end
 
+  describe 'delegations' do
+    it { should delegate_method(:currency).to(:company) }
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:code) }
     it { is_expected.to validate_presence_of(:name) }
@@ -58,5 +62,32 @@ RSpec.describe Component, type: :model do
     it { is_expected.to validate_numericality_of(:thickness).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:weight).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:min_quantity).is_greater_than_or_equal_to(0) }
+  end
+
+  describe 'callbacks' do
+    describe '#update_products_total_amount' do
+      let!(:product_component) { create(:product_component, formula: '1') }
+      let(:product) { product_component.product }
+      let(:component) { product_component.component }
+      it 'updates the price of the related products if price changed' do
+        component.reload
+
+        expect { component.update(price_cents: 500_000) }.to change { product.reload.price_cents }.from(10_000).to(500_000)
+      end
+    end
+  end
+
+  describe '#area' do
+    it 'returns the area of the component' do
+      component = build(:component, width: 10, length: 10)
+      expect(component.area).to eq(100)
+    end
+  end
+
+  describe '#perimeter' do
+    it 'returns the perimeter of the component' do
+      component = build(:component, width: 10, length: 10)
+      expect(component.perimeter).to eq(40)
+    end
   end
 end

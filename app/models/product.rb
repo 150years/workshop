@@ -39,11 +39,10 @@ class Product < ApplicationRecord
   has_many :components, through: :product_components
   has_one_attached :image, dependent: :purge
 
-  before_validation :copy_template, if: -> { from_template? }, on: :create
-
   validates :name, :width, :height, presence: true
   validates :width, :height, numericality: { greater_than_or_equal_to: 0 }
 
+  before_validation :copy_template, if: -> { from_template? }, on: :create
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
   after_save :recalculate_product_components_amount, if: -> { saved_change_to_width? || saved_change_to_height? }
   before_commit :update_order_version_total_amount, if: lambda {
@@ -107,16 +106,8 @@ class Product < ApplicationRecord
     order_version.update_total_amount
   end
 
-  def find_template
-    @template = company.products.find_by(id: template_id, order_version: nil)
-
-    return if @template
-
-    errors.add(:template_id, :not_found)
-  end
-
   def copy_template
-    template = company.products.find_by(id: template_id, order_version: nil)
+    template = company&.products&.find_by(id: template_id, order_version: nil)
 
     if template
       self.name = template.name

@@ -80,6 +80,8 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
+  config.action_controller.default_url_options = { host: 'aluworkshop.com' }
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
     'aluworkshop.com',     # Allow requests from example.com

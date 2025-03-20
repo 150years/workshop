@@ -1,4 +1,8 @@
 releases:
+  - version: "0.14.1"
+    date: "20-03-2025"
+    notes:
+      - "Fix: default url generated for images in live update"
   - version: "0.14.0"
     date: "20-03-2025"
     notes:

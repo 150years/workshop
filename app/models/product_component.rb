@@ -26,10 +26,11 @@ class ProductComponent < ApplicationRecord
   belongs_to :product
   belongs_to :component
 
-  after_validation :add_errors_to_component_id
-
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
+  after_validation :add_errors_to_component_id
+  after_validation :calculate_quantity
+  before_save :update_quantity
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
   after_destroy :update_product_price
@@ -44,6 +45,33 @@ class ProductComponent < ApplicationRecord
 
   def update_product_price
     product.update_price
+  end
+
+  def update_quantity
+    self.quantity = calculate_quantity
+  end
+
+  def calculate_quantity
+    return component.min_quantity if formula.blank?
+
+    calculator = Dentaku::Calculator.new
+
+    variables = {
+      product_height: product.height,
+      product_width: product.width,
+      component_height: component.height,
+      component_length: component.length,
+      component_min_quantity: component.min_quantity,
+      component_thickness: component.thickness,
+      component_weight: component.weight,
+      component_width: component.width
+    }
+
+    calculator.evaluate!(formula, variables)
+  rescue Dentaku::UnboundVariableError => e
+    errors.add(:formula, e.message)
+  rescue Dentaku::ZeroDivisionError => e
+    errors.add(:formula, e.message)
   end
 
   private

@@ -34,7 +34,7 @@ require 'rails_helper'
 RSpec.describe Component, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:company).optional }
-    it { is_expected.to have_many(:product_components).dependent(:destroy) }
+    it { is_expected.to have_many(:product_components).dependent(:restrict_with_error) }
     it { is_expected.to have_many(:products).through(:product_components) }
   end
 

@@ -48,8 +48,12 @@ class ComponentsController < ApplicationController
 
   # DELETE /components/1
   def destroy
-    @component.destroy!
-    redirect_to components_path, notice: 'Component was successfully destroyed.', status: :see_other
+    if @component.destroy
+      redirect_to components_path, notice: 'Component was successfully destroyed.', status: :see_other
+    else
+      flash[:alert] = @component.errors.first.message
+      redirect_to @component, status: :see_other
+    end
   end
 
   private

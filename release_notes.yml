@@ -1,4 +1,9 @@
 releases:
+  - version: "0.15.0"
+    date: "21-03-2025"
+    notes:
+      - "Component: restrict deletion of components that are used in products"
+      - "Fix: component form validation for min_quantity field"
   - version: "0.14.2"
     date: "21-03-2025"
     notes:

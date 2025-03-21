@@ -34,7 +34,7 @@ class Component < ApplicationRecord
   monetize :price_cents, with_model_currency: :currency
 
   belongs_to :company, optional: true
-  has_many :product_components, dependent: :destroy
+  has_many :product_components, dependent: :restrict_with_error
   has_many :products, through: :product_components
   has_one_attached :image
 

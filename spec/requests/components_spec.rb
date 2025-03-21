@@ -220,6 +220,24 @@ RSpec.describe '/components', type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
+    context 'when component is associated with a product' do
+      let!(:product_component) { create(:product_component, component: component) }
+
+      it 'does not destroy the requested component' do
+        expect { delete component_url(component) }.to change(Component, :count).by(0)
+      end
+
+      it 'redirects to the component' do
+        delete component_url(component)
+        expect(response).to redirect_to(component_url(component))
+      end
+
+      it 'renders an alert message' do
+        delete component_url(component)
+        expect(flash[:alert]).to eq('Cannot delete record because dependent product components exist')
+      end
+    end
+
     context 'when user is not logged in' do
       before do
         logout

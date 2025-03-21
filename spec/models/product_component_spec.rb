@@ -103,19 +103,35 @@ RSpec.describe ProductComponent, type: :model do
 
       product_component.update_quantity
     end
+
+    it 'sets cached @quantity to nil' do
+      product_component = build(:product_component, formula: 'product_height * component_height')
+      product_component.instance_variable_set(:@quantity, 100)
+
+      product_component.update_quantity
+
+      expect(product_component.instance_variable_get(:@quantity)).to be_nil
+    end
   end
 
   describe '#calculate_quantity' do
+    it 'returns the calculated quantity' do
+      product = create(:product, height: 10, width: 10)
+      component = create(:component, height: 10, length: 10, min_quantity: 1, thickness: 1, weight: 1, width: 10)
+      product_component = build(:product_component, product: product, component: component, formula: 'product_height * component_height')
+
+      expect(product_component.calculate_quantity).to eq(100)
+    end
+
     it 'returns component.min_quantity if formula is blank' do
       product_component = build(:product_component, formula: nil)
 
       expect(product_component.calculate_quantity).to eq(product_component.component.min_quantity)
     end
 
-    it 'returns the calculated quantity' do
-      product = create(:product, height: 10, width: 10)
-      component = create(:component, height: 10, length: 10, min_quantity: 1, thickness: 1, weight: 1, width: 10)
-      product_component = build(:product_component, product: product, component: component, formula: 'product_height * component_height')
+    it "uses the cached value if it's present" do
+      product_component = build(:product_component, formula: 'product_height * component_height')
+      product_component.instance_variable_set(:@quantity, 100)
 
       expect(product_component.calculate_quantity).to eq(100)
     end

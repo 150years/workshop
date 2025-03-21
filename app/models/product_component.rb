@@ -45,11 +45,15 @@ class ProductComponent < ApplicationRecord
 
   def update_quantity
     self.quantity = calculate_quantity
+
+    # We need to reset it to recalculate it if something else changes
+    @quantity = nil
   end
 
   def calculate_quantity
     return component.min_quantity if formula.blank?
-    return @quantity if defined?(@quantity)
+    # If the quantity is already calculated during validation, we don't need to calculate it again
+    return @quantity if defined?(@quantity) && @quantity.present?
 
     @quantity = evaluate_quantity
   rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e

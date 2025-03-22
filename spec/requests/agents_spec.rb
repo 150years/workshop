@@ -164,7 +164,7 @@ RSpec.describe '/agents', type: :request do
 
       it 'redirects to the agent' do
         patch agent_url(agent), params: { agent: new_attributes }
-        expect(response).to redirect_to(agent_url(agent))
+        expect(response).to redirect_to(agents_path)
       end
     end
 

@@ -6,10 +6,23 @@
 </div>
 
 <div id="agents" class="flex flex-col" style="gap: 2rem;">
-  <% @agents.each do |agent| %>
-    <div class="flex flex-row items-center justify-between">
-      <%= render agent %>
-      <%= link_to "Show this agent", agent, class: "btn" %>
-    </div>
-  <% end %>
+   <table class="table">
+    <thead>
+      <th>#</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Commission, %</th>
+      <th>Files</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <% @agents.each do |agent| %>
+      <tr>
+          <%= render agent %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
 </div>

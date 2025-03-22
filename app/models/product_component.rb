@@ -4,13 +4,16 @@
 #
 # Table name: product_components
 #
-#  id           :integer          not null, primary key
-#  formula      :string
-#  quantity     :decimal(7, 1)    default(0.0), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  component_id :integer          not null
-#  product_id   :integer          not null
+#  id            :integer          not null, primary key
+#  formula       :string
+#  quantity      :decimal(7, 1)    default(0.0), not null
+#  quantity_real :decimal(7, 1)    default(0.0), not null
+#  ratio         :decimal(4, 1)    default(0.0)
+#  waste         :decimal(7, 1)    default(0.0), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  component_id  :integer          not null
+#  product_id    :integer          not null
 #
 # Indexes
 #
@@ -26,7 +29,7 @@ class ProductComponent < ApplicationRecord
   belongs_to :product
   belongs_to :component
 
-  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :quantity, :quantity_real, :ratio, :waste, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_validation :add_errors_to_component_id
   after_validation :calculate_quantity, if: -> { component_id.present? }

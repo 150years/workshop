@@ -4,13 +4,16 @@
 #
 # Table name: product_components
 #
-#  id           :integer          not null, primary key
-#  formula      :string
-#  quantity     :decimal(7, 1)    default(0.0), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  component_id :integer          not null
-#  product_id   :integer          not null
+#  id            :integer          not null, primary key
+#  formula       :string
+#  quantity      :decimal(7, 1)    default(0.0), not null
+#  quantity_real :decimal(7, 1)    default(0.0), not null
+#  ratio         :decimal(4, 1)    default(0.0)
+#  waste         :decimal(7, 1)    default(0.0), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  component_id  :integer          not null
+#  product_id    :integer          not null
 #
 # Indexes
 #
@@ -33,6 +36,12 @@ RSpec.describe ProductComponent, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:quantity) }
     it { is_expected.to validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_presence_of(:quantity_real) }
+    it { is_expected.to validate_numericality_of(:quantity_real).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_presence_of(:ratio) }
+    it { is_expected.to validate_numericality_of(:ratio).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_presence_of(:waste) }
+    it { is_expected.to validate_numericality_of(:waste).is_greater_than_or_equal_to(0) }
   end
 
   describe 'callbacks' do

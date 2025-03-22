@@ -4,8 +4,12 @@
 <td><%= agent.email %></td>
 <td><%= agent.commission %></td>
 <td>
-  <%= link_to "Passport", rails_blob_path(agent.passport), target: :_blanck %> |
-  <%= link_to "Workpermit", rails_blob_path(agent.workpermit), target: :_blanck %>
+  <% if agent.workpermit.attached? %>
+    <%= link_to "Passport", rails_blob_path(agent.passport), target: :_blanck %> |
+  <% end %>
+  <% if agent.workpermit.attached? %>
+    <%= link_to "Workpermit", rails_blob_path(agent.workpermit), target: :_blanck %>
+  <% end %>
 </td>
 <td>
   <%= link_to "Edit", edit_agent_path(agent)%> |

@@ -4,13 +4,10 @@
 <td><%= agent.email %></td>
 <td><%= agent.commission %></td>
 <td>
-    <% agent.workpermit.attached? ? link_to "Passport", rails_blob_path(agent.passport), target: :_blank) : "No file" %> |
-  <% if agent.workpermit.attached? %>
-    <%= link_to "Workpermit", rails_blob_path(agent.workpermit, target: :_blank) %>
-  <% end %>
+  <%= agent.passport.attached? ? link_to("Passport", rails_blob_path(agent.passport), target: '_blank') : "No assport" %> |
+  <%= agent.workpermit.attached? ? link_to("Workpermit", rails_blob_path(agent.workpermit), target: '_blank') : "No Workpermit" %>
 </td>
 <td>
   <%= link_to "Edit", edit_agent_path(agent)%> |
   <%= link_to "Destroy", agent, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
 </td>
-

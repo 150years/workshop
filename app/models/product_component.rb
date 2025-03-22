@@ -74,6 +74,8 @@ class ProductComponent < ApplicationRecord
     {
       product_height: product.height,
       product_width: product.width,
+      product_area: product.area,
+      product_perimeter: product.perimeter,
       component_height: component.height,
       component_length: component.length,
       component_min_quantity: component.min_quantity,

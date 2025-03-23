@@ -8,13 +8,21 @@ RSpec.describe '/agents', type: :request do
   let!(:another_agent) { create(:agent) }
   let(:valid_attributes) do
     {
-      name: 'Agent Name'
+      name: 'Agent Name',
+      phone: '1234567890',
+      email: 'tets@mail.com',
+      commission: '5',
+      passport: fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpg'),
+      workpermit: fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpg')
     }
   end
 
   let(:invalid_attributes) do
     {
-      name: ''
+      name: '',
+      phone: '',
+      email: '@.',
+      commission: ''
     }
   end
 
@@ -116,6 +124,7 @@ RSpec.describe '/agents', type: :request do
         expect do
           post agents_url, params: { agent: valid_attributes }
         end.to change(Agent, :count).by(1)
+        expect(Agent.last.passport.attached?).to be(true)
       end
 
       it 'redirects to the created agent' do
@@ -129,6 +138,7 @@ RSpec.describe '/agents', type: :request do
         expect do
           post agents_url, params: { agent: invalid_attributes }
         end.to change(Agent, :count).by(0)
+        expect(Agent.last.passport.attached?).to be(false)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do

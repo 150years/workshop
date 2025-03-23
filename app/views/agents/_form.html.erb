@@ -11,7 +11,7 @@
   <% end %>
   <div class="flex flex-col items-start gap-half mbe-2">
     <%= form.label :name, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :name, class: "input" %>
+    <%= form.text_field :name, class: "input" %>  
   </div>
   <div class="flex flex-col items-start gap-half mbe-2">
     <%= form.label :phone, class: "text-sm font-medium leading-none" %>
@@ -22,21 +22,20 @@
     <%= form.email_field :email, class: "input" %>
   </div>
   <div class="flex flex-col items-start gap-half mbe-2">
-    <%= form.label "Commission, %", class: "text-sm font-medium leading-none" %>
+    <%= form.label :commission, "Commission, %", class: "text-sm font-medium leading-none" %>
     <%= form.text_field :commission, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :passport, class: "text-sm font-medium leading-none" %>
-    <%= form.file_field :passport, accept: "image/*", class: "input" %>
+    <%= form.file_field :passport, accept: "image/*,application/pdf", class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :workpermit, class: "text-sm font-medium leading-none" %>
-    <%= form.file_field :workpermit, accept: "image/*", class: "input" %>
+    <%= form.file_field :workpermit, accept: "image/*,application/pdf", class: "input" %>
   </div>
 
-  <div class="flex items-center gap" style="--column-gap: 1rem; block-size: 1.5rem;">
-    <div><%= button_tag tag.span(@agent.persisted? ? "Update Agent" : "Create Aget"), class: "btn btn--primary btn--loading" %></div>
-    <hr class="border-is border-dark b-full" aria-hidden="true">
-    <div>    <%= link_to "Back to agents", agents_path, class: "btn" %></div>
+  <div class="flex items-center gap">
+    <%= button_tag tag.span(@agent.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading" %>
+    <%= link_to "Cancel", agents_path, class: "btn" %>
   </div>
 <% end %>

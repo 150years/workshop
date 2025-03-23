@@ -1,5 +1,13 @@
-<div id="<%= dom_id agent %>" class="flex flex-col gap">
-  <div class="flex flex-col gap-half">
-    <h3 class="font-semibold leading-none"><%= agent.name %></h3>
-  </div>
-</div>
+<td><%= agent.id %></td>
+<td><%= link_to agent.name, edit_agent_path(agent) %></td>
+<td><%= agent.phone %></td>
+<td><%= agent.email %></td>
+<td><%= agent.commission %></td>
+<td>
+  <%= agent.passport.attached? ? link_to("Passport", rails_blob_path(agent.passport), target: '_blank') : "No Passport" %> |
+  <%= agent.workpermit.attached? ? link_to("Workpermit", rails_blob_path(agent.workpermit), target: '_blank') : "No Workpermit" %>
+</td>
+<td>
+  <%= link_to "Edit", edit_agent_path(agent)%> |
+  <%= link_to "Destroy", agent, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+</td>

@@ -34,7 +34,7 @@ class AgentsController < ApplicationController
   # PATCH/PUT /agents/1
   def update
     if @agent.update(agent_params)
-      redirect_to @agent, notice: 'Agent was successfully updated.', status: :see_other
+      redirect_to agents_path, notice: 'Agent was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -53,6 +53,6 @@ class AgentsController < ApplicationController
   end
 
   def agent_params
-    params.fetch(:agent, {}).permit(:name)
+    params.fetch(:agent, {}).permit(:name, :phone, :email, :commission, :passport, :workpermit)
   end
 end

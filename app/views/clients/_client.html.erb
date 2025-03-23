@@ -1,9 +1,10 @@
+<td><%= client.id %></td>
 <td><%= link_to client.name, edit_client_path(client) %></td>
 <td><%= client.phone %></td>
 <td><%= client.email %></td>
 <td><%= client.address %></td>
 <td><%= client.tax_id %></td>
 <td>
-  <%= link_to "Edit", edit_client_path(client)%>
+  <%= link_to "Edit", edit_client_path(client)%> |
   <%= link_to "Destroy", client, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
 </td>

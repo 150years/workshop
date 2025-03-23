@@ -8,7 +8,7 @@
 #  formula       :string
 #  quantity      :decimal(7, 1)    default(0.0), not null
 #  quantity_real :decimal(7, 1)    default(0.0), not null
-#  ratio         :decimal(4, 1)    default(0.0)
+#  ratio         :decimal(3, 2)    default(0.0)
 #  waste         :decimal(7, 1)    default(0.0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

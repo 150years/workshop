@@ -10,7 +10,7 @@
     </div>
   <% end %>
   <div class="flex justify-center items-center">
-    <%= image_or_placeholder(component.image, 200, 200) %>
+    <%= component.image.attached? ? image_or_placeholder(component.image, 200, 200) : "" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :code, class: "text-sm font-medium leading-none" %>
@@ -21,7 +21,7 @@
     <%= form.text_field :name, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :color, class: "text-sm font-medium leading-none" %>
+    <%= form.label :color, "Color (Can use comma)" , class: "text-sm font-medium leading-none" %>
     <%= form.text_field :color, class: "input"  %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
@@ -33,23 +33,23 @@
     <%= form.select :unit, Component.units.keys, {include_blank: "Select unit..."}, data: { controller: "combobox", action: "change->dynamic-units#updateUnitText", dynamic_units_target: "unitSelect" }  %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :length, class: "text-sm font-medium leading-none" %>
+    <%= form.label "Length, mm", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :length, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :width, class: "text-sm font-medium leading-none" %>
+    <%= form.label "Width, mm", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :width, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :height, class: "text-sm font-medium leading-none" %>
+    <%= form.label "Height, mm", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :height, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :thickness, class: "text-sm font-medium leading-none" %>
+    <%= form.label "Thickness, mm", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :thickness, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :weight, class: "text-sm font-medium leading-none" %>
+    <%= form.label "Weight, kg", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :weight, min: 0, step: 0.1, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">

@@ -9,6 +9,9 @@
       </ul>
     </div>
   <% end %>
+  <div class="flex justify-center items-center">
+    <%= image_or_placeholder(component.image, 200, 200) %>
+  </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :code, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :code, class: "input" %>

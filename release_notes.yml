@@ -1,4 +1,9 @@
 releases:
+  - version: "0.18.0"
+    date: "24-03-2025"
+    notes:
+      - "Formulas: added area and perimeter to formula variables"
+      - "Product components: added quantity_real, waste and ratio attributes to db"
   - version: "0.17.1"
     date: "24-03-2025"
     notes:

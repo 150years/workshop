@@ -29,7 +29,7 @@
         <th>Action</th>
       </thead>
       <tbody>
-        <%= render @product.product_components%>
+        <%= render partial: "product_components/product_component", collection: @product.product_components %>
       </tbody>
     </table>
     <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>

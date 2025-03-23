@@ -93,12 +93,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_190659) do
     t.integer "order_id", null: false
     t.integer "total_amount_cents", default: 0, null: false
     t.integer "agent_comm", default: 0, null: false
-    t.text "comment"
     t.text "version_note"
     t.boolean "final_version", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "company_id", null: false
+    t.integer "profit"
     t.index ["company_id"], name: "index_order_versions_on_company_id"
     t.index ["order_id"], name: "index_order_versions_on_order_id"
   end

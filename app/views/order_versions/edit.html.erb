@@ -2,7 +2,7 @@
 
 <h1 class="font-bold text-4xl mbe-4">Editing order version</h1>
 
-<%= render "form", order_version: @order_version %>
+<%= render "form", order: @order, order_version: @order_version %>
 
 <div class="inline-flex flex-wrap items-center gap mbs-2" style="--row-gap: .5rem">
   <%= link_to "Show this order version", @order_version, class: "btn" %>

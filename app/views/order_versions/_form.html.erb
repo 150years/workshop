@@ -10,23 +10,24 @@
     </div>
   <% end %>
   <div class="flex flex-col gap">
-    <%= form.label :version_note, class: "font-bold text-sm" %>
-    <%= form.text_field :version_note, class: "input" %>
-  </div>
-    <div class="flex flex-col gap">
-    <%= form.label :agent_comm, "Agent commission", class: "font-bold text-sm" %>
-    <%= form.number_field :agent_comm, class: "input", required: true %>
+    <%= form.label :profit, "Profit, %", class: "font-bold text-sm" %>
+    <%= form.text_field :profit, class: "input" %>
   </div>
   <div class="flex flex-col gap">
-    <%= form.label :comment, class: "font-bold text-sm" %>
-    <%= form.text_field :comment, class: "input" %>
+    <%= form.label :agent, "Agent, %", class: "font-bold text-sm" %>
+    <%= form.text_field :version_ote, class: "input" %>
   </div>
-  <div class="flex items-center gap">
-    <%= check_box_tag :final_version, 0, false, class: "checkbox" %>
-    <%= label_tag :final_version, "Final version", class: "text-sm" %>
+  <div class="flex flex-col gap">
+<div class="flex flex-col gap">
+    <%= form.label :version_note, class: "font-bold text-sm" %>
+    <%= form.text_field :version_ote, class: "input" %>
   </div>
-
-  <div class="inline-flex items-center mbs-2 mie-1">
+   <div class="flex items-center gap">
+    <%= form.check_box :final_version, class: "checkbox" %>
+    <%= form.label :final_version, class: "text-sm" %>
+  </div>  
+  <div class="inline-flex items-center mbs-2 mie-1 gap">
     <%= form.submit class: "btn btn--primary" %>
+    <%= link_to "Back", @order, class: "btn" %>
   </div>
 <% end %>

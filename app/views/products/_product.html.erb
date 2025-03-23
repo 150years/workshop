@@ -1,6 +1,6 @@
 <div id="<%= dom_id product %>" class="flex flex-col gap">
   <div class="flex justify-center">
-    <%= product.image.attachable? ? image_or_placeholder(product.image, 200, 200) : "No image" %>
+    <%= product.image.attached? ? image_or_placeholder(product.image, 200, 200) : "No image" %>
   </div>
   <div class="flex justify-between">
     <h4 class="font-medium leading-none">Name:</h4>

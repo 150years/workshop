@@ -1,6 +1,6 @@
 <tr>
   <th><%= product.id %></th>
-  <td><%= product.image.attachable? ? image_or_placeholder(product.image, 100, 150) : "No image" %></td>
+  <td><%= product.image.attached? ? image_or_placeholder(product.image, 100, 150) : "No image" %></td>
   <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
   <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
   <td><%= UnitConverter.mm_to_m(product.height) %> m</td>

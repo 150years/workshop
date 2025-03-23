@@ -45,7 +45,8 @@
       </div>
     </details>
   </div>
-  <div class="inline-flex items-center mbs-2 mie-1">
-    <%= button_tag tag.span(product_component.persisted? ? "Update Product component" : "Create Product component"), class: "btn btn--primary btn--loading" %>
+  <div class="inline-flex items-center mbs-2 mie-1 gap">
+    <%= button_tag tag.span(product_component.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading" %>
+    <%= link_to "Cancel", product_path(@product), class: "btn" %>
   </div>
 <% end %>

@@ -5,8 +5,8 @@
   <td><%= product_component.quantity %></td>
   <td><%= product_component.component.unit %></td>
   <td><%= product_component.quantity %> </td>
-  <td><%= product_component.component.price %></td>
-  <td><%= product_component.quantity*product_component.component.price %></td>
+  <td><%= product_component.component.price.format %></td>
+  <td><%= (product_component.quantity*product_component.component.price).format %></td>
   <td>
     <%= link_to "Edit", edit_product_component_path(@product, product_component) %> |
     <%= link_to "Remove", product_component_path(@product, product_component), data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>

@@ -26,14 +26,27 @@
 #  product_id    (product_id => products.id)
 #
 class ProductComponent < ApplicationRecord
+  CALCULATION_VARIABLES = {
+    product_height: ->(pc) { pc.product.height },
+    product_width: ->(pc) { pc.product.width },
+    product_area: ->(pc) { pc.product.area },
+    product_perimeter: ->(pc) { pc.product.perimeter },
+    component_height: ->(pc) { pc.component.height },
+    component_length: ->(pc) { pc.component.length },
+    component_min_quantity: ->(pc) { pc.component.min_quantity },
+    component_thickness: ->(pc) { pc.component.thickness },
+    component_weight: ->(pc) { pc.component.weight },
+    component_width: ->(pc) { pc.component.width }
+  }.freeze
+
   belongs_to :product
   belongs_to :component
 
   validates :quantity, :quantity_real, :ratio, :waste, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_validation :add_errors_to_component_id
-  after_validation :calculate_quantity, if: -> { component_id.present? }
-  before_save :update_quantity
+  after_validation :calculate_quantity_real, if: -> { component_id.present? }
+  before_save :set_quantity_fields
   after_create :update_product_price
   after_update :update_product_price, if: -> { saved_change_to_quantity? || saved_change_to_component_id? }
   after_destroy :update_product_price
@@ -46,21 +59,14 @@ class ProductComponent < ApplicationRecord
     %w[products]
   end
 
-  def update_quantity
+  def set_quantity_fields
+    self.quantity_real = calculate_quantity_real
     self.quantity = calculate_quantity
+    self.waste = calculate_waste
+    self.ratio = calculate_ratio
 
-    # We need to reset it to recalculate it if something else changes
-    @quantity = nil
-  end
-
-  def calculate_quantity
-    return component.min_quantity if formula.blank?
-    # If the quantity is already calculated during validation, we don't need to calculate it again
-    return @quantity if defined?(@quantity) && @quantity.present?
-
-    @quantity = evaluate_quantity
-  rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
-    errors.add(:formula, e.message)
+    # We need to reset it to recalculate it if something else changes before save
+    @calculated_quantity_real = nil
   end
 
   def update_product_price
@@ -69,23 +75,41 @@ class ProductComponent < ApplicationRecord
 
   private
 
+  def calculate_quantity_real
+    return component.min_quantity if formula.blank?
+    # If the quantity is already calculated during validation, we don't need to calculate it again
+    return @calculated_quantity_real if defined?(@calculated_quantity_real) && @calculated_quantity_real.present?
+
+    @calculated_quantity_real = evaluate_quantity
+  rescue Dentaku::ParseError, Dentaku::UnboundVariableError, Dentaku::ZeroDivisionError, Dentaku::ArgumentError => e
+    errors.add(:formula, e.message)
+  end
+
+  def calculate_quantity
+    # If component unit is lines, we need to round up the quantity. For all other units we set the quantity to the real
+    component.unit == 'lines' ? quantity_real.ceil : quantity_real
+  end
+
+  def calculate_waste
+    # Waste is calculated as the difference between the quantity and the real quantity
+    return 0 if quantity_real.blank? || quantity_real.zero? || quantity.blank? || quantity.zero?
+
+    quantity - quantity_real
+  end
+
+  def calculate_ratio
+    return 0 if quantity_real.blank? || quantity_real.zero? || quantity.blank? || quantity.zero?
+
+    quantity_real / quantity
+  end
+
   def evaluate_quantity
     Dentaku::Calculator.new.evaluate!(formula, calculation_variables)
   end
 
   def calculation_variables
-    {
-      product_height: product.height,
-      product_width: product.width,
-      product_area: product.area,
-      product_perimeter: product.perimeter,
-      component_height: component.height,
-      component_length: component.length,
-      component_min_quantity: component.min_quantity,
-      component_thickness: component.thickness,
-      component_weight: component.weight,
-      component_width: component.width
-    }
+    # We need to transform the variables to their actual values
+    CALCULATION_VARIABLES.transform_values { |proc| proc.call(self) }
   end
 
   def add_errors_to_component_id

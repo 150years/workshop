@@ -5,6 +5,7 @@
 # Table name: components
 #
 #  id           :integer          not null, primary key
+#  category     :integer          default("aluminum"), not null
 #  code         :string           not null
 #  color        :string
 #  height       :decimal(7, 1)
@@ -41,8 +42,9 @@ class Component < ApplicationRecord
   # Call "component.unit_mm?" to check if the unit is mm
   enum :unit, { mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6 },
        validate: true, prefix: true
+  enum :category, { aluminum: 0, glass: 1, other: 2 }, validate: true
 
-  validates :code, :name, :unit, :min_quantity, presence: true
+  validates :code, :name, :unit, :min_quantity, :category, presence: true
   validates :length, :width, :height, :thickness, :weight, :min_quantity,
             numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 

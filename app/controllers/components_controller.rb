@@ -16,7 +16,7 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    @component = Component.new
+    @component = Component.new(category: nil)
   end
 
   # GET /components/1/edit

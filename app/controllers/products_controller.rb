@@ -14,7 +14,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @product_components = @product.product_components.includes(:component).group_by { |pc| pc.component.category }
+    @product_components = @product.product_components.includes(component: :company).group_by do |pc|
+      pc.component.category
+    end
   end
 
   # GET /products/new

@@ -1,4 +1,10 @@
 releases:
+  - version: "0.17.0"
+    date: "24-03-2025"
+    notes:
+      - "Components: added three base categories - Aluminum, Glass, Other"
+      - "Components: added category to search condition and table on components page"
+      - "Products: display components grouped by categories"
   - version: "0.16.0"
     date: "23-03-2025"
     notes:

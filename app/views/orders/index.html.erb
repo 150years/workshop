@@ -13,7 +13,7 @@
   </div>
   <%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
     <div class="flex items-center grow gap">
-      <%= form.search_field :name_i_cont, placeholder: "Filter orders...", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#search", turbo_permanent: true } %>
+      <%= form.search_field :name_i_cont, placeholder: "Filter orders...", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#submitLater", turbo_permanent: true } %>
       <%= form.select :status_eq, Order.statuses.transform_keys(&:titleize), { include_blank: "Any status" }, { class: "input", style: "--input-inline-size: 130px", data: {action: "change->form#submit"} } %>
       <%= form.collection_select :client_id_eq, current_company.clients.all, :id, :name, { include_blank: "Any client"
       }, { class: "input", style: "--input-inline-size: 130px", data: {action: "change->form#submit"} } %>

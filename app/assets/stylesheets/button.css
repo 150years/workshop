@@ -4,21 +4,21 @@
 
   align-items: center;
   background-color: var(--btn-background);
+  block-size: var(--btn-block-size, auto);
   border-radius: var(--btn-radius, var(--rounded-md));
   border: 1px solid var(--btn-border-color, var(--color-border));
   box-shadow: var(--btn-box-shadow, var(--shadow-xs));
   color: var(--btn-color, var(--color-text));
-  cursor: pointer;
+  column-gap: var(--size-2);
+  cursor: default;
   display: inline-flex;
   font-size: var(--btn-font-size, var(--text-sm));
   font-weight: var(--btn-font-weight, var(--font-medium));
-  gap: var(--size-2);
   inline-size: var(--btn-inline-size, auto);
   justify-content: var(--btn-justify-content, center);
-  min-block-size: var(--btn-block-size, var(--size-9));
   padding: var(--btn-padding, .375rem 1rem);
   position: relative;
-  text-align: center;
+  text-align: var(--btn-text-align, center);
   white-space: nowrap;
 
   img:not([class]) {
@@ -33,8 +33,9 @@
     outline: var(--btn-outline-size, 2px) solid var(--color-selected-dark);
   }
 
-  &:is(:disabled, [aria-disabled]) {
-    opacity: var(--opacity-50); pointer-events: none;
+  &:is(:disabled, [aria-disabled=true]) {
+    opacity: var(--opacity-50);
+    pointer-events: none;
   }
 }
 
@@ -71,7 +72,6 @@
 
 .btn--plain {
   --btn-background: transparent;
-  --btn-block-size: auto;
   --btn-border-color: transparent;
   --btn-hover-color: transparent;
   --btn-padding: 0;
@@ -82,7 +82,7 @@
   --btn-padding: var(--size-2);
 }
 
-[aria-busy] .btn--loading:disabled {
+[aria-busy=true] .btn--loading:disabled {
   > * {
     visibility: hidden;
   }

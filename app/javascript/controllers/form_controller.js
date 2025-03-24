@@ -1,27 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 import debounce from "https://esm.sh/just-debounce-it@3.2.0?standalone"
-
 export default class extends Controller {
-  static targets = [ "cancel", "searchInput" ]
-
+  static targets = [ "cancel" ]
   initialize() {
-    this.search = debounce(this.search.bind(this), 500)
+    this.submitLater = debounce(this.submit.bind(this), 500)
   }
-
-  submit() {
-    this.element.requestSubmit()
+  submit({ params: { submitter } }) {
+    if (submitter) {
+      this.element.requestSubmit(this.#find(submitter))
+    } else {
+      this.element.requestSubmit()
+    }
   }
-
-  search() {
-    this.element.requestSubmit()
-  }
-
   cancel() {
-    this.searchInputTarget.value = ''; // Clear the search input field
-    this.cancelTarget?.click();
+    this.cancelTarget?.click()
   }
-
   preventAttachment(event) {
     event.preventDefault()
+  }
+  #find(id) {
+    return document.getElementById(id) || this.#notFound(id)
+  }
+  #notFound(id) {
+    throw new Error(`Submitter with ID "${id}" not found`)
   }
 }

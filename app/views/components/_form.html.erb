@@ -16,6 +16,11 @@
     <%= form.label :code, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :code, class: "input" %>
   </div>
+  <%# Category %>
+  <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :category, class: "text-sm font-medium leading-none" %>
+    <%= form.select :category, Component.categories.keys.map(&:capitalize), {include_blank: "Select category..."}, data: { controller: "combobox"} %>
+  </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :name, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :name, class: "input" %>

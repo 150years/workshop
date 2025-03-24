@@ -1,5 +1,6 @@
 <tr>
   <th><%= component.id %></th>
+  <td><%= component.category.capitalize %></td>
   <td><%= image_or_placeholder(component.image, 100, 100) %></td>
   <th><%= component.code %></th>
   <th><%= link_to component.name, component, data: {turbo_frame: "_top"} %></th>

@@ -54,7 +54,7 @@ class Component < ApplicationRecord
   scope :with_image_variants, -> { includes(image_attachment: [blob: { variant_records: :blob }]) }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id code name color unit length width height thickness weight min_quantity price]
+    %w[id code category name color unit length width height thickness weight min_quantity price]
   end
 
   def self.ransackable_associations(_auth_object = nil)

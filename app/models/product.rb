@@ -97,7 +97,7 @@ class Product < ApplicationRecord
   def recalculate_product_components_amount
     # We need to update the quantity of each product component and save
     product_components.each do |product_component|
-      product_component.update_quantity
+      product_component.set_quantity_fields
       product_component.save
     end
   end

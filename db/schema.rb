@@ -123,6 +123,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_190659) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "formula"
+    t.decimal "quantity_real", precision: 7, scale: 1, default: "0.0", null: false
+    t.decimal "waste", precision: 7, scale: 1, default: "0.0", null: false
+    t.decimal "ratio", precision: 3, scale: 2, default: "0.0"
     t.index ["component_id"], name: "index_product_components_on_component_id"
     t.index ["product_id"], name: "index_product_components_on_product_id"
   end

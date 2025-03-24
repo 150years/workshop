@@ -25,6 +25,9 @@ application.register("form", FormController)
 import NavigationController from "./navigation_controller"
 application.register("navigation", NavigationController)
 
+import PopoverController from "./popover_controller"
+application.register("popover", PopoverController)
+
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 

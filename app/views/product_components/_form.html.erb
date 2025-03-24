@@ -29,6 +29,8 @@
         <ul>
           <li><code>product_height</code></li>
           <li><code>product_width</code></li>
+          <li><code>product_area</code></li>
+          <li><code>product_perimeter</code></li>
         </ul>
         <h5>Component Variables:</h5>
         <ul>
@@ -46,7 +48,11 @@
     </details>
   </div>
   <div class="flex items-center justify-between mbs-2 mie-1">
-    <%= link_to "Cancel", product_path(@product), class: "btn" %>
+    <% if @product.order_version.present? %>
+      <%= link_to "Cancel", product_path(@product), class: "btn" %>
+    <% else %>
+      <%= link_to "Cancel", "#", class: "btn", data: { controller: "navigation", action: "navigation#back:prevent" } %>
+    <% end %>
     <%= button_tag tag.span(product_component.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading", style: "width: 150px;" %>
   </div>
 <% end %>

@@ -1,4 +1,8 @@
 releases:
+  - version: "0.17.1"
+    date: "24-03-2025"
+    notes:
+      - "Dependencies updates"
   - version: "0.17.0"
     date: "24-03-2025"
     notes:

@@ -4,6 +4,7 @@ releases:
     notes:
       - "Formulas: added area and perimeter to formula variables"
       - "Product components: added quantity_real, waste and ratio attributes to db"
+      - "Product components: display Calculated amount, Real amount, Waste and Ratio in product component on amount mouse hover"
   - version: "0.17.1"
     date: "24-03-2025"
     notes:

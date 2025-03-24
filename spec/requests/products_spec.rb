@@ -56,6 +56,34 @@ RSpec.describe '/products', type: :request do
       expect(response).to be_successful
     end
 
+    context 'with order version' do
+      let!(:product) { create(:product, :with_order_version, company: user.company) }
+
+      it 'renders a successful response' do
+        get product_url(product)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'components categories' do
+      let(:component1) { create(:component, name: 'component 1 name', company: user.company, category: :aluminum) }
+      let(:component2) { create(:component, name: 'component 2 name', company: user.company, category: :glass) }
+      let(:component3) { create(:component, name: 'component 3 name', company: user.company, category: :other) }
+
+      before do
+        create(:product_component, product: product, component: component1)
+        create(:product_component, product: product, component: component2)
+        create(:product_component, product: product, component: component3)
+      end
+
+      it 'renders components in all categories' do
+        get product_url(product)
+        expect(response.body).to include(component1.name)
+        expect(response.body).to include(component2.name)
+        expect(response.body).to include(component3.name)
+      end
+    end
+
     context 'when user is not logged in' do
       before do
         logout

@@ -13,7 +13,7 @@
   </div>
   <%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
     <div class="flex items-center grow gap">
-      <%= form.search_field :name_or_code_cont_any, placeholder: "Name, code", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#search", turbo_permanent: true } %>
+      <%= form.search_field :name_or_code_cont_any, placeholder: "Name, code", autocomplete: "off", class: "input", style: "max-inline-size: 250px", data: { form_target: "searchInput", action: "form#submitLater", turbo_permanent: true } %>
       <%= form.select :category_eq, Component.categories.transform_keys(&:titleize), { include_blank: "Any category" }, { class: "input", style: "--input-inline-size: 130px", data: {action: "change->form#submit"} } %>
       <%= form.select :unit_eq, Component.units.transform_keys(&:titleize), { include_blank: "Any unit" }, { class: "input", style: "--input-inline-size: 130px", data: {action: "change->form#submit"} } %>
       <%= link_to "Reset", components_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params.has_key?(:q)%>
@@ -23,7 +23,7 @@
 
 <%= turbo_frame_tag :components_table do %>
   <div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
-    <table class="table" data-controller="check-all">
+    <table class="table">
       <thead>
         <tr>
           <th><%= sort_link(@search, :id, class: "flex items-center") %></th>

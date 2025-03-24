@@ -45,7 +45,7 @@ RSpec.describe Component, type: :model do
 
   describe 'enums' do
     it { is_expected.to define_enum_for(:unit).with_values(mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6).with_prefix }
-    it { is_expected.to define_enum_for(:category).with_values(other: 0, aluminum: 1, glass: 2) }
+    it { is_expected.to define_enum_for(:category).with_values(aluminum: 0, glass: 1, other: 2) }
   end
 
   describe 'delegations' do

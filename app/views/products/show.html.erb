@@ -27,29 +27,66 @@
         <th>Price</th>
         <th>Total</th>
         <th>Action</th>
-      </thead>
-      <tbody>
-        <%= render partial: "product_components/product_component", collection: @product.product_components %>
-      </tbody>
-    </table>
-    <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
-      <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
-      <span>Add component</span>
-    <% end %>
-    <div class="flex items-center gap mb-4">
-      <div class="font-semibold">Glass / filler</div>
-      <hr class="grow mbs-1 border-dark" aria-hidden="true">
-    </div>
-    <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
-      <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
-      <span>Add component</span>
-    <% end %>
-    <div class="flex items-center gap mb-4">
-      <div class="font-semibold">Other</div>
-      <hr class="grow mbs-1 border-dark" aria-hidden="true">
-    </div>
-    <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
-      <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
-      <span>Add component</span>
-    <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['aluminum'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
   <% end %>
+  <div class="flex items-center gap mb-4">
+    <div class="font-semibold">Glass / filler</div>
+    <hr class="grow mbs-1 border-dark" aria-hidden="true">
+  </div>
+  <table class="table" data-controller="check-all">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Units</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['glass'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
+  <% end %>
+  <div class="flex items-center gap mb-4">
+    <div class="font-semibold">Other</div>
+    <hr class="grow mbs-1 border-dark" aria-hidden="true">
+  </div>
+  <table class="table" data-controller="check-all">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Units</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['other'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
+  <% end %>
+<% end %>

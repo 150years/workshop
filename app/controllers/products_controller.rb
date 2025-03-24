@@ -13,7 +13,9 @@ class ProductsController < ApplicationController
   end
 
   # GET /products/1
-  def show; end
+  def show
+    @product_components = @product.product_components.includes(:component).group_by { |pc| pc.component.category }
+  end
 
   # GET /products/new
   def new
@@ -69,7 +71,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = current_company.products.includes(product_components: [:component]).find(params.expect(:id))
+    @product = current_company.products.find(params.expect(:id))
   end
 
   def set_order_version

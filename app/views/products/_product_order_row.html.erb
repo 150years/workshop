@@ -1,8 +1,8 @@
-<tr data-controller="dialog">
+  <tr data-controller="dialog">
   <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
-    <dialog class="dialog" data-dialog-target="menu">
+    <dialog class="dialog" data-dialog-target="menu"  style="--max-i-lg: fit-content;">
       <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
         <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
         <span class="sr-only">Close</span>

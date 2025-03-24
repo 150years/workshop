@@ -1,6 +1,6 @@
 <tr>
   <th><%= product.id %></th>
-  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
+  <td><%= product.image.attached? ? image_or_placeholder(product.image, 100, 150) : "No image" %></td>
   <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
   <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
   <td><%= UnitConverter.mm_to_m(product.height) %> m</td>
@@ -9,4 +9,8 @@
   <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
   <td><%= product.comment.presence || '—' %></td>
   <td class="text-end"><%= product.price.format %></td>
+  <td>
+    <%= link_to "Edit", product, data: {turbo_frame: "_top"}%> |
+    <%= link_to "Destroy", product, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+  </td>
 </tr>

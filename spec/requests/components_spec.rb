@@ -9,6 +9,7 @@ RSpec.describe '/components', type: :request do
   let(:valid_attributes) do
     {
       code: 'MyString',
+      category: 'glass',
       name: 'Product name',
       note: 'This is a note',
       color: 'red 01',

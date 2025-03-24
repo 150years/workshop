@@ -5,6 +5,7 @@
 # Table name: components
 #
 #  id           :integer          not null, primary key
+#  category     :integer          default("aluminum"), not null
 #  code         :string           not null
 #  color        :string
 #  height       :decimal(7, 1)
@@ -32,6 +33,7 @@
 FactoryBot.define do
   factory :component do
     code { Faker::Alphanumeric.alphanumeric(number: 10) }
+    category { 'aluminum' }
     name { Faker::Commerce.product_name }
     color { 'Grey sahara / 8820 Sapphire grey sahara' }
     unit { 'mm' }

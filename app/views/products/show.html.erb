@@ -1,21 +1,92 @@
 <%= turbo_frame_tag @product, target: "_top" do %>
   <%= render "products/product", product: @product %>
-  <div class="flex items-center justify-between mb-4">
-    <h3 class="text-lg">Components</h3>
-    <%= link_to "Add component", new_product_component_path(@product), class: "btn btn-sm btn--primary self-end", data: {turbo_frame: "_self"} %>
-  </div>
-  <div class="flex flex-col" style="gap: 2rem;">
-    <% @product.product_components.each do |product_component| %>
-      <div class="flex flex-col gap">
-        <%= render product_component %>
-      </div>
+  <div class="flex items-center justify-between grow mb-4 gap">
+    <% if @product.order_version %>
+      <div></div>
+    <% else %>
+      <%= link_to "Back", products_path, class: "btn btn-sm i-full", style: "width: 200px;" %>
     <% end %>
+    <div class ="flex justify-end gap">
+      <%= link_to "Destroy", @product, class: "btn btn-sm btn--secondary", style: "width: 100px;", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+      <%= link_to "Edit", edit_product_path(@product), class: "btn btn-sm btn--primary", style: "width: 100px;" %>
+    </div>
   </div>
-  <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
-    <%= link_to "Edit this product", edit_product_path(@product), class: "btn" %>
-    <% unless @product.order_version %>
-      <%= link_to "Back to products", products_path, class: "btn" %>
-    <% end %>
-    <%= link_to "Destroy this product", @product, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+  <div class="flex items-center gap">
+    <div class="font-semibold">Aluminium</div>
+    <hr class="grow mbs-1 border-dark" aria-hidden="true">
   </div>
+  <table class="table" data-controller="check-all">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Units</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['aluminum'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
+  <% end %>
+  <div class="flex items-center gap mb-4">
+    <div class="font-semibold">Glass / filler</div>
+    <hr class="grow mbs-1 border-dark" aria-hidden="true">
+  </div>
+  <table class="table" data-controller="check-all">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Units</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['glass'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
+  <% end %>
+  <div class="flex items-center gap mb-4">
+    <div class="font-semibold">Other</div>
+    <hr class="grow mbs-1 border-dark" aria-hidden="true">
+  </div>
+  <table class="table" data-controller="check-all">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Units</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "product_components/product_component", collection: @product_components['other'] %>
+    </tbody>
+  </table>
+  <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
+    <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
+    <span>Add component</span>
+  <% end %>
 <% end %>

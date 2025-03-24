@@ -16,7 +16,7 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    @component = Component.new
+    @component = Component.new(category: nil)
   end
 
   # GET /components/1/edit
@@ -63,7 +63,7 @@ class ComponentsController < ApplicationController
   end
 
   def component_params
-    params.expect(component: {}).permit(:code, :name, :note, :color, :unit, :length, :width, :height, :thickness,
-                                        :weight, :min_quantity, :price, :image)
+    params.expect(component: {}).permit(:code, :category, :name, :note, :color, :unit, :length, :width, :height,
+                                        :thickness, :weight, :min_quantity, :price, :image)
   end
 end

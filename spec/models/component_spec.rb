@@ -5,6 +5,7 @@
 # Table name: components
 #
 #  id           :integer          not null, primary key
+#  category     :integer          default("aluminum"), not null
 #  code         :string           not null
 #  color        :string
 #  height       :decimal(7, 1)
@@ -44,6 +45,7 @@ RSpec.describe Component, type: :model do
 
   describe 'enums' do
     it { is_expected.to define_enum_for(:unit).with_values(mm: 0, pc: 1, lot: 2, m: 3, m2: 4, kg: 5, lines: 6).with_prefix }
+    it { is_expected.to define_enum_for(:category).with_values(aluminum: 0, glass: 1, other: 2) }
   end
 
   describe 'delegations' do
@@ -55,6 +57,7 @@ RSpec.describe Component, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:unit) }
     it { is_expected.to validate_presence_of(:min_quantity) }
+    it { is_expected.to validate_presence_of(:category) }
 
     it { is_expected.to validate_numericality_of(:length).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:width).is_greater_than_or_equal_to(0) }

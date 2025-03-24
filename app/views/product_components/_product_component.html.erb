@@ -1,19 +1,14 @@
-<div id="<%= dom_id product_component %>" class="flex flex-col gap grow">
-  <div class="card">
-    <h3 class="text-lg font-semibold"><%= product_component.component.code %> - <%= product_component.component.name %></h3>
-    <div class="flex justify-between items-center grow">
-      <div>
-        <p class="text-sm text-subtle">Unit: <%= product_component.component.unit %></p>
-        <p class="text-sm text-subtle">Color: <%= product_component.component.color %></p>
-      </div>
-      <div class="flex items-center">
-        <span class="text-lg mie-2">X</span>
-        <p class="text-xl font-bold"><%= product_component.quantity %></p>
-      </div>
-    </div>
-  </div>
-  <div class="flex items-center justify-between gap w-full" style="--row-gap: .5rem">
-    <%= link_to "Edit this product component", edit_product_component_path(@product, product_component), class: "btn" %>
-    <%= link_to "Remove", product_component_path(@product, product_component), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
-  </div>
-</div>
+<tr>
+  <td><%= product_component_counter + 1 %></td>
+  <td><%= product_component.component.code %></td>
+  <td><%= link_to product_component.component.name, edit_product_component_path(@product, product_component)  %></td>
+  <td><%= product_component.quantity %></td>
+  <td><%= product_component.component.unit %></td>
+  <td><%= product_component.quantity %> </td>
+  <td><%= product_component.component.price.format %></td>
+  <td><%= (product_component.quantity*product_component.component.price).format %></td>
+  <td>
+    <%= link_to "Edit", edit_product_component_path(@product, product_component) %> |
+    <%= link_to "Remove", product_component_path(@product, product_component), data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+  </td>
+</tr>

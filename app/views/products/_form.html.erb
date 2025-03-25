@@ -43,8 +43,7 @@
     <%= form.label :height, "Height, mm", class: "text-sm font-medium leading-none" %>
     <%= form.number_field :height, class: "input" %>
   </div>
-  <div class="flex items-center gap">
-    <%= button_tag tag.span(product.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading" %>
+  <div class="flex items-center justify-between">
     <% if product.persisted? %>
       <%= link_to "Cancel", product, class: "btn btn--secondary" %>
     <% elsif product.order_version_id %>
@@ -52,5 +51,6 @@
     <% else %>
       <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#back:prevent" } %>
     <% end %>
+    <%= button_tag tag.span(product.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

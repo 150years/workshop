@@ -15,7 +15,7 @@
   </div>
   <div class="flex flex-col gap">
     <%= form.label :agent, "Agent, %", class: "font-bold text-sm" %>
-    <%= form.text_field :version_ote, class: "input" %>
+    <%= form.text_field :agent, class: "input" %>
   </div>
   <div class="flex flex-col gap">
 <div class="flex flex-col gap">
@@ -25,7 +25,7 @@
    <div class="flex items-center gap">
     <%= form.check_box :final_version, class: "checkbox" %>
     <%= form.label :final_version, class: "text-sm" %>
-  </div>  
+  </div>
   <div class="inline-flex items-center mbs-2 mie-1 gap">
     <%= form.submit class: "btn btn--primary" %>
     <%= link_to "Back", @order, class: "btn" %>

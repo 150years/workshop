@@ -12,4 +12,9 @@
   <th><%= component.weight %></th>
   <th><%= component.min_quantity %> <%= component.unit %></th>
   <td class="text-end"><%= component.price.format %></td>
+  <td>
+    <%= link_to "Copy", new_component_path(copy_from: component.id), data: {turbo_frame: "_top"} %>
+    <%= link_to "Edit", edit_component_path(component), data: {turbo_frame: "_top"} %>
+    <%= link_to "Destroy", component, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+  </td>
 </tr>

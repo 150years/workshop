@@ -17,6 +17,15 @@ class ComponentsController < ApplicationController
   # GET /components/new
   def new
     @component = Component.new(category: nil)
+    @component = if params[:copy_from].blank?
+                   Component.new(category: nil)
+                 else
+                   Component.find(params[:copy_from]).dup
+                 end
+    return if params[:copy_from].blank?
+
+    source_component = Component.find(params[:copy_from])
+    @component.image.attach(source_component.image.blob) if source_component.image.attached?
   end
 
   # GET /components/1/edit

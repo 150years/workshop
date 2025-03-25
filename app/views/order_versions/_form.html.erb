@@ -26,8 +26,8 @@
     <%= form.check_box :final_version, class: "checkbox" %>
     <%= form.label :final_version, class: "text-sm" %>
   </div>
-  <div class="inline-flex items-center mbs-2 mie-1 gap">
-    <%= form.submit class: "btn btn--primary" %>
+  <div class="inline-flex items-center justify-between mbs-2 mie-1 gap">
     <%= link_to "Back", @order, class: "btn" %>
+    <%= button_tag tag.span(order_version.persisted? ? "Update Version" : "Create Version"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

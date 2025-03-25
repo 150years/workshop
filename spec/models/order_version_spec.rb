@@ -41,5 +41,8 @@ RSpec.describe OrderVersion, type: :model do
     it { is_expected.to validate_presence_of(:agent_comm) }
     it { is_expected.to validate_numericality_of(:agent_comm).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:agent_comm).is_less_than_or_equal_to(100) }
+    it { is_expected.to validate_presence_of(:profit) }
+    it { is_expected.to validate_numericality_of(:profit).only_integer.is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:profit).is_less_than_or_equal_to(100) }
   end
 end

@@ -33,8 +33,12 @@ class OrderVersion < ApplicationRecord
   belongs_to :order
   has_many :products, dependent: :destroy
 
-  validates :agent_comm, presence: true,
-                         numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  validates :agent_comm, :profit, presence: true,
+                                  numericality: {
+                                    only_integer: true,
+                                    greater_than_or_equal_to: 0,
+                                    less_than_or_equal_to: 100
+                                  }
 
   after_commit do
     broadcast_update_to self

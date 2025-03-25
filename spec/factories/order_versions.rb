@@ -31,7 +31,6 @@ FactoryBot.define do
     company
     total_amount { rand(0..10_000) }
     agent_comm { rand(0..100) }
-    comment { 'MyText' }
     version_note { 'MyText' }
     final_version { false }
   end

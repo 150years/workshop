@@ -7,7 +7,7 @@
 #  id                 :integer          not null, primary key
 #  agent_comm         :integer          default(0), not null
 #  final_version      :boolean          default(FALSE), not null
-#  profit             :integer
+#  profit             :integer          default(0), not null
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null

@@ -1,0 +1,12 @@
+  <!-- app/views/entries/index.html.erb -->
+  <h1>Accounting Entries</h1>
+
+  <%= link_to "Chart of Accounts", accounts_path, class: "btn btn-outline-primary" %>
+  <%= button_to "New Client Payment", entries_path(action_type: 'client_payment', order_id: 1, amount: 100_000), method: :post, form: { data: { turbo_stream: true } } %>
+  <%= link_to "Purchase Materials", entries_path(action_type: 'purchase_materials', amount: 20_000), data: { turbo_action: 'replace' } %>
+  <%= link_to "Agent Commission", entries_path(action_type: 'agent_commission', amount: 5_000), data: { turbo_action: 'replace' } %>
+
+  <div id="entries">
+    <%= render partial: 'entries/entry', collection: @entries, as: :entry %>
+  </div>
+

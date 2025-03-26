@@ -10,6 +10,7 @@
     <%= link_to "Components", components_path, class: (request.path.include?("/components") ? "text-primary" : "") %>
     <%= link_to "Products", products_path, class: (request.path.include?("/products") ? "text-primary" : "") %>
     <%= link_to "Projects", orders_path, class: (request.path.include?("/orders") ? "text-primary" : "") %>
+    <%= link_to "Accounting", entries_index_path, class: (request.path.include?("/entries") ? "text-primary" : "") %>
   </nav>
 </div>
 <div class="flex items-center gap">

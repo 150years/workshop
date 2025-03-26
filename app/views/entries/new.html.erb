@@ -1,0 +1,26 @@
+<h1>New Entry</h1>
+
+<%= form_with model: @entry, url: accounting_entries_path do |f| %>
+  <%= f.label :date %>
+  <%= f.date_field :date, value: Date.today %><br/>
+
+  <%= f.label :description %>
+  <%= f.text_field :description %><br/>
+
+  <h3>Bookings</h3>
+  <%= f.fields_for :keepr_bookings do |b| %>
+    <div>
+      <%= b.label :booking_type %>
+      <%= b.select :booking_type, %w[debit credit] %>
+
+      <%= b.label :account_id, "Account" %>
+      <%= b.collection_select :account_id, Keepr::Account.all, :id, :name %>
+
+      <%= b.label :amount %>
+      <%= b.text_field :amount %>
+    </div>
+  <% end %>
+
+  <%= f.submit "Create Entry" %>
+<% end %>
+  

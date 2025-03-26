@@ -1,0 +1,9 @@
+<!-- app/views/entries/_entry.html.erb -->
+<div>
+  <strong><%= entry.subject %></strong> - <%= entry.date.strftime('%Y-%m-%d') %>
+  <ul>
+    <% entry.postings.each do |posting| %>
+      <li><%= posting.account.name %>: <%= posting.amount %> <%= posting.side %></li>
+    <% end %>
+  </ul>
+</div>

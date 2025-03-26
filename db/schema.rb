@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_162612) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,6 +89,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_162612) do
     t.index ["company_id"], name: "index_components_on_company_id"
   end
 
+  create_table "entries", force: :cascade do |t|
+    t.string "number"
+    t.date "date", null: false
+    t.string "subject"
+    t.string "accountable_type"
+    t.integer "accountable_id"
+    t.text "note"
+    t.boolean "permanent", default: false, null: false
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.integer "project_id"
+    t.integer "order_version_id"
+    t.integer "order_id", default: 0, null: false
+    t.index ["accountable_type", "accountable_id"], name: "index_entries_on_accountable_type_and_accountable_id"
+    t.index ["date"], name: "index_entries_on_date"
+    t.index ["order_id"], name: "index_entries_on_order_id"
+    t.index ["order_version_id"], name: "index_entries_on_order_version_id"
+    t.index ["project_id"], name: "index_entries_on_project_id"
+  end
+
   create_table "keepr_accounts", force: :cascade do |t|
     t.integer "number", null: false
     t.string "ancestry"
@@ -122,26 +142,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_162612) do
     t.index ["ancestry"], name: "index_keepr_groups_on_ancestry"
   end
 
-  create_table "keepr_journals", force: :cascade do |t|
-    t.string "number"
-    t.date "date", null: false
-    t.string "subject"
-    t.string "accountable_type"
-    t.integer "accountable_id"
-    t.text "note"
-    t.boolean "permanent", default: false, null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "project_id"
-    t.integer "order_version_id"
-    t.integer "order_id", default: 0, null: false
-    t.index ["accountable_type", "accountable_id"], name: "index_keepr_journals_on_accountable_type_and_accountable_id"
-    t.index ["date"], name: "index_keepr_journals_on_date"
-    t.index ["order_id"], name: "index_keepr_journals_on_order_id"
-    t.index ["order_version_id"], name: "index_keepr_journals_on_order_version_id"
-    t.index ["project_id"], name: "index_keepr_journals_on_project_id"
-  end
-
   create_table "keepr_postings", force: :cascade do |t|
     t.integer "keepr_account_id", null: false
     t.integer "keepr_journal_id", null: false
@@ -149,6 +149,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_162612) do
     t.integer "keepr_cost_center_id"
     t.string "accountable_type"
     t.integer "accountable_id"
+    t.string "side"
     t.index ["accountable_type", "accountable_id"], name: "index_keepr_postings_on_accountable_type_and_accountable_id"
     t.index ["keepr_account_id"], name: "index_keepr_postings_on_keepr_account_id"
     t.index ["keepr_cost_center_id"], name: "index_keepr_postings_on_keepr_cost_center_id"

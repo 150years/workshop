@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  get 'entries/index'
+  get 'entries/new'
+  get 'entries/create'
+  get 'accounts/index'
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 
@@ -18,7 +22,9 @@ Rails.application.routes.draw do
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
   end
-
+  resources :accounts, only: [:index]
+  resources :entries, only: %i[index new create]
+  
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -70,3 +70,12 @@ puts 'Products added to order versions'
 puts 'Database seeded. Please restart the application to see the changes.'
 
 # rubocop:enable Rails/Output
+
+# Accountig
+Account.create!(name: 'Cash', account_type: :asset)
+Account.create!(name: 'Accounts Receivable', account_type: :asset)
+Account.create!(name: 'Sales - Windows', account_type: :income)
+Account.create!(name: 'Sales - Doors', account_type: :income)
+Account.create!(name: 'Agent Commissions', account_type: :expense)
+Account.create!(name: 'Materials - Aluminum', account_type: :expense)
+Account.create!(name: 'Accounts Payable', account_type: :liability)

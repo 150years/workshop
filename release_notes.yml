@@ -1,4 +1,12 @@
 releases:
+  - version: "0.19.0"
+    date: "26-03-2025"
+    notes:
+      - "Order versions: added edit ability"
+      - "Order versions: added V number to order version"
+      - "Order versions: added profit field"
+      - "Application: unified Back/Create buttons layout"
+      - "Development: rails db:reset command now seeds data in development environment"
   - version: "0.18.0"
     date: "24-03-2025"
     notes:

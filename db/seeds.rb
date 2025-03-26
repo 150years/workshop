@@ -9,3 +9,12 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+seed_file = Rails.root.join('db', 'seeds', "#{Rails.env}.rb")
+
+if File.exist?(seed_file)
+  puts "Seeding #{Rails.env} environment data..." # rubocop:disable Rails/Output
+  require seed_file
+else
+  puts "No seed file for #{Rails.env} environment." # rubocop:disable Rails/Output
+end

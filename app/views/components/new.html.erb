@@ -1,11 +1,15 @@
 <% content_for :title, "New component" %>
-
 <h1 class="font-bold text-4xl mbe-4">New component</h1>
-
-copy_from <%= @component.name %>
-
+<% if params[:template_id].present? %>
+  <div class="alert flex items-start" role="alert">
+    <%= image_tag "copy.svg", size: 16, aria: { hidden: true } %>
+    <div class="flex flex-col mis-3">
+      <h5 class="font-medium leading-none mbe-1">This component is copied from <%= link_to @original_component.name, @original_component, target: "_blank" %></h5>
+      <p>Leave image blank if you want to attach image from <%= @original_component.name %></p>
+    </div>
+  </div>
+<% end %>
 <%= render "form", component: @component %>
-
 <div class="inline-flex flex-wrap items-center gap mbs-2" style="--row-gap: .5rem">
   <%= link_to "Back to components", components_path, class: "btn" %>
 </div>

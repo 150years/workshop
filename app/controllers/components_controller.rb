@@ -19,8 +19,11 @@ class ComponentsController < ApplicationController
     if params[:template_id].blank?
       @component = Component.new(category: nil)
     else
-      @component = Component.find(params[:template_id]).dup
-      @component.image.attach(Component.find(params[:template_id]).image.blob)
+      @original_component = current_company.components.find(params[:template_id])
+
+      @component = @original_component.dup
+      @component.name = "#{@component.name} (Copy)"
+      @component.image.attach(@original_component.image.blob)
     end
   end
 
@@ -37,6 +40,7 @@ class ComponentsController < ApplicationController
     if @component.save
       redirect_to @component, notice: 'Component was successfully created.'
     else
+      @original_component = current_company.components.find(params[:template_id])
       render :new, status: :unprocessable_entity
     end
   end

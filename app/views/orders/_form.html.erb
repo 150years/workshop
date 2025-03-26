@@ -34,7 +34,8 @@
         { include_blank: "Select agent..." },
         { data: { controller: "combobox" } } %>
   </div>
-  <div class="inline-flex items-center mbs-2 mie-1">
-    <%= form.submit class: "btn btn--primary" %>
+  <div class="inline-flex items-center justify-between mbs-2 mie-1">
+    <%= link_to "Back", order, class: "btn" %>
+    <%= button_tag tag.span(order.persisted? ? "Update Order" : "Create Order"), class: "btn btn--primary btn--loading" %>
   </div>
 <% end %>

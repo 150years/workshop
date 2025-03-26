@@ -6,8 +6,8 @@
 #
 #  id                 :integer          not null, primary key
 #  agent_comm         :integer          default(0), not null
-#  comment            :text
 #  final_version      :boolean          default(FALSE), not null
+#  profit             :integer          default(0), not null
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -33,8 +33,12 @@ class OrderVersion < ApplicationRecord
   belongs_to :order
   has_many :products, dependent: :destroy
 
-  validates :agent_comm, presence: true,
-                         numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  validates :agent_comm, :profit, presence: true,
+                                  numericality: {
+                                    only_integer: true,
+                                    greater_than_or_equal_to: 0,
+                                    less_than_or_equal_to: 100
+                                  }
 
   after_commit do
     broadcast_update_to self

@@ -10,7 +10,7 @@ RSpec.describe '/order_versions', type: :request do
     {
       version_note: 'VersionNote',
       agent_comm: 15,
-      comment: 'VersionComment',
+      profit: 10,
       final_version: false
     }
   end
@@ -18,8 +18,7 @@ RSpec.describe '/order_versions', type: :request do
   let(:invalid_attributes) do
     {
       version_note: 'VersionNote',
-      agent_comm: 111,
-      comment: 'VersionComment',
+      agent_comm: 'Not a number',
       final_version: false
     }
   end

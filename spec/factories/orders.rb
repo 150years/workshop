@@ -29,7 +29,7 @@ FactoryBot.define do
   factory :order do
     association :company
     sequence(:name) { |n| "Order #{n}" }
-    status { 0 }
+    status { rand(0..7) }
 
     after(:build) do |order|
       order.client ||= create(:client, company: order.company)

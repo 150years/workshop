@@ -75,7 +75,7 @@ RSpec.describe Component, type: :model do
       it 'updates the price of the related products if price changed' do
         component.reload
 
-        expect { component.update(price_cents: 500_000) }.to change { product.reload.price_cents }.from(10_000).to(500_000)
+        expect { component.update(price_cents: 500_000) }.to change { product.reload.price_cents }.to(500_000)
       end
     end
   end

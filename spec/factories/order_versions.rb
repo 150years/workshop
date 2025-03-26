@@ -6,8 +6,8 @@
 #
 #  id                 :integer          not null, primary key
 #  agent_comm         :integer          default(0), not null
-#  comment            :text
 #  final_version      :boolean          default(FALSE), not null
+#  profit             :integer          default(0), not null
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -31,8 +31,8 @@ FactoryBot.define do
     company
     total_amount { rand(0..10_000) }
     agent_comm { rand(0..100) }
-    comment { 'MyText' }
-    version_note { 'MyText' }
+    profit { rand(0..100) }
+    version_note { Faker::Lorem.sentence }
     final_version { false }
   end
 

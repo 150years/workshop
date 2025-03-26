@@ -21,9 +21,13 @@ module OrderVersionsHelper
     new_version_button = link_to '➕ New Version', new_order_version_path(order.id),
                                  class: 'btn tabs__button'
 
-    version_buttons = order_versions.map do |order_version|
-      date = order_version.created_at.strftime('%d-%m-%Y')
-      tag.button(date,
+    total_versions = order_versions.size
+
+    version_buttons = order_versions.map.with_index do |order_version, index|
+      version_number = total_versions - index
+      date_label = "V#{version_number} #{order_version.created_at.strftime('%d-%m-%Y')}"
+
+      tag.button(date_label,
                  type: 'button',
                  id: "trigger_#{order_version.id}",
                  class: 'btn tabs__button',

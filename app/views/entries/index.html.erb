@@ -1,12 +1,30 @@
   <!-- app/views/entries/index.html.erb -->
   <h1>Accounting Entries</h1>
 
+  <div class="gap">
   <%= link_to "Chart of Accounts", accounts_path, class: "btn btn-outline-primary" %>
-  <%= button_to "New Client Payment", entries_path(action_type: 'client_payment', order_id: 1, amount: 100_000), method: :post, form: { data: { turbo_stream: true } } %>
-  <%= link_to "Purchase Materials", entries_path(action_type: 'purchase_materials', amount: 20_000), data: { turbo_action: 'replace' } %>
-  <%= link_to "Agent Commission", entries_path(action_type: 'agent_commission', amount: 5_000), data: { turbo_action: 'replace' } %>
-
-  <div id="entries">
-    <%= render partial: 'entries/entry', collection: @entries, as: :entry %>
+  <%= link_to "New Client Payment", new_payment_entries_path, class: "btn btn-outline-primary"  %>
   </div>
+  <%#= button_to "New Client Payment", entries_path(action_type: 'client_payment', order_id: 1, amount: 100_000), method: :post, form: { data: { turbo_stream: true } } %>
+  <table class="prose">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Subject</th>
+        <th>Acc name</th>
+        <th>Amount</th>
+        <th >Side</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <%= render partial: 'entries/entry', collection: @entries, as: :entry %>
+    </tbody>
+  </table>
+  <b>Пока не работают</b>
+  <hr>
+  <div class="gap">
+  <%= link_to "Purchase Materials", entries_path(action_type: 'purchase_materials', amount: 20_000), data: { turbo_action: 'replace' }, class: "btn btn-outline-primary" %>
+  <%= link_to "Agent Commission", entries_path(action_type: 'agent_commission', amount: 5_000), data: { turbo_action: 'replace' }, class: "btn btn-outline-primary" %>
+  </div>
+  
 

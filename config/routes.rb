@@ -23,13 +23,18 @@ Rails.application.routes.draw do
     resources :versions, except: %i[index], controller: 'order_versions'
   end
   resources :accounts, only: [:index]
-  resources :entries, only: %i[index new create]
-  
+  resources :entries, only: %i[index new create] do
+    collection do
+      get :new_payment
+      post :create_payment
+    end
+  end
+end 
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-end
+
 
 # == Route Map
 #

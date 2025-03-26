@@ -3,6 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Entries', type: :request do
+  let(:user) { create(:user) } # создаем пользователя
+  before { sign_in user } # авторизуем пользователя
+
   describe 'GET /index' do
     it 'returns http success' do
       get '/entries/index'

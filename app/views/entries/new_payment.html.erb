@@ -1,0 +1,17 @@
+<h1>Record Client Payment</h1>
+
+<%= form_with url: create_payment_entries_path, method: :post do %>
+  <div>
+    <%= label_tag :order_id, "Select Order" %>
+    <%= select_tag :order_id, options_from_collection_for_select(@orders, :id, :name), prompt: "Choose Order" %>
+  </div>
+
+  <div>
+    <%= label_tag :amount, "Payment Amount (THB)" %>
+    <%= number_field_tag :amount, nil, step: 1000 %>
+  </div>
+
+  <div>
+    <%= submit_tag "Record Payment" %>
+  </div>
+<% end %>

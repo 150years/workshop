@@ -6,6 +6,10 @@ class EntriesController < ApplicationController
     @entries = Journal.includes(:postings).order(created_at: :desc).limit(50)
   end
 
+  def new
+    @entry = Journal.new  # Инициализация новой модели Journal (или другой модели, если ты её используешь)
+  end
+
   def create
     case params[:action_type]
     when 'client_payment'
@@ -17,6 +21,27 @@ class EntriesController < ApplicationController
     else
       render :index
     end
+  end
+
+  def new_payment
+    @orders = Order.all
+  end
+
+  def create_payment
+    order = Order.find(params[:order_id])
+    amount = params[:amount].to_f
+
+    Journal.create!(
+      subject: "Client Payment for Order ##{order.id}",
+      date: Time.zone.today,
+      order_id: order.id, # Вместо order используем order_id
+      postings_attributes: [
+        { account: Account.find_by(name: 'Cash'), amount: amount, side: 'debit' },
+        { account: Account.find_by(name: 'Accounts Receivable'), amount: amount, side: 'credit' }
+      ]
+    )
+
+    redirect_to accounts_path, notice: 'Payment recorded!'
   end
 
   private

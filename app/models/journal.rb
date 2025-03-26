@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/models/journal.rb
 # == Schema Information
 #
 # Table name: entries
@@ -28,22 +27,10 @@
 #  index_entries_on_project_id                           (project_id)
 #
 class Journal < ApplicationRecord
-  self.table_name = 'entries' # если ты переименовал таблицу, то это нужно указать
+  self.table_name = 'entries' # Это должно быть 'entries' вместо 'keepr_journals'
 
   belongs_to :order, optional: true
-  belongs_to :order_version, optional: true
 
-  has_many :postings, class_name: 'Posting', foreign_key: 'keepr_journal_id', dependent: :destroy
+  has_many :postings, class_name: 'Posting', foreign_key: 'keepr_journal_id', inverse_of: :journal, dependent: :destroy
   accepts_nested_attributes_for :postings
-
-  validates :date, :subject, presence: true
-  validate :balanced_journal
-
-  private
-
-  def balanced_journal
-    debit = postings.select(&:debit?).sum(&:amount)
-    credit = postings.select(&:credit?).sum(&:amount)
-    errors.add(:base, 'Journal must be balanced') unless debit == credit
-  end
 end

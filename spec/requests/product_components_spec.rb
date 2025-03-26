@@ -110,7 +110,7 @@ RSpec.describe '/product_components', type: :request do
 
       it 'updates the requested product_component' do
         patch product_component_url(product, product_component), params: { product_component: new_attributes }
-        expect { product_component.reload }.to change { product_component.quantity.to_f }.from(1.0).to(2.0)
+        expect { product_component.reload }.to change { product_component.quantity.to_f }.to(2.0)
       end
 
       it 'redirects to the product' do

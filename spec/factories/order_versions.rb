@@ -31,7 +31,8 @@ FactoryBot.define do
     company
     total_amount { rand(0..10_000) }
     agent_comm { rand(0..100) }
-    version_note { 'MyText' }
+    profit { rand(0..100) }
+    version_note { Faker::Lorem.sentence }
     final_version { false }
   end
 

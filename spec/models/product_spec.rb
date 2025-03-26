@@ -180,7 +180,7 @@ RSpec.describe Product, type: :model do
     end
 
     it 'updates the product price' do
-      expect { product.update_price }.to change { product.price_cents }.from(300).to(600)
+      expect { product.update_price }.to change { product.price_cents }.to(600)
     end
   end
 

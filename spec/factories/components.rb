@@ -33,17 +33,17 @@
 FactoryBot.define do
   factory :component do
     code { Faker::Alphanumeric.alphanumeric(number: 10) }
-    category { 'aluminum' }
+    category { %w[aluminum glass other].sample }
     name { Faker::Commerce.product_name }
-    color { 'Grey sahara / 8820 Sapphire grey sahara' }
-    unit { 'mm' }
-    width { 100 }
-    length { 100 }
-    height { 100.0 }
-    thickness { 100 }
-    weight { 100 }
-    min_quantity { 1.0 }
-    price { 100 }
+    color { "#{Faker::Color.color_name} / #{Faker::Color.color_name}" }
+    unit { %w[mm pc lot m m2 kg lines].sample }
+    width { rand(100..1000) }
+    length { rand(100..1000) }
+    height { rand(100..1000) }
+    thickness { rand(1..10) }
+    weight { rand(10..10_000) }
+    min_quantity { rand(1.0..99.9) }
+    price_cents { rand(10..10_000) }
     note { Faker::Lorem.sentence }
     company
 

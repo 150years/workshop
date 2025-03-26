@@ -27,5 +27,8 @@ FactoryBot.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }
     company
+    phone { [Faker::PhoneNumber.phone_number, nil].sample }
+    address { [Faker::Address.full_address, nil].sample }
+    tax_id { [Faker::Company.brazilian_company_number, nil].sample }
   end
 end

@@ -16,16 +16,12 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    @component = Component.new(category: nil)
-    @component = if params[:copy_from].blank?
-                   Component.new(category: nil)
-                 else
-                   Component.find(params[:copy_from]).dup
-                 end
-    return if params[:copy_from].blank?
-
-    source_component = Component.find(params[:copy_from])
-    @component.image.attach(source_component.image.blob) if source_component.image.attached?
+    if params[:template_id].blank?
+      @component = Component.new(category: nil)
+    else
+      @component = Component.find(params[:template_id]).dup
+      @component.image.attach(Component.find(params[:template_id]).image.blob)
+    end
   end
 
   # GET /components/1/edit
@@ -35,6 +31,8 @@ class ComponentsController < ApplicationController
   def create
     @component = Component.new(component_params)
     @component.company = current_company
+
+    attach_template_image
 
     if @component.save
       redirect_to @component, notice: 'Component was successfully created.'
@@ -69,6 +67,12 @@ class ComponentsController < ApplicationController
 
   def set_component
     @component = current_company.components.find(params.expect(:id))
+  end
+
+  def attach_template_image
+    return unless component_params[:image].blank? && params[:template_id].present? && params[:image_blob_id].present?
+
+    @component.image.attach(ActiveStorage::Blob.find_signed(params[:image_blob_id]))
   end
 
   def component_params

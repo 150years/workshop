@@ -5,7 +5,9 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = current_company.users
+    # @users = current_company.users
+    @search = current_company.users.ransack(params[:q])
+    @pagy, @users = pagy(@search.result(distinct: true))
   end
 
   # GET /users/1

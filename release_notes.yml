@@ -1,11 +1,13 @@
 releases:
+
   - version: "0.20.0"
     date: "27-03-2025"
     notes:
-      - "Components: added copy action"
-      - "Components: added actions dropdown to table"
-      - "Components: unified buttons design"
-      - "Layout: increased max width for content"
+      - "Users: add order"
+      - "Users: tune tabel sam other style"
+      - "Orders: add files view"
+      - "Orders: tune view"
+      - "Order versions: tune view"
   - version: "0.19.0"
     date: "26-03-2025"
     notes:

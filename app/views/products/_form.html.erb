@@ -51,6 +51,6 @@
     <% else %>
       <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#back:prevent" } %>
     <% end %>
-    <%= button_tag tag.span(product.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading" %>
+    <%= button_tag tag.span(product.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading", style: "width: 200px" %>
   </div>
 <% end %>

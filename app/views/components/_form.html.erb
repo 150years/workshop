@@ -78,6 +78,9 @@
     <% end %>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
-    <%= button_tag tag.span(component.persisted? ? "Update Component" : "Create Component"), class: "btn btn--primary btn--loading" %>
+  </div>
+  <div class="flex items-center justify-between">
+    <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#back:prevent" } %>
+    <%= button_tag tag.span(component.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading", style: "width: 200px" %>
   </div>
 <% end %>

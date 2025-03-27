@@ -21,6 +21,9 @@ class ComponentsController < ApplicationController
     @original_component = service.original_component
   end
 
+  # GET /components/1/edit
+  def edit; end
+
   # POST /components
   def create
     service = Components::CreationService.new(current_company, params, Component.new(component_params))

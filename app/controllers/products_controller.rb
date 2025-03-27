@@ -48,9 +48,6 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    # If image not modified in the form, remove it from the params
-    product_params.delete(:image) if product_params[:image].blank?
-
     if @product.update(product_params)
       redirect_to @product, notice: 'Product template was successfully updated.', status: :see_other
     else

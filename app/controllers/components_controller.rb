@@ -16,7 +16,9 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    @component = Component.new(category: nil)
+    service = Components::CreationService.new(current_company, params).build
+    @component = service.component
+    @original_component = service.original_component
   end
 
   # GET /components/1/edit
@@ -24,21 +26,19 @@ class ComponentsController < ApplicationController
 
   # POST /components
   def create
-    @component = Component.new(component_params)
-    @component.company = current_company
+    service = Components::CreationService.new(current_company, params, Component.new(component_params))
 
-    if @component.save
-      redirect_to @component, notice: 'Component was successfully created.'
+    if service.save
+      redirect_to service.component, notice: 'Component was successfully created.'
     else
+      @component = service.component
+      @original_component = service.original_component
       render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /components/1
   def update
-    # If image not modified in the form, remove it from the params
-    component_params.delete(:image) if component_params[:image].blank?
-
     if @component.update(component_params)
       redirect_to @component, notice: 'Component was successfully updated.', status: :see_other
     else
@@ -60,6 +60,12 @@ class ComponentsController < ApplicationController
 
   def set_component
     @component = current_company.components.find(params.expect(:id))
+  end
+
+  def attach_template_image
+    return unless component_params[:image].blank? && params[:template_id].present? && params[:image_blob_id].present?
+
+    @component.image.attach(ActiveStorage::Blob.find_signed(params[:image_blob_id]))
   end
 
   def component_params

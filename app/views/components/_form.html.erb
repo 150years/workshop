@@ -13,17 +13,16 @@
     <%= component.image.attached? ? image_or_placeholder(component.image, 200, 200) : "" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :name, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+  <div class="flex flex-col gap-half mbe-4">
     <%= form.label :code, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :code, class: "input" %>
   </div>
-  <%# Category %>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :category, class: "text-sm font-medium leading-none" %>
     <%= form.select :category, options_for_select(Component.categories.keys.map { |c| [c.titleize, c] }, selected: component.category), {include_blank: "Select category..."}, data: { controller: "combobox"} %>
-  </div>
-  <div class="flex flex-col gap-half mbe-4">
-    <%= form.label :name, class: "text-sm font-medium leading-none" %>
-    <%= form.text_field :name, class: "input" %>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :color, "Color (Can use comma)" , class: "text-sm font-medium leading-none" %>
@@ -71,8 +70,17 @@
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :image, class: "text-sm font-medium leading-none" %>
     <%= form.file_field :image, accept: "image/*", class: "input" %>
+    <% if params[:template_id].present? %>
+      <%= hidden_field_tag :template_id, params[:template_id] %>
+      <% if form.object.image.attached? %>
+        <%= hidden_field_tag :image_blob_id, form.object.image.blob.signed_id %>
+      <% end %>
+    <% end %>
   </div>
   <div class="inline-flex items-center mbs-2 mie-1">
-    <%= button_tag tag.span(component.persisted? ? "Update Component" : "Create Component"), class: "btn btn--primary btn--loading" %>
+  </div>
+  <div class="flex items-center justify-between">
+    <%= link_to "Cancel", "#", class: "btn btn--secondary", data: { controller: "navigation", action: "navigation#back:prevent" } %>
+    <%= button_tag tag.span(component.persisted? ? "Update" : "Create"), class: "btn btn--primary btn--loading", style: "width: 200px" %>
   </div>
 <% end %>

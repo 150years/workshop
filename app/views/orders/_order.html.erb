@@ -17,6 +17,28 @@
       <span class="font-bold">Agent:</span>
       <span><%= order.agent.name %></span>
     </div>
+    <div class="flex items-start gap-2 py-1">
+    <span class="font-bold mt-1">Files:</span>&nbsp;
+    <div class="flex flex-wrap gap-x-2 gap-y-1">
+      <% order.files.each_with_index do |file, index| %>
+        <div class="flex items-center gap-1">
+          <%= link_to file.filename.to_s, rails_blob_path(file, only_path: true),
+                      target: '_blank',
+                      class: "text-blue-600 underline hover:text-blue-800" %>
+
+          <%= button_to remove_file_order_path(order_id: order.id, file_id: file.id),
+              method: :delete,
+              form: { data: { turbo_confirm: "Delete this file?" } },
+              class: "flex items-center justify-center w-5 h-5 rounded-full hover:bg-red-600 transition",
+              style: "background: transparent; border: none; padding: 0;" do %>
+            <%= image_tag "x.svg", class: "w-3 h-3", style: "filter: brightness(0) invert(1);", aria: { hidden: true } %>
+          <% end %>
+
+          <% unless index == order.files.size - 1 %><span>,</span><% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
     <div class="flex flex-col gap">
       <span class="font-bold">Order Versions</span>
       <div class="tabs" data-controller="tabs">
@@ -25,3 +47,4 @@
     </div>
   </div>
 </div>
+ 

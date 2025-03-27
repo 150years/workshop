@@ -34,6 +34,16 @@
         { include_blank: "Select agent..." },
         { data: { controller: "combobox" } } %>
   </div>
+  <div class="flex flex-col gap-half mbe-4">
+    <%= form.label :files, "Attache files", class: "text-sm font-medium leading-none" %>
+    <%= form.file_field :files, accept: "image/*,application/pdf", class: "input", multiple: true %>
+    <% if params[:template_id].present? %>
+      <%= hidden_field_tag :template_id, params[:template_id] %>
+      <% if form.object.image.attached? %>
+        <%= hidden_field_tag :image_blob_id, form.object.image.blob.signed_id %>
+      <% end %>
+    <% end %>
+  </div>  
   <div class="inline-flex items-center justify-between mbs-2 mie-1">
     <%= link_to "Back", order, class: "btn" %>
     <%= button_tag tag.span(order.persisted? ? "Update Order" : "Create Order"), class: "btn btn--primary btn--loading" %>

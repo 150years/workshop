@@ -30,6 +30,7 @@ class Order < ApplicationRecord
   belongs_to :client
   belongs_to :agent
   has_many :order_versions, dependent: :destroy
+  has_many_attached :files
 
   enum :status,
        {

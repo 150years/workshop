@@ -29,26 +29,25 @@
           <th style="min-inline-size: 3rem"></th>
         </tr>
       </thead>
-      <tbody>
-        <% if @users.blank? %>
-          <tr>
-            <td colspan="4" class="text-center p-8">No users found.</td>
-          </tr>
-        <% else %>
-          <% @users.each_with_index do |user, index| %>
+        <tbody>
+          <% if @users.blank? %>
             <tr>
-              <td><%= user.id %></td>
-              <td><%= user.name %></td>
-              <td><%= user.email %></td>
-              <td class="flex gap">
-                <%= link_to "Edit", edit_user_path(user) %> | 
-                <%= link_to "Delete", user_path(user), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-              </td>
+              <td colspan="4" class="text-center p-8">No users found.</td>
             </tr>
+          <% else %>
+            <% @users.each_with_index do |user, index| %>
+              <tr data-controller="link" data-link-href-value="<%= edit_user_path(user) %>" class="cursor-pointer hover:bg-gray-100">
+                <td><%= user.id %></td>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td class="flex gap">
+                  <%= link_to "Edit", edit_user_path(user), data: {turbo_frame: "_top"} %> | 
+                  <%= link_to "Delete", user_path(user), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
   </div>
 
   <div class="flex items-center">

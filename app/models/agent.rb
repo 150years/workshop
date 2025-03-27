@@ -40,6 +40,10 @@ class Agent < ApplicationRecord
     %w[company orders]
   end
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id name phone email commission created_at]
+  end
+
   private
 
   def normalize_email

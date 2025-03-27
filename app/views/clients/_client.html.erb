@@ -6,5 +6,5 @@
 <td><%= client.tax_id %></td>
 <td>
   <%= link_to "Edit", edit_client_path(client)%> |
-  <%= link_to "Destroy", client, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+  <%= link_to "Delete", client, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
 </td>

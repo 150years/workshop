@@ -1,4 +1,4 @@
-<tr>
+<tr data-controller="link" data-link-href-value="<%= edit_component_path(component) %>" class="cursor-pointer hover:bg-gray-50 transition">
   <th><%= component.id %></th>
   <td><%= component.category.capitalize %></td>
   <td><%= image_or_placeholder(component.image, 100, 100) %></td>

@@ -1,13 +1,10 @@
 releases:
 
   - version: "0.20.0"
-    date: "27-03-2025"
+    date: "28-03-2025"
     notes:
-      - "Users: add order"
-      - "Users: tune tabel sam other style"
-      - "Orders: add files view"
-      - "Orders: tune view"
-      - "Order versions: tune view"
+      - "Tune app style to make table same, add sort, clickable row to edit"
+      - "Orders: add files"
   - version: "0.19.0"
     date: "26-03-2025"
     notes:

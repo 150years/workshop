@@ -36,9 +36,6 @@ class ComponentsController < ApplicationController
 
   # PATCH/PUT /components/1
   def update
-    # If image not modified in the form, remove it from the params
-    component_params.delete(:image) if component_params[:image].blank?
-
     if @component.update(component_params)
       redirect_to @component, notice: 'Component was successfully updated.', status: :see_other
     else

@@ -16,31 +16,20 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    if params[:template_id].blank?
-      @component = Component.new(category: nil)
-    else
-      @original_component = current_company.components.find(params[:template_id])
-
-      @component = @original_component.dup
-      @component.name = "#{@component.name} (Copy)"
-      @component.image.attach(@original_component.image.blob)
-    end
+    service = Components::CreationService.new(current_company, params).build
+    @component = service.component
+    @original_component = service.original_component
   end
-
-  # GET /components/1/edit
-  def edit; end
 
   # POST /components
   def create
-    @component = Component.new(component_params)
-    @component.company = current_company
+    service = Components::CreationService.new(current_company, params, Component.new(component_params))
 
-    attach_template_image
-
-    if @component.save
-      redirect_to @component, notice: 'Component was successfully created.'
+    if service.save
+      redirect_to service.component, notice: 'Component was successfully created.'
     else
-      @original_component = current_company.components.find(params[:template_id])
+      @component = service.component
+      @original_component = service.original_component
       render :new, status: :unprocessable_entity
     end
   end

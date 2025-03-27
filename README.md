@@ -21,9 +21,6 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
-
-
 * START WITH GIT
 git fetch origin
 git fetch --all -p

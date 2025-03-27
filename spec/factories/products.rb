@@ -31,7 +31,6 @@ FactoryBot.define do
     name { Faker::Commerce.product_name }
     width { Random.rand(1000) }
     height { Random.rand(1000) }
-    comment { Faker::Lorem.sentence }
   end
 
   trait :with_image do

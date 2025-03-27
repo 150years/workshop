@@ -27,7 +27,7 @@
       <thead>
         <tr>
           <th><%= sort_link(@search, :id, class: "flex items-center") %></th>
-          <th><%= sort_link(@search, :category, class: "flex items-center") %></th>
+          <th><%= sort_link(@search, :category, "Cat.", class: "flex items-center") %></th>
           <th>Image</th>
           <th><%= sort_link(@search, :code, class: "flex items-center") %></th>
           <th><%= sort_link(@search, :name, class: "flex items-center") %></th>
@@ -39,6 +39,7 @@
           <th><%= sort_link(@search, :weight, "Weight, kg", class: "flex items-center") %></th>
           <th><%= sort_link(@search, :min_quantity, "Min qty", class: "flex items-center") %></th>
           <th><%= sort_link(@search, :price, class: "flex items-center") %></th>
+          <th style="min-inline-size: 3rem"></th>
         </tr>
       </thead>
       <tbody>

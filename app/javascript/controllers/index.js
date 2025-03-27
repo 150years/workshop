@@ -10,6 +10,9 @@ application.register("check-all", CheckAllController)
 import ComboboxController from "./combobox_controller"
 application.register("combobox", ComboboxController)
 
+import ContextMenuController from "./context_menu_controller"
+application.register("context-menu", ContextMenuController)
+
 import DialogController from "./dialog_controller"
 application.register("dialog", DialogController)
 
@@ -21,6 +24,9 @@ application.register("element-removal", ElementRemovalController)
 
 import FormController from "./form_controller"
 application.register("form", FormController)
+
+import MenuController from "./menu_controller"
+application.register("menu", MenuController)
 
 import NavigationController from "./navigation_controller"
 application.register("navigation", NavigationController)

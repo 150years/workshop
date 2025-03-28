@@ -1,5 +1,8 @@
 releases:
-
+  - version: "0.20.1"
+    date: "28-03-2025"
+    notes:
+      - "Products, Projects, Project in version order - whole table tr as link… #104"
   - version: "0.20.0"
     date: "28-03-2025"
     notes:

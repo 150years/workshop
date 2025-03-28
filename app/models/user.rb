@@ -31,4 +31,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id name email created_at company_id company]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[company]
+  end
 end

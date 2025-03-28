@@ -7,3 +7,5 @@ application.debug = true
 window.Stimulus   = application
 
 export { application }
+import LinkController from "./link_controller"
+application.register("link", LinkController)        

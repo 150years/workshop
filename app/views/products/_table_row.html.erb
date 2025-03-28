@@ -9,6 +9,6 @@
   <td class="text-end"><%= product.price.format %></td>
   <td style='white-space: nowrap;'>
     <%= link_to "Edit", product, data: {turbo_frame: "_top"}%> |
-    <%= link_to "Destroy", product, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+    <%= link_to "Delete", product, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
   </td>
 </tr>

@@ -5,7 +5,8 @@ class ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @clients = current_company.clients.all
+    @search = current_company.clients.ransack(params[:q])
+    @pagy, @clients = pagy(@search.result(distinct: true))
   end
 
   # GET /clients/1

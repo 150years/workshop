@@ -5,23 +5,69 @@
   <%= link_to "New client", new_client_path, class: "btn btn--primary" %>
 </div>
 
-<div id="clients" class="flex flex-col" style="gap: 2rem;">
-   <table class="table">
+<%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
+  <div class="flex items-center grow gap">
+    <%= form.search_field :name_or_email_or_phone_cont_any,
+        placeholder: "Name, Email or Phone",
+        autocomplete: "off",
+        class: "input",
+        style: "max-inline-size: 250px",
+        data: { form_target: "searchInput", action: "form#submitLater", turbo_permanent: true } %>
+
+    <%= link_to "Reset", clients_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params[:q].present? %>
+  </div>
+<% end %>
+
+<div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
+  <table class="table">
     <thead>
-      <th>#</th>
-      <th>Name</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Tax_id</th>
-      <th>Actions</th>
+      <tr>
+        <th><%= sort_link(@search, :id, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :name, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :phone, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :email, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :address, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :tax_id, "Tax ID", class: "flex items-center") %></th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
-      <% @clients.each do |client| %>
-      <tr>
-          <%= render client %>
-      </tr>
+      <% if @clients.blank? %>
+        <tr>
+          <td colspan="7" class="text-center p-8">No clients found.</td>
+        </tr>
+      <% else %>
+        <% @clients.each do |client| %>
+          <tr data-controller="link" data-link-href-value="<%= edit_client_path(client) %>" class="cursor-pointer hover:bg-gray-50 transition">
+            <%= render client %>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div class="flex items-center">
+  <div class="text-sm text-subtle show@md">Displaying <%= @pagy.in %> of <%= @pagy.count %> clients.</div>
+  <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+    <%= form_with url: pagy_url_for(@pagy, 1), method: :get, class: "flex items-center gap show@md", data: { controller: "form", action: "change->form#submit" } do |form| %>
+      <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>
+      <%= form.select :limit, [10, 20, 30, 40, 50], { selected: @pagy.limit }, { class: "input", style: "--input-inline-size: 70px" } %>
+    <% end %>
+    <div class="text-sm font-medium"><%= "Page #{@pagy.page} of #{@pagy.pages}" %></div>
+    <nav class="flex items-center gap shrink-0" style="--btn-padding: .5rem;" aria-label="Pagination">
+      <%= link_to pagy_url_for(@pagy, 1), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+        <%= image_tag "chevrons-left.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+        <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+        <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.last), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+        <%= image_tag "chevrons-right.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+    </nav>
+  </div>
 </div>

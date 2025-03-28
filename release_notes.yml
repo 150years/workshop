@@ -2,6 +2,11 @@ releases:
   - version: "0.20.0"
     date: "27-03-2025"
     notes:
+      - "Basic accounting"
+      - "Tune order views"
+  - version: "0.19.1"
+    date: "27-03-2025"
+    notes:
       - "Components: added copy action"
       - "Components: added actions dropdown to table"
       - "Components: unified buttons design"

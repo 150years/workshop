@@ -1,8 +1,15 @@
 releases:
-  - version: "0.20.1"
+  - version: "0.22.0"
     date: "28-03-2025"
     notes:
-      - "Tune app style to make table same, add sort, clickable row to edit"
+      - "Added buttons for staged payments (50%, 40%, 10%) with automatic journal entry creation. Implemented tracking of paid amount, remaining balance, and payment progress. Included safeguards against overpayments and tools to clean up incorrect transactions."
+      - " Added tracking for advance and partial payments per order:"
+      - "Buttons for collecting staged payments (50%, 40%, 10%)"
+      - "Automatic creation of journal entries (Journal + Postings)"
+      - "Calculation of total paid, balance due, and payment percentage"
+      - "UI progress indicator for payments"
+      - "Overpayment protection"
+      - "Manual and rake-based cleanup of incorrect journal entries"
   - version: "0.20.0"
     date: "28-03-2025"
     notes:

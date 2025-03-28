@@ -28,6 +28,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.company = current_company
+    # @order.files.attach(params[:images])
 
     if @order.save
       redirect_to @order, notice: 'Order was successfully created.'
@@ -38,6 +39,7 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
+    @order.files.attach(params[:order][:files]) if params[:order][:files].present?
     if @order.update(order_params)
       redirect_to @order, notice: 'Order was successfully updated.', status: :see_other
     else
@@ -49,6 +51,13 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy!
     redirect_to orders_path, notice: 'Order was successfully destroyed.', status: :see_other
+  end
+
+  def remove_file
+    order = current_company.orders.find(params[:id])
+    file = order.files.find(params[:file_id])
+    file.purge
+    redirect_to order_path(order), notice: 'File was successfully deleted.'
   end
 
   private
@@ -63,7 +72,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.expect(order: %i[client_id agent_id name status])
+    params.expect(order: %i[client_id agent_id name status files: []])
   end
 
   def set_order_versions

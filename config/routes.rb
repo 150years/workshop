@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
+    delete :remove_file, on: :member
   end
 
 

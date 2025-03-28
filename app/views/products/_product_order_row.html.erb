@@ -1,4 +1,4 @@
-  <tr data-controller="dialog">
+    <tr data-controller="dialog">
   <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
@@ -16,11 +16,11 @@
       </div>
     </dialog>
   </th>
-  <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
-  <td><%= UnitConverter.mm_to_m(product.height) %> m</td>
-  <td><%= product.area_m2 %> m²</td>
-  <td><%= product.area_ft2 %> ft²</td>
-  <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
-  <td><%= product.comment.presence || '—' %></td>
-  <td class="text-end"><%= product.price.format %></td>
+  <td><%= UnitConverter.mm_to_m(product.width) %></td>
+  <td><%= UnitConverter.mm_to_m(product.height) %></td>
+  <td><%= product.area_m2 %></td>
+  <td>Alumimium price</td>
+  <td>Glass price</td>
+  <td>Other prices</td>
+  <td class="text-end">Should be SUM of all cats <%= product.price.format %></td>
 </tr>

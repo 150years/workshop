@@ -2,14 +2,12 @@
   <th><%= product.id %></th>
   <td><%= product.image.attached? ? image_or_placeholder(product.image, 100, 150) : "No image" %></td>
   <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
-  <td><%= UnitConverter.mm_to_m(product.width) %> m</td>
-  <td><%= UnitConverter.mm_to_m(product.height) %> m</td>
-  <td><%= product.area_m2 %> m²</td>
-  <td><%= product.area_ft2 %> ft²</td>
-  <td><%= UnitConverter.mm_to_m(product.perimeter) %> m</td>
+  <td><%= UnitConverter.mm_to_m(product.width) %></td>
+  <td><%= UnitConverter.mm_to_m(product.height) %></td>
+  <td style='white-space: nowrap;'><%= product.area_m2 %></td>
   <td><%= product.comment.presence || '—' %></td>
   <td class="text-end"><%= product.price.format %></td>
-  <td>
+  <td style='white-space: nowrap;'>
     <%= link_to "Edit", product, data: {turbo_frame: "_top"}%> |
     <%= link_to "Delete", product, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
   </td>

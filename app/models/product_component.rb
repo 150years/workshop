@@ -87,7 +87,6 @@ class ProductComponent < ApplicationRecord
 
   def calculate_quantity
     # If component unit is lines, we need to round up the quantity. For all other units we set the quantity to the real
-    # component.unit == 'lines' ? quantity_real.ceil : quantity_real
     component.unit == 'lines' ? quantity_real&.ceil : quantity_real
   end
 

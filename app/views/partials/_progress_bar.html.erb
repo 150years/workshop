@@ -1,0 +1,21 @@
+<%
+  progress = local_assigns[:progress] || 0
+  label = local_assigns[:label] || "#{progress}%"
+
+  progress_color =
+    if progress < 30
+      "#f87171"  # красный
+    elsif progress < 80
+      "#facc15"  # жёлтый
+    else
+      "#4ade80"  # зелёный
+    end
+%>
+
+<div style="background-color: #e5e7eb; border-radius: 9999px; height: 1rem; margin-top: 0.5rem; width: 100%;">
+  <div style="background-color: <%= progress_color %>; height: 1rem; width: <%= progress %>%; border-radius: 9999px;"></div>
+</div>
+
+<p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+  <%= label %> оплачено
+</p>

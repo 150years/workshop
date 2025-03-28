@@ -1,0 +1,12 @@
+<!-- app/views/entries/_entry.html.erb -->
+<% entry.postings.each_with_index do |posting, index| %>
+  <tr>
+    <% if index == 0 %>
+      <td rowspan="<%= entry.postings.size %>"><%= entry.date.strftime('%d.%m.%y') %></td>
+      <td rowspan="<%= entry.postings.size %>"><%= entry.subject %></td>
+    <% end %>
+    <td><%= posting.account.name %></td>
+    <td><%= posting.amount %></td>
+    <td><%= posting.side %></td>
+  <% end %>
+</tr>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_190659) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -87,6 +87,81 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_190659) do
     t.decimal "height", precision: 7, scale: 1
     t.integer "category", default: 0, null: false
     t.index ["company_id"], name: "index_components_on_company_id"
+  end
+
+  create_table "entries", force: :cascade do |t|
+    t.string "number"
+    t.date "date", null: false
+    t.string "subject"
+    t.string "accountable_type"
+    t.integer "accountable_id"
+    t.text "note"
+    t.boolean "permanent", default: false, null: false
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.integer "project_id"
+    t.integer "order_version_id"
+    t.integer "order_id", default: 0, null: false
+    t.index ["accountable_type", "accountable_id"], name: "index_entries_on_accountable_type_and_accountable_id"
+    t.index ["date"], name: "index_entries_on_date"
+    t.index ["order_id"], name: "index_entries_on_order_id"
+    t.index ["order_version_id"], name: "index_entries_on_order_version_id"
+    t.index ["project_id"], name: "index_entries_on_project_id"
+  end
+
+  create_table "keepr_accounts", force: :cascade do |t|
+    t.integer "number", null: false
+    t.string "ancestry"
+    t.string "name", null: false
+    t.integer "kind", null: false
+    t.integer "keepr_group_id"
+    t.string "accountable_type"
+    t.integer "accountable_id"
+    t.integer "keepr_tax_id"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.index ["accountable_type", "accountable_id"], name: "index_keepr_accounts_on_accountable_type_and_accountable_id"
+    t.index ["ancestry"], name: "index_keepr_accounts_on_ancestry"
+    t.index ["keepr_group_id"], name: "index_keepr_accounts_on_keepr_group_id"
+    t.index ["keepr_tax_id"], name: "index_keepr_accounts_on_keepr_tax_id"
+    t.index ["number"], name: "index_keepr_accounts_on_number"
+  end
+
+  create_table "keepr_cost_centers", force: :cascade do |t|
+    t.string "number", null: false
+    t.string "name", null: false
+    t.text "note"
+  end
+
+  create_table "keepr_groups", force: :cascade do |t|
+    t.integer "target", null: false
+    t.string "number"
+    t.string "name", null: false
+    t.boolean "is_result", default: false, null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_keepr_groups_on_ancestry"
+  end
+
+  create_table "keepr_postings", force: :cascade do |t|
+    t.integer "keepr_account_id", null: false
+    t.integer "keepr_journal_id", null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.integer "keepr_cost_center_id"
+    t.string "accountable_type"
+    t.integer "accountable_id"
+    t.string "side"
+    t.index ["accountable_type", "accountable_id"], name: "index_keepr_postings_on_accountable_type_and_accountable_id"
+    t.index ["keepr_account_id"], name: "index_keepr_postings_on_keepr_account_id"
+    t.index ["keepr_cost_center_id"], name: "index_keepr_postings_on_keepr_cost_center_id"
+    t.index ["keepr_journal_id"], name: "index_keepr_postings_on_keepr_journal_id"
+  end
+
+  create_table "keepr_taxes", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.decimal "value", precision: 8, scale: 2, null: false
+    t.integer "keepr_account_id", null: false
+    t.index ["keepr_account_id"], name: "index_keepr_taxes_on_keepr_account_id"
   end
 
   create_table "order_versions", force: :cascade do |t|

@@ -1,0 +1,17 @@
+<h1>Record Client Payment</h1>
+
+<%= form_with url: create_payment_entries_path, method: :post do |form| %>
+  <div class="flex flex-col gap">
+    <%= form.label :order_id, "Select Order", class: "font-bold text-sm" %>
+    <%= form.select :order_id, options_from_collection_for_select(@orders, :id, :name), prompt: "Choose Order", class: "input" %>
+  </div>
+  
+  <div class="flex flex-col gap mb-2">
+    <%= form.label :amount, "Payment Amount (THB)", class: "font-bold text-sm" %>
+    <%= form.number_field :amount, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap">
+    <%= button_tag "Record Payment", class: "btn btn--primary btn--loading"  %>
+  </div>
+<% end %>

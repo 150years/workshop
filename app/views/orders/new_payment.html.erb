@@ -1,0 +1,18 @@
+<h2>Ручной ввод платежа</h2>
+
+<p><strong>Сумма по заказу:</strong> <%= number_to_currency(@total_amount) %></p>
+
+<%= form_with url: create_manual_payment_order_path(@order), method: :post do |f| %>
+  <div>
+    <label for="percent">Выберите процент:</label>
+    <select name="percent" id="percent">
+      <option value="50">50%</option>
+      <option value="40">40%</option>
+      <option value="10">10%</option>
+    </select>
+  </div>
+
+  <br>
+
+  <%= f.submit "Записать платёж", class: "btn btn-primary" %>
+<% end %>

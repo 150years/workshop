@@ -19,8 +19,14 @@ Rails.application.routes.draw do
   resources :products do
     resources :components, except: %i[index show], controller: 'product_components'
   end
-  resources :orders do
+    resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
+    member do
+      get :new_payment
+      post :create_manual_payment
+      post :receive_advance_payment      # ← ДОБАВЬ ЭТО
+      post :receive_next_payment         # ← И ЭТО      
+    end
   end
   resources :accounts, only: [:index]
   resources :entries, only: %i[index new create] do

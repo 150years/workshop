@@ -1,5 +1,4 @@
-    <tr data-controller="dialog">
-  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
+<tr data-controller="dialog" data-action="click->dialog#showModal" class="cursor-pointer hover:bg-gray-50 transition">  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <th>
     <a href="" data-action="click->dialog#showModal:prevent"><%= product.name %></a>
     <dialog class="dialog" data-dialog-target="menu"  style="--max-i-lg: fit-content;">

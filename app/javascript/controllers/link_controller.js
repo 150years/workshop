@@ -8,7 +8,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.element.removeEventListener("click", this.navigate.bind(this))
+    this.element.removeEventListener("click", this.boundNavigate)
   }
 
   navigate(event) {

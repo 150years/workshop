@@ -21,16 +21,13 @@ Rails.application.routes.draw do
   end
     resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
-<<<<<<< HEAD
     delete :remove_file, on: :member
-=======
     member do
       get :new_payment
       post :create_manual_payment
       post :receive_advance_payment      # ← ДОБАВЬ ЭТО
       post :receive_next_payment         # ← И ЭТО      
     end
->>>>>>> 005391e65970a7627a8b24a1a227cc3a0ddbbca8
   end
   resources :accounts, only: [:index]
   resources :entries, only: %i[index new create] do

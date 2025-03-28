@@ -87,7 +87,6 @@ class OrdersController < ApplicationController
       return
     end
 
-    version.total_amount_cents
     amount = (version.total_amount_cents * 0.5).round / 100.0 # ✅
 
     Journal.create!(

@@ -1,7 +1,7 @@
-<tr>
-  <th><%= product.id %></th>
+<tr data-controller="link" data-link-href-value="<%= edit_product_path(product) %>" class="cursor-pointer hover:bg-gray-50 transition">
+  <td><%= product.id %></td>
   <td><%= product.image.attached? ? image_or_placeholder(product.image, 100, 150) : "No image" %></td>
-  <th><%= link_to product.name, product, data: {turbo_frame: "_top"} %></th>
+  <td><%= link_to product.name, product, data: {turbo_frame: "_top"} %></td>
   <td><%= UnitConverter.mm_to_m(product.width) %></td>
   <td><%= UnitConverter.mm_to_m(product.height) %></td>
   <td style='white-space: nowrap;'><%= product.area_m2 %></td>

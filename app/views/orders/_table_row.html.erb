@@ -1,5 +1,4 @@
-
-<tr>
+<tr data-controller="link" data-link-href-value="<%= order_path(order) %>" class="cursor-pointer hover:bg-gray-50 transition">
   <td><%= check_box_tag "selected_ids[]", order.id, class: "checkbox", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
   <td class="whitespace-nowrap"><%= order.id %></td>
   <td class="whitespace-nowrap">

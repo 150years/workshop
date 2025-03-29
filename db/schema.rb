@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_050714) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -131,6 +131,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
     t.string "number", null: false
     t.string "name", null: false
     t.text "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "keepr_groups", force: :cascade do |t|
@@ -139,6 +141,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
     t.string "name", null: false
     t.boolean "is_result", default: false, null: false
     t.string "ancestry"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["ancestry"], name: "index_keepr_groups_on_ancestry"
   end
 
@@ -150,6 +154,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
     t.string "accountable_type"
     t.integer "accountable_id"
     t.string "side"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["accountable_type", "accountable_id"], name: "index_keepr_postings_on_accountable_type_and_accountable_id"
     t.index ["keepr_account_id"], name: "index_keepr_postings_on_keepr_account_id"
     t.index ["keepr_cost_center_id"], name: "index_keepr_postings_on_keepr_cost_center_id"
@@ -161,6 +167,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_194427) do
     t.string "description"
     t.decimal "value", precision: 8, scale: 2, null: false
     t.integer "keepr_account_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["keepr_account_id"], name: "index_keepr_taxes_on_keepr_account_id"
   end
 

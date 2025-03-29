@@ -8,6 +8,8 @@
 #  accountable_type     :string
 #  amount               :decimal(8, 2)    not null
 #  side                 :string
+#  created_at           :datetime
+#  updated_at           :datetime
 #  accountable_id       :integer
 #  keepr_account_id     :integer          not null
 #  keepr_cost_center_id :integer
@@ -23,8 +25,8 @@
 class Posting < ApplicationRecord
   self.table_name = 'keepr_postings'
 
-  belongs_to :journal, class_name: 'Journal', foreign_key: 'keepr_journal_id'
-  belongs_to :account, class_name: 'Account', foreign_key: 'keepr_account_id'
+  belongs_to :journal, class_name: 'Journal', foreign_key: 'keepr_journal_id', inverse_of: :account
+  belongs_to :account, class_name: 'Account', foreign_key: 'keepr_account_id', inverse_of: :account
 
   enum :side, { debit: 'debit', credit: 'credit' }
 

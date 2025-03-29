@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/CreateTableWithTimestamps
 class KeeprMigration < Keepr::MIGRATION_BASE_CLASS
   def self.up
     create_table Keepr::Group, force: true do |t|
@@ -64,3 +65,4 @@ class KeeprMigration < Keepr::MIGRATION_BASE_CLASS
     drop_table Keepr::Group
   end
 end
+# rubocop:enable Rails/CreateTableWithTimestamps

@@ -16,31 +16,11 @@ class OrdersController < ApplicationController
   # GET /orders/1
   def show
     @entries = Journal.where(order_id: @order.id)
-
     @final_version = @order.order_versions.find_by(final_version: true)
-    @total_amount = @final_version&.total_amount_cents.to_f / 100.0
-    @paid_amount = @entries.sum { |e| e.postings.debit.sum(:amount) }
-    # 🛡️ Безопасный расчёт с ограничением
-    if @total_amount.positive?
-      raw_pct = (@paid_amount / @total_amount * 100).round
-      @progress = [raw_pct, 100].min
-    else
-      @progress = 0
-    end
-    @balance_due = @total_amount - @paid_amount
-    @progress = begin
-      [(@paid_amount / @total_amount * 100).round, 100].min
-    rescue StandardError
-      0
-    end
-    @progress_color =
-      if @progress < 30
-        'bg-red-500'
-      elsif @progress < 80
-        'bg-yellow-400'
-      else
-        'bg-green-500'
-      end
+
+    calculate_totals
+    calculate_progress
+    set_progress_color
   end
 
   # GET /orders/new
@@ -55,7 +35,6 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.company = current_company
-    # @order.files.attach(params[:images])
 
     if @order.save
       redirect_to @order, notice: 'Order was successfully created.'
@@ -104,5 +83,34 @@ class OrdersController < ApplicationController
 
   def set_order_versions
     @order_versions = @order.order_versions.order(created_at: :desc)
+  end
+
+  def calculate_totals
+    @total_amount = @final_version&.total_amount_cents.to_f / 100.0
+    @paid_amount = @entries.sum { |e| e.postings.debit.sum(:amount) }
+    @balance_due = @total_amount - @paid_amount
+  end
+
+  def calculate_progress
+    @progress = begin
+      if @total_amount.positive?
+        [(@paid_amount / @total_amount * 100).round, 100].min
+      else
+        0
+      end
+    rescue StandardError
+      0
+    end
+  end
+
+  def set_progress_color
+    @progress_color =
+      if @progress < 30
+        'bg-red-500'
+      elsif @progress < 80
+        'bg-yellow-400'
+      else
+        'bg-green-500'
+      end
   end
 end

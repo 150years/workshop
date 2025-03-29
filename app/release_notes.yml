@@ -1,0 +1,5 @@
+releases:
+  - version: "0.1.0"
+    date: "29.03.2025"
+    notes:
+      - release_notes copy.yml

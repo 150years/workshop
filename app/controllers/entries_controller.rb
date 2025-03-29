@@ -3,11 +3,15 @@
 # app/controllers/entries_controller.rb
 class EntriesController < ApplicationController
   def index
-    @entries = Journal.includes(:postings).order(created_at: :desc).limit(50)
+    @entries = if params[:order_id].present?
+                 Entry.includes(postings: :account).where(order_id: params[:order_id]).order(created_at: :desc)
+               else
+                 Entry.includes(postings: :account).order(created_at: :desc).limit(50)
+               end
   end
 
   def new
-    @entry = Journal.new  # Инициализация новой модели Journal (или другой модели, если ты её используешь)
+    @entry = Entry.new
   end
 
   def create
@@ -31,10 +35,10 @@ class EntriesController < ApplicationController
     order = Order.find(params[:order_id])
     amount = params[:amount].to_f
 
-    Journal.create!(
+    Entry.create!(
       subject: "Client Payment for Order ##{order.id}",
       date: Time.zone.today,
-      order_id: order.id, # Вместо order используем order_id
+      order_id: order.id,
       postings_attributes: [
         { account: Account.find_by(name: 'Cash'), amount: amount, side: 'debit' },
         { account: Account.find_by(name: 'Accounts Receivable'), amount: amount, side: 'credit' }
@@ -47,22 +51,21 @@ class EntriesController < ApplicationController
   private
 
   def create_client_payment
-    @entry = Journal.create!(
+    @entry = Entry.create!(
       subject: 'Payment from Client',
       date: Time.current,
-      order: Order.find(params[:order_id]), # Здесь мы используем order_id
+      order: Order.find(params[:order_id]),
       postings_attributes: [
         { account: Account.find_by(name: 'Cash'), side: 'debit', amount: params[:amount].to_f },
         { account: Account.find_by(name: 'Accounts Receivable'), side: 'credit', amount: params[:amount].to_f }
       ]
     )
 
-    # Возвращаем Turbo Stream для динамического обновления страницы
     render turbo_stream: turbo_stream.append('entries', partial: 'entries/entry', locals: { entry: @entry })
   end
 
   def create_purchase_materials
-    @entry = Journal.create!(
+    @entry = Entry.create!(
       subject: 'Material Purchase',
       date: Time.current,
       postings_attributes: [
@@ -70,11 +73,12 @@ class EntriesController < ApplicationController
         { account: Account.find_by(name: 'Accounts Payable'), side: 'credit', amount: params[:amount].to_f }
       ]
     )
+
     render turbo_stream: turbo_stream.append('entries', partial: 'entries/entry', locals: { entry: @entry })
   end
 
   def create_agent_commission
-    @entry = Journal.create!(
+    @entry = Entry.create!(
       subject: 'Agent Commission',
       date: Time.current,
       postings_attributes: [
@@ -82,6 +86,7 @@ class EntriesController < ApplicationController
         { account: Account.find_by(name: 'Cash'), side: 'credit', amount: params[:amount].to_f }
       ]
     )
+
     render turbo_stream: turbo_stream.append('entries', partial: 'entries/entry', locals: { entry: @entry })
   end
 end

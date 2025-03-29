@@ -1,10 +1,18 @@
-<%= turbo_stream_from(order_version) %> 
+    <%# Safety defaults %>
+    <% entries ||= [] %>
+    <% paid_amount ||= 0 %>
+    <% balance_due ||= 0 %>
+    <% progress ||= 0 %>
+    <% progress_color ||= 'bg-gray-300' %>
+    <% total_amount ||= 0 %>
+<%= turbo_stream_from(order_version) if order_version.present? && order_version.persisted? %>
 <p>Profit, %: <%= order_version.profit %></p>
 <p>Agent, %: <%= order_version.agent_comm %></p>
 <p>Total Amount: <%= order_version.total_amount %></p>
 <p>Version Note: <%= order_version.version_note %></p>
 <p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
 <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version.id), class: 'btn btn--primary', data: {turbo_frame: "_top"} %>
+
 <div class="mbs-2">
   <div class="flex items-center justify-between w-full gap mbe-2">
     <h2 class="font-bold text-lg">Products</h2>

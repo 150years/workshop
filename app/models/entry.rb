@@ -28,6 +28,12 @@
 #  index_entries_on_project_id                           (project_id)
 #
 class Entry < ApplicationRecord
-  belongs_to :project, optional: true
+  self.table_name = 'entries' # это можно оставить, но уже необязательно, потому что Rails сам поймёт
+
+  belongs_to :order, optional: true
   belongs_to :order_version, optional: true
+  belongs_to :project, optional: true
+
+  has_many :postings, class_name: 'Posting', foreign_key: 'keepr_journal_id', inverse_of: :entry, dependent: :destroy
+  accepts_nested_attributes_for :postings
 end

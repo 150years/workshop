@@ -27,7 +27,8 @@
 class Account < ApplicationRecord
   self.table_name = 'keepr_accounts'
 
-  has_many :postings, foreign_key: 'keepr_account_id', dependent: :destroy, inverse_of: :account
+  has_many :postings, foreign_key: 'keepr_account_id', inverse_of: :account, dependent: :destroy
+  has_many :journals, inverse_of: :account, dependent: :destroy
 
   enum :kind, {
     asset: 0,

@@ -1,48 +1,15 @@
-<% content_for :title, "Order ##{@order.id}" %>
-<% if @order.order_versions.any?(&:final_version) %>
-  <%= button_to "Получить предоплату 50%", receive_advance_payment_order_path(@order), method: :post, data: { turbo_confirm: "Вы уверены, что клиент внёс предоплату?" }, class: "btn btn-success" %>
-<% end %>
-<%= button_to "Получить следующий платёж", receive_next_payment_order_path(@order),
-              method: :post,
-              data: { turbo_confirm: "Записать следующий этап оплаты?" },
-              class: "btn btn-primary mt-4" %>
-              <h3 class="mt-6 mb-2 text-lg font-semibold">История оплат</h3>
-<%= link_to "Ручной ввод платежа", new_payment_order_path(@order), class: "btn btn-outline" %>
-<% if @entries.any? %>
-  <table class="table-auto w-full text-sm">
-    <thead>
-      <tr>
-        <th class="text-left">Дата</th>
-        <th class="text-left">Описание</th>
-        <th class="text-right">Сумма</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @entries.each do |entry| %>
-        <tr>
-          <td><%= entry.date.strftime('%d.%m.%Y') %></td>
-          <td><%= entry.subject %></td>
-          <td class="text-right">
-            <%= number_to_currency(entry.postings.debit.sum(:amount)) %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p class="text-gray-500">Оплаты пока не зафиксированы.</p>
-<% end %>
-<% if @final_version %>
-  <div class="mb-4">
-    <p><strong>Общая сумма заказа:</strong> <%= number_to_currency(@total_amount) %></p>
-    <p><strong>Оплачено:</strong> <%= number_to_currency(@paid_amount) %></p>
-    <p><strong>Осталось оплатить:</strong> <%= number_to_currency(@balance_due) %></p>
-    <%= render "partials/progress_bar", progress: @progress, label: "Предоплата #{@progress}%" %>
 
-<% end %>
-  
-<%= render "orders/order", order: @order %>
+  <%= render "orders/order", 
+    order: @order, 
+    entries: @entries, 
+    paid_amount: @paid_amount, 
+    balance_due: @balance_due, 
+    progress: @progress, 
+    progress_color: @progress_color, 
+    total_amount: @total_amount %>
+  <%= render partial: "order_versions/order_version", locals: { order_version: @order_version } %>
 
-<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
-  <%= link_to "Back to orders", orders_path, class: "btn" %>
-</div>
+  <div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
+    <%= link_to "Back to orders", orders_path, class: "btn" %>
+  </div>
+

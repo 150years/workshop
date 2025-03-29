@@ -15,12 +15,21 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @entries = Journal.where(order_id: @order.id)
-    @final_version = @order.order_versions.find_by(final_version: true)
+    @entries = Entry.where(order_id: @order.id)
+    @order_version = @order.order_versions.last # или final_version, если такой есть
 
     calculate_totals
     calculate_progress
     set_progress_color
+
+    @progress_color =
+      if @progress < 30
+        'bg-red-500'
+      elsif @progress < 80
+        'bg-yellow-400'
+      else
+        'bg-green-500'
+      end
   end
 
   # GET /orders/new

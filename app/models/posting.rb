@@ -25,9 +25,8 @@
 class Posting < ApplicationRecord
   self.table_name = 'keepr_postings'
 
-  belongs_to :journal, class_name: 'Journal', foreign_key: 'keepr_journal_id', inverse_of: :account
-  belongs_to :account, class_name: 'Account', foreign_key: 'keepr_account_id', inverse_of: :account
-
+  belongs_to :account, class_name: 'Account', foreign_key: 'keepr_account_id', inverse_of: :postings
+  belongs_to :entry, class_name: 'Entry', foreign_key: 'keepr_journal_id', inverse_of: :postings
   enum :side, { debit: 'debit', credit: 'credit' }
 
   validates :amount, presence: true, numericality: { greater_than: 0 }

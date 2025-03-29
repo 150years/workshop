@@ -8,6 +8,7 @@
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
     </div>
   </div>
+
   <div class="flex flex-col gap">
     <div class="flex items-center gap">
       <span class="font-bold">Client:</span>
@@ -17,7 +18,7 @@
       <span class="font-bold">Agent:</span>
       <span><%= order.agent.name %></span>
     </div>
-    <div class="flex items-start gap-2 py-1">
+
     <span class="font-bold mt-1">Files:</span>&nbsp;
     <div class="flex flex-wrap gap-x-2 gap-y-1">
       <% order.files.each_with_index do |file, index| %>
@@ -39,12 +40,49 @@
       <% end %>
     </div>
   </div>
-    <div class="flex flex-col gap">
-      <span class="font-bold">Order Versions</span>
-      <div class="tabs" data-controller="tabs">
-        <%= order_version_tabs(order, @order_versions) %>
+
+  <div class="flex flex-col gap">
+    <!-- 💰 Order Finance Summary -->
+    <div class="my-4 p-4 border rounded-md bg-slate-800 text-white">
+      <h3 class="text-lg font-bold mb-2">💰 Order Finance Summary</h3>
+      <p>Общая сумма заказа: <strong><%= number_to_currency(total_amount) %></strong></p>
+      <p>Оплачено: <strong><%= number_to_currency(paid_amount) %></strong></p>
+      <p>Осталось оплатить: <strong><%= number_to_currency(balance_due) %></strong></p>
+
+      <div class="w-full h-4 mt-2 bg-gray-300 rounded-full overflow-hidden">
+        <div class="h-full <%= progress_color %>" style="width: <%= progress %>%"></div>
       </div>
+      <p class="text-sm mt-1">Предоплата <%= progress %>% оплачено</p>
+
+      <%= link_to "📂 Финансы", entries_path(order_id: order.id), class: "btn btn--primary mt-3" %>
+
+      <details class="mt-4">
+        <summary class="cursor-pointer underline">Показать историю платежей</summary>
+        <table class="table mt-2">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Описание</th>
+              <th>Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% entries.each do |entry| %>
+              <tr>
+                <td><%= entry.date.strftime('%d.%m.%Y') %></td>
+                <td><%= entry.subject %></td>
+                <td><%= number_to_currency(entry.postings.debit.sum(:amount)) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </details>
+    </div>
+
+    <span class="font-bold">Order Versions</span>
+    <div class="tabs" data-controller="tabs">
+      <%= order_version_tabs(order, @order_versions) %>
     </div>
   </div>
 </div>
- 
+      

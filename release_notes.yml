@@ -1,5 +1,9 @@
 ---
 releases:
+- version: 0.31.0
+  date: 30-03-2025
+  notes:
+  - Fix
 - version: 0.30.0
   date: 30-03-2025
   notes:

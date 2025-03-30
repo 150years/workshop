@@ -1,5 +1,10 @@
 ---
 releases:
+- version: 0.35.0
+  date: 30-03-2025
+  - Test
+  - 
+  - - VERSION
 - version: 0.31.0
   date: 30-03-2025
   notes:

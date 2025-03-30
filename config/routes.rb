@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.routes.draw do
   get 'entries/index'
   get 'entries/new'
@@ -19,14 +20,14 @@ Rails.application.routes.draw do
   resources :products do
     resources :components, except: %i[index show], controller: 'product_components'
   end
-    resources :orders do
+  resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
     delete :remove_file, on: :member
     member do
       get :new_payment
       post :create_manual_payment
       post :receive_advance_payment      # ← ДОБАВЬ ЭТО
-      post :receive_next_payment         # ← И ЭТО      
+      post :receive_next_payment         # ← И ЭТО
     end
   end
   resources :accounts, only: [:index]
@@ -36,12 +37,11 @@ Rails.application.routes.draw do
       post :create_payment
     end
   end
-end 
+end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
+# Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+# get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+# get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
 # == Route Map
 #

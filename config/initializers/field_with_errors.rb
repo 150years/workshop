@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.config.action_view.field_error_proc = proc do |html_tag, _instance|
   # Use Nokogiri to parse and modify the HTML tag
   doc = Nokogiri::HTML::DocumentFragment.parse(html_tag)

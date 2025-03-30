@@ -10,7 +10,8 @@ gem 'puma', '>= 5.0'
 gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
-gem 'bootsnap', require: false
+gem 'bootsnap'
+gem 'zeitwerk'
 
 # System dependencies
 gem 'solid_cache'

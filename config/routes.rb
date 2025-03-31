@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  get 'balances/index'
+  get 'transactions/index'
+  get 'transactions/new'
+  get 'transactions/create'
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 
@@ -19,6 +23,8 @@ Rails.application.routes.draw do
     resources :versions, except: %i[index], controller: 'order_versions'
     delete :remove_file, on: :member
   end
+  resources :transactions
+  resources :balances, only: [:index]
 
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

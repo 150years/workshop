@@ -1,0 +1,75 @@
+<% content_for :title, "Balance" %>
+
+<div class="container flex flex-col gap-6" data-controller="hotkeys" data-hotkeys-shortcut-value="Shift+n">
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold">Balance</h1>
+    <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
+  </div>
+
+  <%= form_with url: balances_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end" do |f| %>
+    <div>
+      <%= label_tag :from, "From", class: "label" %>
+      <%= date_field_tag :from, @from, class: "input" %>
+    </div>
+    <div>
+      <%= label_tag :to, "To", class: "label" %>
+      <%= date_field_tag :to, @to, class: "input" %>
+    </div>
+    <div>
+      <%= label_tag :order_id, "Project", class: "label" %>
+      <%= select_tag :order_id, options_from_collection_for_select(Order.all, :id, :name, params[:order_id]), include_blank: true, class: "input" %>
+    </div>
+    <div>
+      <%= submit_tag "Filter", class: "btn btn--primary" %>
+    </div>
+  <% end %>
+
+  <div class="relative overflow-x-auto border rounded-lg">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Debit</th>
+          <th>Credit</th>
+          <th>Balance</th>
+          <th>Type</th>
+          <th>House</th>
+          <th>Comment</th>
+          <th>Files</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% balance = 0 %>
+        <% @transactions.each do |transaction| %>
+          <% balance += transaction.amount %>
+          <tr>
+            <td><%= transaction.date.strftime("%d.%m.%Y") %></td>
+            <td class="text-red-600"><%= transaction.amount.negative? ? number_to_currency(transaction.amount.abs) : "-" %></td>
+            <td class="text-green-600"><%= transaction.amount.positive? ? number_to_currency(transaction.amount) : "-" %></td>
+            <td><%= number_to_currency(balance) %></td>
+            <td><%= transaction.type_id.humanize %></td>
+            <td><%= transaction.order&.name || "-" %></td>
+            <td><%= transaction.description || "-" %></td>
+            <td>
+              <% if transaction.files.attached? %>
+                <%= link_to "View", rails_blob_path(transaction.files.first, disposition: "attachment"), target: "_blank" %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td>
+              <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600" %> |
+              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+  <%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+</div>
+
+</div>

@@ -1,11 +1,9 @@
 ---
 releases:
 - version: 0.21.0
-  date: 31-03-2025
+    date: 31-03-2025
+    notes:
   - Edit readme
-  - 
-  - 
-  - - README.md
     date: "28-03-2025"
     notes:
       - "Products, Projects, Project in version order - whole table tr as link… #104"

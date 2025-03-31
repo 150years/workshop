@@ -11,7 +11,7 @@ releases:
   - 'Orders: add files'
   - Basic accounting
   - Tune order views
-  - Try
+  - Improved performance and stability
 - version: 0.19.1
   date: 27-03-2025
   notes:

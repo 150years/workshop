@@ -12,6 +12,15 @@ releases:
   - "- app/models/order.rb"
   - "- app/views/orders/_table_row.html.erb"
   - "- app/views/orders/index.html.erb"
+  - Модель Balance, Transaction
+  - Контроллер TransactionsController
+  - 'UI: transactions/index.html.erb'
+  - Модуль Balance
+  - "- app/models/agent.rb"
+  - "- app/models/client.rb"
+  - "- app/views/application/_header_menu.html.erb"
+  - "- config/routes.rb"
+  - "- db/schema.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    @transaction = Transaction.new(date: Time.zone.today)
+    @transaction = Transaction.find(params[:id])
   end
 
   def create

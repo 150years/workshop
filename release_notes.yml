@@ -48,6 +48,7 @@ releases:
   - "- spec/factories/transactions.rb"
   - "- spec/models/transaction_spec.rb"
   - "- spec/requests/transactions_spec.rb"
+  - Copilor suggestion edit
 - version: 0.21.0
   date: 31-03-2025
   notes:

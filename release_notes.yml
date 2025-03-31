@@ -21,6 +21,13 @@ releases:
   - "- app/views/application/_header_menu.html.erb"
   - "- config/routes.rb"
   - "- db/schema.rb"
+  - Tune all rspec
+  - "- app/controllers/transactions_controller.rb"
+  - "- app/views/balances/index.html.erb"
+  - "- app/views/transactions/create.html.erb"
+  - "- app/views/transactions/new.html.erb"
+  - "- app/views/users/edit.html.erb"
+  - "- app/views/users/new.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

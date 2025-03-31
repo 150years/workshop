@@ -6,7 +6,7 @@
     <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
   </div>
 
-  <%= form_with url: balances_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end" do |f| %>
+  <%= form_with url: balances_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end  mbe-4 gap" do |f| %>
     <div>
       <%= label_tag :from, "From", class: "label" %>
       <%= date_field_tag :from, @from, class: "input" %>
@@ -24,7 +24,7 @@
     </div>
   <% end %>
 
-  <div class="relative overflow-x-auto border rounded-lg">
+  <div class="relative overflow-x-auto border rounded-lg mbe-4">
     <table class="table">
       <thead>
         <tr>
@@ -33,7 +33,7 @@
           <th>Credit</th>
           <th>Balance</th>
           <th>Type</th>
-          <th>House</th>
+          <th>Project</th>
           <th>Comment</th>
           <th>Files</th>
           <th>Actions</th>
@@ -60,7 +60,7 @@
             </td>
             <td>
               <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600" %> |
-              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600" %>
+              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_method: :delete,  turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
             </td>
           </tr>
         <% end %>

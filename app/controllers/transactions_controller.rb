@@ -11,13 +11,23 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(date: Time.zone.today)
   end
 
+  def edit
+    @transaction = Transaction.new(date: Time.zone.today)
+  end
+
   def create
     @transaction = Transaction.new(transaction_params)
     if @transaction.save
       redirect_to transactions_path, notice: 'Transaction created'
     else
-      render :new, status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @transaction = Transaction.find(params[:id])
+    @transaction.destroy
+    redirect_to balances_path, notice: 'Transaction was successfully deleted.', status: :see_other
   end
 
   private

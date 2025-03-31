@@ -82,17 +82,52 @@
             <% end %>
             </td>
             <td>
-              <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600" %> |
+              <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600", data: {turbo_frame: "_top"} %> |
               <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
             </td>
           </tr>
         <% end %>
       </tbody>
+      <tfoot>
+  <tr class="font-bold text-sm bg-gray-100">
+    <td class="text-end" colspan="1">Totals:</td>
+    <td class="text-red-600"><%= number_to_currency(@expense || 0).gsub('-', '') %></td>
+    <td class="text-green-600"><%= number_to_currency(@income || 0) %></td>
+    <td class="<%= @balance.to_f < 0 ? 'text-red-600' : 'text-green-600' %>">
+      <%= number_to_currency(@balance || 0) %>
+    </td>
+    <td colspan="5"></td>
+  </tr>
+</tfoot>
+
+
     </table>
   </div>
 
-  <div class="mt-4">
-  <%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+  <div class="flex items-center">
+  <div class="text-sm text-subtle show@md">Displaying <%= @pagy.in %> of <%= @pagy.count %> transactions.</div>
+  <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+    <%= form_with url: pagy_url_for(@pagy, 1), method: :get, class: "flex items-center gap show@md", data: { controller: "form", action: "change->form#submit" } do |form| %>
+      <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>
+      <%= form.select :limit, [10, 20, 30, 40, 50], { selected: @pagy.limit }, { class: "input", style: "--input-inline-size: 70px" } %>
+    <% end %>
+    <div class="text-sm font-medium"><%= "Page #{@pagy.page} of #{@pagy.pages}" %></div>
+    <nav class="flex items-center gap shrink-0" style="--btn-padding: .5rem;" aria-label="Pagination">
+      <%= link_to pagy_url_for(@pagy, 1), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+        <%= image_tag "chevrons-left.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+        <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+        <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+      <%= link_to pagy_url_for(@pagy, @pagy.last), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+        <%= image_tag "chevrons-right.svg", size: 16, aria: { hidden: true } %>
+      <% end %>
+    </nav>
+  </div>
 </div>
+  
 
 </div>

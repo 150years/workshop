@@ -37,6 +37,10 @@ releases:
   - "- app/javascript/application.js"
   - "- app/views/layouts/application.html.erb"
   - "- app/views/transactions/_form.html.erb"
+  - Баланс - итоги
+  - "- app/controllers/order_versions_controller.rb"
+  - "- app/views/order_versions/_order_version.html.erb"
+  - "- app/views/orders/_order.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

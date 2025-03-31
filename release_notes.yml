@@ -7,6 +7,11 @@ releases:
   - "- release_notes.yml"
   - 'Fix '
   - "- README.md"
+  - Projects, index show prices
+  - "- app/javascript/controllers/index.js"
+  - "- app/models/order.rb"
+  - "- app/views/orders/_table_row.html.erb"
+  - "- app/views/orders/index.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

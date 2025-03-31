@@ -37,7 +37,7 @@ RSpec.describe 'Transactions', type: :request do
         }
       }
 
-      expect(response).to redirect_to(transactions_path)
+      expect(response).to redirect_to(balances_path)
     end
   end
 end

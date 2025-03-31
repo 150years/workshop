@@ -20,6 +20,7 @@ class Company < ApplicationRecord
   has_many :order_versions, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :components, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   validates :name, presence: true
   validates :currency, presence: true, inclusion: { in: SUPPORTED_CURRENCIES }

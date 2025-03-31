@@ -41,6 +41,13 @@ releases:
   - "- app/controllers/order_versions_controller.rb"
   - "- app/views/order_versions/_order_version.html.erb"
   - "- app/views/orders/_order.html.erb"
+  - Сверху новые тразакции
+  - Small diif fixes
+  - "- app/models/company.rb"
+  - "- app/models/transaction.rb"
+  - "- spec/factories/transactions.rb"
+  - "- spec/models/transaction_spec.rb"
+  - "- spec/requests/transactions_spec.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

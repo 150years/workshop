@@ -16,11 +16,12 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = current_company.transactions.new(transaction_params)
+
     if @transaction.save
-      redirect_to transactions_path, notice: 'Transaction created'
+      redirect_to balances_path, notice: 'Transaction created'
     else
-      render :index, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -42,7 +43,16 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     params.expect(
-      transaction: %i[date description amount type_id order_id agent_id client_id files: []]
+      transaction: [
+        :date,
+        :description,
+        :amount,
+        :type_id,
+        :order_id,
+        :agent_id,
+        :client_id,
+        { files: [] }
+      ]
     )
   end
 end

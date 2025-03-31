@@ -28,6 +28,11 @@ releases:
   - "- app/views/transactions/new.html.erb"
   - "- app/views/users/edit.html.erb"
   - "- app/views/users/new.html.erb"
+  - Lint
+  - "- .rubocop.yml"
+  - "- Gemfile"
+  - "- Gemfile.lock"
+  - "- app/controllers/balances_controller.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

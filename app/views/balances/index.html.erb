@@ -2,9 +2,13 @@
 
 <div class="container flex flex-col gap-6" data-controller="hotkeys" data-hotkeys-shortcut-value="Shift+n">
   <div class="flex items-center justify-between">
-    <h1 class="text-3xl font-bold">Balance</h1>
+  <h1 class="text-3xl font-bold">Balance</h1>
+  <div class="flex gap-2">
     <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
+    <%= link_to "Export to PDF", balances_path(format: :pdf, from: @from, to: @to), class: "btn btn--borderless", target: "_blank" %>
   </div>
+</div>
+
 
   <%= form_with url: balances_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end  mbe-4 gap" do |f| %>
     <div>

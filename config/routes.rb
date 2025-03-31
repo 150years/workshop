@@ -23,7 +23,12 @@ Rails.application.routes.draw do
     resources :versions, except: %i[index], controller: 'order_versions'
     delete :remove_file, on: :member
   end
-  resources :transactions
+  resources :transactions do
+    member do
+      delete :destroy_attachment
+    end
+  end
+  
   resources :balances, only: [:index]
 
 

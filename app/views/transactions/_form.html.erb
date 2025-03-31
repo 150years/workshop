@@ -1,4 +1,4 @@
-<%= form_with model: transaction, local: true, class: "flex flex-col gap-4" do |f| %>
+<%= form_with model: transaction, local: true, html: { multipart: true }, class: "flex flex-col gap-4" do |f| %>
   <%= f.label :date, "Date", class: "label" %>
   <%= f.date_field :date, class: "input" %>
 
@@ -22,6 +22,22 @@
 
   <%= f.label :client_id, "Client", class: "label" %>
  <%= f.collection_select :client_id, current_company.clients, :id, :name, { include_blank: true }, class: "input" %>
+
+<%= f.label :files, "Attach files", class: "label" %>
+<%= f.file_field :files, multiple: true, class: "input mb-4", direct_upload: true %>
+<% if transaction.files.attached? %>
+  <ul class="text-sm space-y-1">
+    <% transaction.files.each do |file| %>
+      <li class="flex items-center justify-between">
+        <%= link_to file.filename.to_s, rails_blob_path(file, disposition: "attachment"), target: "_blank" %>
+        <%= link_to "❌", destroy_attachment_transaction_path(transaction, attachment_id: file.id),
+            method: :delete,
+            data: { confirm: "Remove file #{file.filename}?" },
+            class: "text-red-500 text-xs" %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
   <%= f.submit class: "btn btn--primary" %>
 <% end %>

@@ -33,6 +33,10 @@ releases:
   - "- Gemfile"
   - "- Gemfile.lock"
   - "- app/controllers/balances_controller.rb"
+  - Прикрепление документов к транзакциям
+  - "- app/javascript/application.js"
+  - "- app/views/layouts/application.html.erb"
+  - "- app/views/transactions/_form.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

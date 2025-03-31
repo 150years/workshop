@@ -56,15 +56,34 @@
             <td><%= transaction.order&.name || "-" %></td>
             <td><%= transaction.description || "-" %></td>
             <td>
-              <% if transaction.files.attached? %>
-                <%= link_to "View", rails_blob_path(transaction.files.first, disposition: "attachment"), target: "_blank" %>
-              <% else %>
-                -
-              <% end %>
+            <% if transaction.files.attached? %>
+            <h3>Прикреплённые файлы:</h3>
+            <ul>
+              <% transaction.files.each do |file| %>
+            <li class="flex items-center gap-2">
+            <%= link_to file.filename.to_s, url_for(file), class: "text-sm" %>
+            <%= link_to rails_blob_path(file, disposition: "attachment"), class: "btn btn--ghost p-1" do %>
+              <%= image_tag "download.svg", size: 16 %>
+            <% end %>
+            
+<%= button_to destroy_attachment_transaction_path(transaction, file_id: file.id),
+              method: :delete,
+              data: { turbo_confirm: "Удалить файл?" },
+              class: "btn btn--ghost p-1 text-red-600" do %>
+  <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+<% end %>
+
+
+
+            </li>
+            <% end %>
+
+              </ul>
+            <% end %>
             </td>
             <td>
               <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600" %> |
-              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_method: :delete,  turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
+              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
             </td>
           </tr>
         <% end %>

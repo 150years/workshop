@@ -54,6 +54,11 @@ class Order < ApplicationRecord
     %w[client agent]
   end
 
+  def latest_version_total
+    cents = order_versions.order(created_at: :desc).limit(1).pick(:total_amount_cents) || 0
+    Money.new(cents, 'THB')
+  end
+
   private
 
   def create_order_version

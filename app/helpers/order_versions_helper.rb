@@ -33,6 +33,7 @@ module OrderVersionsHelper
                  class: 'btn tabs__button',
                  data: { 'tabs-target': 'button', action: 'tabs#select' },
                  role: 'tab',
+                 style: (order_version.final_version? ? '--color-text: #2dd63b' : '').to_s,
                  'aria-controls': dom_id(order_version))
     end
 

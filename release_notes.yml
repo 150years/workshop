@@ -64,6 +64,21 @@ releases:
   - "- bun.lockb"
   - "- config/initializers/pagy.rb"
   - "- package.json"
+  - Fix
+  - "- app/controllers/material_uses_controller.rb"
+  - "- app/controllers/suppliers_controller.rb"
+  - "- app/javascript/controllers/use_controller.js"
+  - "- app/views/materials/_form.html.erb"
+  - "- app/views/materials/index.html.erb"
+  - "- app/views/materials/new.html.erb"
+  - "- app/views/materials/show.html.erb"
+  - "- app/views/suppliers/show.html.erb"
+  - "- spec/requests/materials_spec.rb"
+  - "- spec/requests/suppliers_spec.rb"
+  - "- spec/routing/suppliers_routing_spec.rb"
+  - "- spec/views/materials/edit.html.css_zero_spec.rb"
+  - "- spec/views/materials/index.html.css_zero_spec.rb"
+  - "- spec/views/materials/new.html.css_zero_spec.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

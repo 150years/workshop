@@ -30,12 +30,10 @@
 
 <div class="field">
   <label for="material_supplier_id">Supplier</label>
-  <select class="input" name="material[supplier_id]" id="supplier_select">
-    <option value="">Select Supplier (Optional)</option>
-    <% Supplier.all.each do |supplier| %>
-      <option value="<%= supplier.id %>"><%= supplier.name %></option>
-    <% end %>
-  </select>
+  <%= form.select :supplier_id,
+          options_from_collection_for_select(Supplier.all, :id, :name, @material.supplier_id),
+        { include_blank: true },
+        class: "input" %>
 </div>
   
 <%= javascript_include_tag 'application' %>

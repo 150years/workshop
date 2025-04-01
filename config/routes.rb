@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-    resources :materials
   get 'balances/index'
   get 'transactions/index'
   get 'transactions/new'
@@ -32,9 +31,10 @@ Rails.application.routes.draw do
   
   resources :balances, only: [:index]
   resources :suppliers, except: [:show]
-  resources :materials, except: [:show] do
+  resources :materials do
     resources :material_uses, only: %i[index create]
   end
+
 
 
 

@@ -113,7 +113,7 @@
 
   <%# Модалка внизу materials/index.html.erb: %>
   <dialog id="use_modal" class="dialog">
-    <form action="<%= material_uses_path %>" method="post" class="dialog__content">
+    <%= form_with url: material_material_uses_path(0), method: :post do %>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <input type="hidden" name="material_use[material_id]" id="use_modal_material_id">
 
@@ -140,5 +140,5 @@
         <%= submit_tag "Use", class: "btn btn--primary" %>
         <button type="button" onclick="use_modal.close()" class="btn">Cancel</button>
       </div>
-    </form>
+    <% end %>
   </dialog>

@@ -8,28 +8,19 @@ class MaterialUsesController < ApplicationController
 
   def create
     @use = MaterialUse.new(material_use_params)
+
+    return redirect_to materials_path, alert: 'Failed to use material.' unless @use.save
+
     material = @use.material
+    new_amount = material.amount - @use.amount
 
-    # Проверка: материал найден
-    redirect_to materials_path, alert: 'Material not found.' and return unless material
-
-    # Проверка: количество больше 0
-    if @use.amount.nil? || @use.amount <= 0
-      redirect_to materials_path, alert: 'Amount must be greater than 0.' and return
+    if new_amount.negative?
+      @use.destroy
+      return redirect_to materials_path, alert: 'Not enough stock.'
     end
 
-    # Проверка: хватает ли на складе
-    if @use.amount > material.amount
-      redirect_to materials_path, alert: "Not enough stock. Available: #{material.amount}" and return
-    end
-
-    # Сохраняем списание и вычитаем из остатков
-    if @use.save
-      material.update!(amount: material.amount - @use.amount)
-      redirect_to materials_path, notice: 'Material used successfully.'
-    else
-      redirect_to materials_path, alert: 'Failed to use material.'
-    end
+    material.update!(amount: new_amount)
+    redirect_to materials_path, notice: 'Material used successfully.'
   end
 
   private

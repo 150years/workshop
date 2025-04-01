@@ -5,13 +5,13 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers
   def index
-    Rails.logger.info ">>> params[:q] = #{params[:q].inspect}"
     @search = Supplier.ransack(params[:q])
-    Rails.logger.info ">>> @search is a #{@search.class.name}"
-    @pagy, @suppliers = pagy(@search.result(distinct: true))
+    @pagy, @suppliers = pagy(@search.result.order(created_at: :desc))
   end
 
-  def show; end
+  def show
+    @supplier = Supplier.find(params[:id])
+  end
 
   # GET /suppliers/new
   def new
@@ -56,6 +56,6 @@ class SuppliersController < ApplicationController
   end
 
   def supplier_params
-    params.require(:supplier).permit(:name, :contact_info)
+    params.expect(supplier: %i[name contact_info])
   end
 end

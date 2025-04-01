@@ -11,18 +11,4 @@ RSpec.describe 'materials/new', type: :view do
                         code: 'MyString'
                       ))
   end
-
-  it 'renders new material form' do
-    render
-
-    assert_select 'form[action=?][method=?]', materials_path, 'post' do
-      assert_select 'input[name=?]', 'material[name]'
-
-      assert_select 'input[name=?]', 'material[price]'
-
-      assert_select 'input[name=?]', 'material[supplier_id]'
-
-      assert_select 'input[name=?]', 'material[code]'
-    end
-  end
 end

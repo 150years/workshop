@@ -1,9 +1,62 @@
 ---
 releases:
-- version: 0.20.1
-  date: 28-03-2025
+- version: 0.30.1
+  date: 01-04-2025
   notes:
-  - 'Products, Projects, Project in version order - whole table tr as link… #104'
+  - 'Try a02a24e #110 - 150years wants to merge 1 commit into main from 93-accounting-model-and-relations-to-the-rest-app'
+- version: 0.22.0
+  date: 31-03-2025
+  notes:
+  - Edit newpush
+  - "- release_notes.yml"
+  - 'Fix '
+  - "- README.md"
+  - Projects, index show prices
+  - "- app/javascript/controllers/index.js"
+  - "- app/models/order.rb"
+  - "- app/views/orders/_table_row.html.erb"
+  - "- app/views/orders/index.html.erb"
+  - Модель Balance, Transaction
+  - Контроллер TransactionsController
+  - 'UI: transactions/index.html.erb'
+  - Модуль Balance
+  - "- app/models/agent.rb"
+  - "- app/models/client.rb"
+  - "- app/views/application/_header_menu.html.erb"
+  - "- config/routes.rb"
+  - "- db/schema.rb"
+  - Tune all rspec
+  - "- app/controllers/transactions_controller.rb"
+  - "- app/views/balances/index.html.erb"
+  - "- app/views/transactions/create.html.erb"
+  - "- app/views/transactions/new.html.erb"
+  - "- app/views/users/edit.html.erb"
+  - "- app/views/users/new.html.erb"
+  - Lint
+  - "- .rubocop.yml"
+  - "- Gemfile"
+  - "- Gemfile.lock"
+  - "- app/controllers/balances_controller.rb"
+  - Прикрепление документов к транзакциям
+  - "- app/javascript/application.js"
+  - "- app/views/layouts/application.html.erb"
+  - "- app/views/transactions/_form.html.erb"
+  - Баланс - итоги
+  - "- app/controllers/order_versions_controller.rb"
+  - "- app/views/order_versions/_order_version.html.erb"
+  - "- app/views/orders/_order.html.erb"
+  - Сверху новые тразакции
+  - Small diif fixes
+  - "- app/models/company.rb"
+  - "- app/models/transaction.rb"
+  - "- spec/factories/transactions.rb"
+  - "- spec/models/transaction_spec.rb"
+  - "- spec/requests/transactions_spec.rb"
+  - Copilor suggestion edit
+- version: 0.21.0
+  date: 31-03-2025
+  notes:
+  - Edit readme
 - version: 0.20.0
   date: 28-03-2025
   notes:
@@ -12,6 +65,7 @@ releases:
   - Basic accounting
   - Tune order views
   - Try
+  - Improved performance and stability
 - version: 0.19.1
   date: 27-03-2025
   notes:

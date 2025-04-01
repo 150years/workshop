@@ -45,7 +45,7 @@ class OrderVersionsController < ApplicationController
   private
 
   def set_order
-    @order = current_company.orders.find(params[:order_id || params[:id]])
+    @order = current_company.orders.find(params[:order_id] || params[:id])
   end
 
   # Use callbacks to share common setup or constraints between actions.

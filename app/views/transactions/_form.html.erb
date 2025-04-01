@@ -1,0 +1,67 @@
+<%= form_with model: transaction, local: true, html: { multipart: true }, class: "flex flex-col gap-6" do |f| %>
+  <div class="flex flex-col gap-2">
+    <%= f.label :date, "Date", class: "label" %>
+    <%= f.date_field :date, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :description, "Description", class: "label" %>
+    <%= f.text_field :description, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :amount, "Amount", class: "label" %>
+    <%= f.number_field :amount, step: 0.01, class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :type_id, "Type", class: "label" %>
+    <%= f.select :type_id,
+      Transaction.type_ids.keys.map { |key| [key.humanize, key] },
+      { include_blank: true },
+      class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :order_id, "Project", class: "label" %>
+    <%= f.collection_select :order_id, current_company.orders, :id, :name,
+      { include_blank: true },
+      class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :agent_id, "Agent", class: "label" %>
+    <%= f.collection_select :agent_id, current_company.agents, :id, :name,
+      { include_blank: true },
+      class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :client_id, "Client", class: "label" %>
+    <%= f.collection_select :client_id, current_company.clients, :id, :name,
+      { include_blank: true },
+      class: "input" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :files, "Attach files", class: "label" %>
+    <%= f.file_field :files, multiple: true, class: "input", direct_upload: true %>
+
+    <% if transaction.files.attached? %>
+      <ul class="text-sm space-y-1 mt-2">
+        <% transaction.files.each do |file| %>
+          <li class="flex items-center justify-between">
+            <%= link_to file.filename.to_s, rails_blob_path(file, disposition: "attachment"), target: "_blank" %>
+            <%= link_to "❌", destroy_attachment_transaction_path(transaction, attachment_id: file.id),
+              method: :delete,
+              data: { confirm: "Remove file #{file.filename}?" },
+              class: "text-red-500 text-xs" %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <%= f.submit "Create Transaction", class: "btn btn--primary", data: { disable_with: "Saving..." } %>
+
+<% end %>

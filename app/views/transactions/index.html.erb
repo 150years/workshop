@@ -1,0 +1,53 @@
+<% content_for :title, "Transactions" %>
+
+<div class="container flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold">Transactions</h1>
+    <%= link_to "New transaction", new_transaction_path, class: "btn btn--primary" %>
+  </div>
+
+  <%= search_form_for @search, url: transactions_path, method: :get, class: "flex flex-wrap gap-2 items-end", data: { controller: "form" } do |f| %>
+    <%= f.date_field :date_gteq, placeholder: "From", class: "input", data: { action: "change->form#submit" } %>
+    <%= f.date_field :date_lteq, placeholder: "To", class: "input", data: { action: "change->form#submit" } %>
+
+    <%= f.select :type_id_eq, Transaction.type_ids.invert, { include_blank: "Any type" }, class: "input", data: { action: "change->form#submit" } %>
+    <%= f.collection_select :order_id_eq, current_company.orders, :id, :name, { include_blank: "Any project" }, class: "input", data: { action: "change->form#submit" } %>
+    <%= f.collection_select :agent_id_eq, current_company.agents, :id, :name, { include_blank: "Any agent" }, class: "input", data: { action: "change->form#submit" } %>
+    <%= f.collection_select :client_id_eq, current_company.clients, :id, :name, { include_blank: "Any client" }, class: "input", data: { action: "change->form#submit" } %>
+  <% end %>
+
+  <div class="relative overflow-x-auto border rounded-lg">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Project</th>
+          <th>Agent</th>
+          <th>Client</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @transactions.each do |t| %>
+          <tr>
+            <td><%= t.date.strftime("%d.%m.%y") %></td>
+            <td><%= t.description %></td>
+            <td><%= t.type_id.humanize %></td>
+            <td class="<%= t.amount.positive? ? 'text-green-600' : 'text-red-600' %>">
+              <%= number_to_currency(t.amount) %>
+            </td>
+            <td><%= t.order&.name %></td>
+            <td><%= t.agent&.name %></td>
+            <td><%= t.client&.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <%= pagy_nav(@pagy) %>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<% content_for :title, "Usage history: #{@material.name}" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-3xl">Usage history: <%= @material.name %></h1>
+  <%= link_to "Back", materials_path, class: "btn" %>
+</div>
+
+<% if @uses.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @uses.each do |use| %>
+        <tr>
+          <td><%= use.date.strftime("%d.%m.%Y") %></td>
+          <td><%= use.amount %></td>
+          <td><%= use.order&.name || "—" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-subtle mt-2">No usage records found.</p>
+<% end %>
+

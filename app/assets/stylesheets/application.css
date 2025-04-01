@@ -1,7 +1,9 @@
-turbo-frame {
+  turbo-frame {
   display: block;
 }
 
 turbo-frame[busy], turbo-frame[complete] {
   display: contents;
 }
+
+@import 'select2';

@@ -1,0 +1,28 @@
+<%= turbo_frame_tag "use_material_modal" do %>
+  <div class="modal">
+    <div class="modal-content">
+      <h2>Use Material</h2>
+      <%= form_with(model: @material_expense, url: material_expenses_path, method: :post) do |form| %>
+        <div class="field">
+          <%= form.label :date %>
+          <%= form.date_field :date, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :amount %>
+          <%= form.number_field :amount, class: "input", min: 1 %>
+        </div>
+
+        <div class="field">
+          <%= form.label :project %>
+          <%= form.text_field :project, class: "input" %>
+        </div>
+
+        <div class="actions">
+          <%= form.submit "Record Expense", class: "btn btn--primary" %>
+          <button type="button" class="btn" data-turbo-action="replace" data-turbo-frame="use-material-modal">Cancel</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

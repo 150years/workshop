@@ -1,0 +1,144 @@
+<% content_for :title, "Materials" %>
+
+  <div class="flex items-center justify-between mbe-2">
+    <h1 class="font-bold text-4xl">Materials</h1>
+    <%= link_to "New Material", new_material_path, class: "btn btn--primary" %>
+  </div>
+
+  <div class="flex items-left gap">
+    <% if defined?(@search) && @search.present? %>
+    <%= search_form_for @search, class: "flex items-center justify-between", data: { controller: "form" } do |form| %>
+        <%= form.search_field :name_or_code_cont_any,
+            placeholder: "Name or Code",
+            autocomplete: "off",
+            class: "input" %>
+    <% end %>
+  <% end %>
+  <%= form_with url: materials_path, method: :get, class: "flex gap mb-4 items-center" do %>
+    <%= select_tag :order_id,
+        options_from_collection_for_select(Order.all, :id, :name, params[:order_id]),
+        include_blank: "All Projects",
+        class: "input" %>
+
+    <%= submit_tag "Filter", class: "btn" %>
+  <% end %>
+  </div >
+  <div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
+    <% if controller.action_name == "index" %>
+    <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%= sort_link(@search, :code) %></th>
+        <th>Image</th>
+        <th><%= sort_link(@search, :name) %></th>
+        <th><%= sort_link(@search, :price) %></th>
+        <th>Amount</th>
+        <th>Used</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody data-controller="toggle">
+      <% @materials.each do |material| %>
+  <!-- Контроллер на каждой паре строк -->
+    <!-- Основная строка -->
+      <tr>
+        <td><%= material.id %></td>
+        <td><%= material.code %></td>
+        <td>
+          <% if material.image.attached? %>
+            <%= image_tag material.image.variant(resize_to_limit: [80, 80]), class: "rounded shadow" %>
+          <% else %>
+            —
+          <% end %>
+        </td>
+        <td><%= material.name %></td>
+        <td><%= number_to_currency(material.price) %></td>
+        <td><%= material.amount %></td>
+        <td><%= material.material_uses.sum(:amount) %></td>
+        <td>
+          <%= button_tag "Use", type: "button",
+                data: {
+                  controller: "use",
+                  action: "click->use#open",
+                  use_material_id_value: material.id,
+                  use_material_name_value: material.name
+                } %> |
+          <%= link_to "History", material_material_uses_path(material) %> |
+          <%= link_to "Edit", edit_material_path(material) %> |
+          <%= link_to "Delete", material_path(material),
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+
+      
+  <% end %>
+    </tbody>
+  </table>
+
+    <% end %>
+  </div>
+
+  <% if defined?(@pagy) && @pagy.present? %>
+    <div class="flex items-center">
+      <div class="text-sm text-subtle show@md">
+        Displaying <%= @pagy.in %> of <%= @pagy.count %> materials.
+      </div>
+      <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+        <%= form_with url: pagy_url_for(@pagy, 1), method: :get, class: "flex items-center gap show@md", data: { controller: "form", action: "change->form#submit" } do |form| %>
+          <%= form.label :limit, "Rows per page", class: "text-sm font-medium" %>
+          <%= form.select :limit, [10, 20, 30, 40, 50], { selected: @pagy.limit }, { class: "input", style: "--input-inline-size: 70px" } %>
+        <% end %>
+        <div class="text-sm font-medium">
+          Page <%= @pagy.page %> of <%= @pagy.pages %>
+        </div>
+        <nav class="flex items-center gap shrink-0" style="--btn-padding: .5rem;" aria-label="Pagination">
+          <%= link_to pagy_url_for(@pagy, 1), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+            <%= image_tag "chevrons-left.svg", size: 16, aria: { hidden: true } %>
+          <% end %>
+          <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn", aria: { disabled: @pagy.prev.nil? }.compact_blank do %>
+            <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+          <% end %>
+          <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+            <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+          <% end %>
+          <%= link_to pagy_url_for(@pagy, @pagy.last), class: "btn", aria: { disabled: @pagy.next.nil? }.compact_blank do %>
+            <%= image_tag "chevrons-right.svg", size: 16, aria: { hidden: true } %>
+          <% end %>
+        </nav>
+      </div>
+    </div>
+  <% end %>
+
+
+  <%# Модалка внизу materials/index.html.erb: %>
+  <dialog id="use_modal" class="dialog">
+    <form action="<%= material_uses_path %>" method="post" class="dialog__content">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <input type="hidden" name="material_use[material_id]" id="use_modal_material_id">
+
+      <h2 class="text-xl font-bold" id="use_modal_title">Use material</h2>
+
+      <div class="field">
+        <label>Date</label>
+        <%= date_field_tag "material_use[date]", Date.today, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label>Amount</label>
+        <%= number_field_tag "material_use[amount]", 1, class: "input" %>
+      </div>
+
+      <div class="field mb-2">
+        <label>Project</label>
+        <%= select_tag "material_use[order_id]",
+              options_from_collection_for_select(Order.all, :id, :name, nil),
+              include_blank: "— Optional —", class: "input" %>
+      </div>
+
+      <div class="actions flex gap mt-4 gap">
+        <%= submit_tag "Use", class: "btn btn--primary" %>
+        <button type="button" onclick="use_modal.close()" class="btn">Cancel</button>
+      </div>
+    </form>
+  </dialog>

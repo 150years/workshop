@@ -1,0 +1,63 @@
+<% content_for :title, "Suppliers" %>
+
+<div class="flex items-center justify-between mbe-4">
+  <h1 class="font-bold text-4xl">Suppliers</h1>
+  <%= link_to "New Supplier", new_supplier_path, class: "btn btn--primary" %>
+</div>
+
+<%= search_form_for @search, class: "flex items-center justify-between gap mbe-4", data: { controller: "form" } do |form| %>
+  <div class="flex items-center grow gap">
+    <%= form.search_field :name_or_contact_info_cont_any,
+        placeholder: "Name or Contact Info",
+        autocomplete: "off",
+        class: "input",
+        style: "max-inline-size: 250px",
+        data: { form_target: "searchInput", action: "form#submitLater", turbo_permanent: true } %>
+
+    <%= link_to "Reset", suppliers_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params[:q].present? %>
+  </div>
+<% end %>
+
+<div class="relative i-full overflow-x-auto border rounded-lg mbe-4">
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= sort_link(@search, :id, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :name, class: "flex items-center") %></th>
+        <th><%= sort_link(@search, :contact_info, class: "flex items-center") %></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @suppliers.blank? %>
+        <tr>
+          <td colspan="4" class="text-center p-8">No suppliers found.</td>
+        </tr>
+      <% else %>
+        <% @suppliers.each do |supplier| %>
+          <tr data-controller="link" data-link-href-value="<%= edit_supplier_path(supplier) %>" class="cursor-pointer hover:bg-gray-50 transition">
+            <td><%= supplier.id %></td>
+            <td><%= supplier.name %></td>
+            <td><%= supplier.contact_info %></td>
+            <td>
+              <%= link_to "Edit", edit_supplier_path(supplier), data: { turbo_method: :delete }%> |
+              <%= link_to "Delete", supplier, method: :delete, data: { turbo_method: :delete, confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="flex items-center">
+  <div class="text-sm text-subtle show@md">Displaying <%= @pagy.count %> of <%= @pagy.pages %> suppliers.</div>
+  <div class="flex items-center mis-auto justify-end" style="column-gap: 1rem">
+    <%= link_to pagy_url_for(@pagy, @pagy.prev || @pagy.page), class: "btn" do %>
+      <%= image_tag "chevron-left.svg", size: 16, aria: { hidden: true } %>
+    <% end %>
+    <%= link_to pagy_url_for(@pagy, @pagy.next || @pagy.page), class: "btn" do %>
+      <%= image_tag "chevron-right.svg", size: 16, aria: { hidden: true } %>
+    <% end %>
+  </div>
+</div>

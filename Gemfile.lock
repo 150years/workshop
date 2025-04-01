@@ -504,7 +504,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 8.0.2)
   rails_app_version (= 1.3.2)
-  ransack (~> 4.3.0)
+  ransack
   rspec-rails (~> 7.1.1)
   rubocop-rails-omakase
   selenium-webdriver

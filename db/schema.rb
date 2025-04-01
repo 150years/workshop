@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_31_192309) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -177,6 +177,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_192309) do
     t.index ["keepr_account_id"], name: "index_keepr_taxes_on_keepr_account_id"
   end
 
+  create_table "material_uses", force: :cascade do |t|
+    t.date "date"
+    t.integer "amount"
+    t.string "project"
+    t.integer "material_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order_id"
+    t.index ["material_id"], name: "index_material_uses_on_material_id"
+    t.index ["order_id"], name: "index_material_uses_on_order_id"
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.string "name"
+    t.float "price"
+    t.integer "supplier_id"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "amount", default: 0
+    t.index ["supplier_id"], name: "index_materials_on_supplier_id"
+  end
+
   create_table "order_versions", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "total_amount_cents", default: 0, null: false
@@ -232,6 +255,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_192309) do
     t.index ["order_version_id"], name: "index_products_on_order_version_id"
   end
 
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.text "contact_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.date "date"
     t.string "description"
@@ -268,6 +298,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_192309) do
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
+  add_foreign_key "material_uses", "materials"
+  add_foreign_key "material_uses", "orders"
+  add_foreign_key "materials", "suppliers"
   add_foreign_key "order_versions", "companies"
   add_foreign_key "order_versions", "orders"
   add_foreign_key "orders", "agents"

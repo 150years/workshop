@@ -55,6 +55,15 @@ releases:
   - Copilor suggestion edit
   - Mobile menu
   - "- app/views/application/_mobile_menu.html.erb"
+  - "\x7FSupplier"
+  - Materials
+  - Material stock
+  - Connect stock to orders
+  - "- app/assets/stylesheets/application.css"
+  - "- app/javascript/controllers/application.js"
+  - "- bun.lockb"
+  - "- config/initializers/pagy.rb"
+  - "- package.json"
 - version: 0.21.0
   date: 31-03-2025
   notes:

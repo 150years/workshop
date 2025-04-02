@@ -55,7 +55,7 @@ class Order < ApplicationRecord
   end
 
   def latest_version_total
-    cents = order_versions.order(created_at: :desc).limit(1).pick(:total_amount_cents) || 0
+    cents = order_versions.where(final_version: true).limit(1).pick(:total_amount_cents) || 0
     Money.new(cents, 'THB')
   end
 

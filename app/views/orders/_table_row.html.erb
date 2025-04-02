@@ -25,17 +25,14 @@
     <span><%= order.latest_version_total.format %></span>
   </td>
   <td class="whitespace-nowrap">
-  <div data-dropdown-target="menu" class="hidden absolute right-0 z-50 bg-white border rounded shadow p-2">
-    <%= button_tag type: "button", class: "btn btn--plain p-1", data: { action: "click->dropdown#toggle" } do %>
-      <%= image_tag "ellipsis.svg", size: 16, aria: { hidden: true } %>
-      <span class="sr-only">Open menu</span>
-    <% end %>
-
-    <div data-dropdown-target="menu" class="hidden absolute right-0 z-50 bg-white border rounded shadow p-2">
-      <%= link_to "Edit", edit_order_path(order), data: { turbo_frame: "_top" }, class: "block px-4 py-2 hover:bg-gray-100 text-sm" %>
-      <%= link_to "Delete", order_path(order), method: :delete, data: { confirm: "Are you sure?", turbo_frame: "_top" }, class: "block px-4 py-2 hover:bg-red-50 text-sm text-red-600" %>
-    </div>
-  </div>
-</td>
-
+    <%= dropdown_button(
+      links: [
+        { name: "View", url: order_path(order), data: {turbo_frame: "_top"} },
+        { name: "Edit", url: edit_order_path(order), data: {turbo_frame: "_top"} },
+        :separator,
+        { name: "Delete", url: order_path(order), data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } }
+      ]
+    )
+    %>
+  </td>
 </tr>

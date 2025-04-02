@@ -79,6 +79,9 @@ releases:
   - "- spec/views/materials/edit.html.css_zero_spec.rb"
   - "- spec/views/materials/index.html.css_zero_spec.rb"
   - "- spec/views/materials/new.html.css_zero_spec.rb"
+  - Fix lint + spec
+  - "- spec/rails_helper.rb"
+  - "- spec/views/suppliers/index.html.css_zero_spec.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

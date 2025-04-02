@@ -1,5 +1,6 @@
-<tr data-controller="dialog" data-action="click->dialog#showModal" class="cursor-pointer hover:bg-gray-50 transition">  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
-  <th>
+<tr data-controller="dialog" data-action="click->dialog#showModal" class="cursor-pointer hover:bg-gray-50 transition">
+  <td><%= image_or_placeholder(product.image, 100, 150) %></td>
+  <td>
     <%= product.name %>
     <dialog class="dialog" data-dialog-target="menu"  style="--max-i-lg: fit-content;">
       <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
@@ -14,7 +15,7 @@
         <% end %>
       </div>
     </dialog>
-  </th>
+  </td>
   <td><%= UnitConverter.mm_to_m(product.width) %></td>
   <td><%= UnitConverter.mm_to_m(product.height) %></td>
   <td><%= product.area_m2 %></td>

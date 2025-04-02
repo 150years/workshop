@@ -8,7 +8,11 @@ class OrderVersionsController < ApplicationController
 
   # GET /order_versions/new
   def new
-    @order_version = OrderVersion.new
+    @order_version = if params[:copy_from].blank?
+                       OrderVersion.new
+                     else
+                       OrderVersion.find(params[:copy_from]).dup
+                     end
   end
 
   # GET /order_versions/1/edit

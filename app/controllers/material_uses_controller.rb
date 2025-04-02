@@ -6,6 +6,8 @@ class MaterialUsesController < ApplicationController
     @uses = @material.material_uses.order(date: :desc)
   end
 
+  def new; end
+
   def create
     @use = MaterialUse.new(material_use_params)
 

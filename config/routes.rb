@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   resources :balances, only: [:index]
   resources :suppliers, except: [:show]
   resources :materials do
-    resources :material_uses, only: %i[index create]
+    resources :material_uses, only: %i[index new create]
   end
 
 

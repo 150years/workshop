@@ -39,6 +39,7 @@ class OrderVersion < ApplicationRecord
                                     greater_than_or_equal_to: 0,
                                     less_than_or_equal_to: 100
                                   }
+  after_save :remove_other_final_versions, if: -> { saved_change_to_final_version? && final_version? }
 
   after_commit do
     broadcast_update_to self
@@ -49,5 +50,11 @@ class OrderVersion < ApplicationRecord
   def update_total_amount
     self.total_amount_cents = products.sum(&:price_cents)
     save
+  end
+
+  private
+
+  def remove_other_final_versions
+    order.order_versions.where.not(id: id).update_all(final_version: false) # rubocop:disable Rails/SkipsModelValidations
   end
 end

@@ -45,4 +45,26 @@ RSpec.describe OrderVersion, type: :model do
     it { is_expected.to validate_numericality_of(:profit).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:profit).is_less_than_or_equal_to(100) }
   end
+
+  describe 'callbacks' do
+    let(:order) { create(:order) }
+    let(:order_version) { create(:order_version, final_version: false, order:) }
+
+    context 'after save' do
+      let!(:old_final_version_order) { create(:order_version, final_version: true, order:) }
+
+      it 'removes other final versions from other after save' do
+        expect { order_version.update(final_version: true) }
+          .to change { old_final_version_order.reload.final_version }.from(true).to(false)
+      end
+    end
+
+    context 'after commit' do
+      it 'broadcasts updates after commit' do
+        expect do
+          order_version.update(final_version: true)
+        end.to broadcast_to(order_version.to_gid_param)
+      end
+    end
+  end
 end

@@ -9,6 +9,7 @@ RSpec.describe MaterialsController, type: :controller do
   before do
     sign_in FactoryBot.create(:user) # или create(:admin), в зависимости от логики
   end
+
   describe 'GET #index' do
     it 'returns success' do
       get :index
@@ -51,12 +52,44 @@ RSpec.describe MaterialsController, type: :controller do
         }
       end.to change(Material, :count).by(1)
     end
+
+    context 'with invalid params' do
+      it 'does not create a material and renders :new' do
+        post :create, params: {
+          material: {
+            name: '', # ❌ invalid
+            code: '',
+            price: nil,
+            amount: -1,
+            supplier_id: nil
+          }
+        }
+
+        expect(response).to render_template(:new) # 💡 Это покрывает else
+        expect(assigns(:material)).to be_a_new(Material)
+      end
+    end
   end
 
   describe 'PATCH #update' do
-    it 'updates the material' do
-      patch :update, params: { id: material.id, material: { name: 'Glass' } }
-      expect(material.reload.name).to eq('Glass')
+    let!(:material) { Material.create!(name: 'Steel', code: 'ST-001', price: 100, amount: 10, supplier: supplier) }
+
+    context 'with invalid params' do
+      it 'does not update material and renders :edit' do
+        patch :update, params: {
+          id: material.id,
+          material: {
+            name: '', # ❌ invalid
+            code: '',
+            price: nil,
+            amount: -10,
+            supplier_id: nil
+          }
+        }
+
+        expect(response).to render_template(:index) # 💡 Ещё одна важная ветка
+        expect(assigns(:material)).to eq(material)
+      end
     end
   end
 

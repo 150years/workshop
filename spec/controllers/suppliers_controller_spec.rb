@@ -43,12 +43,42 @@ RSpec.describe SuppliersController, type: :controller do
         }
       end.to change(Supplier, :count).by(1)
     end
+    context 'with invalid params' do
+      it 'does not create supplier and renders :new' do
+        expect do
+          post :create, params: {
+            supplier: {
+              name: '',           # ❌ invalid
+              contact_info: ''    # ❌ invalid
+            }
+          }
+        end.not_to change(Supplier, :count)
+
+        expect(response).to render_template(:index) # 💡 покрытие ветки
+        expect(assigns(:supplier)).to be_a_new(Supplier)
+      end
+    end
   end
 
   describe 'PATCH #update' do
     it 'updates supplier' do
       patch :update, params: { id: supplier.id, supplier: { name: 'New Name' } }
       expect(supplier.reload.name).to eq('New Name')
+    end
+    context 'with invalid params' do
+      it 'does not update supplier and renders :edit' do
+        patch :update, params: {
+          id: supplier.id,
+          supplier: {
+            name: '', # ❌ invalid
+            contact_info: ''
+          }
+        }
+
+        expect(response).to render_template(:index) # 💡 ещё одна ветка
+        expect(assigns(:supplier)).to eq(supplier)
+        expect(supplier.reload.name).to eq('Alpha') # убедиться, что не обновилось
+      end
     end
   end
 

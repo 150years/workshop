@@ -84,6 +84,9 @@ releases:
   - "- spec/views/suppliers/index.html.css_zero_spec.rb"
   - Fix i dont know what!
   - Fix coverage %
+  - Make coverage > 90% (try)
+  - "- spec/controllers/materials_controller_spec.rb"
+  - "- spec/controllers/suppliers_controller_spec.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

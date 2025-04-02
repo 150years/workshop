@@ -21,14 +21,17 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
+#  supplier_id  :integer
 #
 # Indexes
 #
-#  index_components_on_company_id  (company_id)
+#  index_components_on_company_id   (company_id)
+#  index_components_on_supplier_id  (supplier_id)
 #
 # Foreign Keys
 #
-#  company_id  (company_id => companies.id)
+#  company_id   (company_id => companies.id)
+#  supplier_id  (supplier_id => suppliers.id)
 #
 require 'rails_helper'
 

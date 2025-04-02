@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_02_090557) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -91,7 +91,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
     t.decimal "thickness", precision: 7, scale: 1
     t.decimal "height", precision: 7, scale: 1
     t.integer "category", default: 0, null: false
+    t.integer "supplier_id"
     t.index ["company_id"], name: "index_components_on_company_id"
+    t.index ["supplier_id"], name: "index_components_on_supplier_id"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -210,6 +212,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
     t.datetime "updated_at", null: false
     t.integer "company_id", null: false
     t.integer "profit", default: 0, null: false
+    t.string "quotation_number"
     t.index ["company_id"], name: "index_order_versions_on_company_id"
     t.index ["order_id"], name: "index_order_versions_on_order_id"
   end
@@ -260,6 +263,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
     t.text "contact_info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["email"], name: "index_suppliers_on_email", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -298,6 +303,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_110118) do
   add_foreign_key "agents", "companies"
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
+  add_foreign_key "components", "suppliers"
   add_foreign_key "material_uses", "materials"
   add_foreign_key "material_uses", "orders"
   add_foreign_key "materials", "suppliers"

@@ -21,20 +21,23 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
+#  supplier_id  :integer
 #
 # Indexes
 #
-#  index_components_on_company_id  (company_id)
+#  index_components_on_company_id   (company_id)
+#  index_components_on_supplier_id  (supplier_id)
 #
 # Foreign Keys
 #
-#  company_id  (company_id => companies.id)
+#  company_id   (company_id => companies.id)
+#  supplier_id  (supplier_id => suppliers.id)
 #
 class Component < ApplicationRecord
   delegate :currency, to: :company, allow_nil: true
   monetize :price_cents, with_model_currency: :currency
-
   belongs_to :company, optional: true
+  belongs_to :supplier, optional: true
   has_many :product_components, dependent: :restrict_with_error
   has_many :products, through: :product_components
   has_one_attached :image

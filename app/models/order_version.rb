@@ -8,6 +8,7 @@
 #  agent_comm         :integer          default(0), not null
 #  final_version      :boolean          default(FALSE), not null
 #  profit             :integer          default(0), not null
+#  quotation_number   :string
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -26,6 +27,7 @@
 #  order_id    (order_id => orders.id)
 #
 class OrderVersion < ApplicationRecord
+  before_validation :generate_quotation_number, on: :create
   delegate :currency, to: :company, allow_nil: true
   monetize :total_amount_cents, with_model_currency: :currency
 
@@ -49,5 +51,21 @@ class OrderVersion < ApplicationRecord
   def update_total_amount
     self.total_amount_cents = products.sum(&:price_cents)
     save
+  end
+
+  def quotation_filename(order)
+    name = order.name.parameterize.underscore
+    "QT_TGT_#{created_at.strftime('%Y%m%d')}_V#{id}_#{name}.pdf"
+  end
+
+  # def quotation_number
+  #   created = created_at || Time.current
+  #   "QT_TGT_#{created.strftime('%Y%m%d')}_V#{id}"
+  # end
+
+  def generate_quotation_number
+    today = Time.zone.today
+    version_number = (order.order_versions.count + 1).to_s
+    self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
   end
 end

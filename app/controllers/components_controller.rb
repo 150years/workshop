@@ -56,6 +56,22 @@ class ComponentsController < ApplicationController
     end
   end
 
+  def prepare_components_order
+    @order = Order.find(params[:id])
+    @version = @order.order_versions.last # или .final если так помечается
+
+    @components_summary = Hash.new(0)
+
+    @version.products.includes(:components).find_each do |product|
+      product.product_components.each do |pc|
+        @components_summary[pc.component] += pc.quantity
+      end
+    end
+
+    @grouped_by_type = @components_summary.group_by { |component, _| component.material_type } # Aluminium, Glass
+    @grouped_by_supplier = @components_summary.group_by { |component, _| component.supplier }
+  end
+
   private
 
   def set_component

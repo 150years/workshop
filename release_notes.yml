@@ -87,6 +87,22 @@ releases:
   - Make coverage > 90% (try)
   - "- spec/controllers/materials_controller_spec.rb"
   - "- spec/controllers/suppliers_controller_spec.rb"
+  - Try to add quotatio and send request Product order to supplier
+  - Have problem with spec 79 errors
+  - Will try to fix
+  - "- app/controllers/components_controller.rb"
+  - "- app/controllers/orders_controller.rb"
+  - "- app/models/component.rb"
+  - "- app/models/order_version.rb"
+  - "- app/models/supplier.rb"
+  - "- app/views/components/_form.html.erb"
+  - "- app/views/suppliers/_form.html.erb"
+  - "- spec/factories/components.rb"
+  - "- spec/factories/order_versions.rb"
+  - "- spec/factories/suppliers.rb"
+  - "- spec/models/component_spec.rb"
+  - "- spec/models/order_version_spec.rb"
+  - "- spec/models/supplier_spec.rb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

@@ -22,7 +22,12 @@ Rails.application.routes.draw do
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions'
     delete :remove_file, on: :member
-  end
+    member do
+      get :prepare_components_order
+      get :components_order_pdf
+      get :quotation_pdf
+    end
+  end 
   resources :transactions do
     member do
       delete :destroy_attachment
@@ -34,6 +39,9 @@ Rails.application.routes.draw do
   resources :materials do
     resources :material_uses, only: %i[index new create]
   end
+  
+  
+
 
 
 

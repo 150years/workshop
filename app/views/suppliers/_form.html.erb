@@ -21,6 +21,12 @@
     <%= form.textarea :contact_info, class: "input" %>
   </div>
 
+  <div class="flex flex-col items-start gap-half mbe-4">
+    <%= form.label :email, class: "text-sm font-medium leading-none" %>
+    <%= form.textarea :email, class: "input" %>
+  </div>
+
+
   <div class="inline-flex items-center mbs-2 mie-1 gap">
     <%= form.submit class: "btn btn--primary" %>
     <%= link_to "Back to suppliers", suppliers_path, class: "btn" %>

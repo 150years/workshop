@@ -6,9 +6,14 @@
 #
 #  id           :integer          not null, primary key
 #  contact_info :text
+#  email        :string
 #  name         :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_suppliers_on_email  (email) UNIQUE
 #
 require 'rails_helper'
 

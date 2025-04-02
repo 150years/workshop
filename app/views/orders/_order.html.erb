@@ -1,9 +1,12 @@
 <div id="<%= dom_id order %>" class="card flex flex-col gap">
-  <div class="flex items-center justify-between w-full gap">
+  <div class="flex">
     <h2 class="font-bold text-2xl">#<%= order.id %></h2>
     <span class="font-bold text-2xl"><%= order.name %></span>
+  </div>
+  <div class="flex items-center justify-end w-full gap">
     <div class="badge badge--primary"><%= order.status.humanize %></div>
-    <div class="flex items-center gap">
+    <%= link_to "Quotation", quotation_pdf_order_path(@order, format: :pdf), class: "btn", target: "_blank", data: { turbo: false } %>
+    <div class="flex items-center gap"> 
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>

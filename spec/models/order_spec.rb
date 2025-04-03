@@ -49,4 +49,34 @@ RSpec.describe Order, type: :model do
         )
     end
   end
+
+  describe 'callbacks' do
+    it 'creates an order version before commit' do
+      order = build(:order)
+      expect(order).to receive(:create_order_version)
+      order.save
+    end
+  end
+
+  describe '#latest_version_total' do
+    let(:order) { create(:order) }
+    let!(:order_version) { create(:order_version, order: order, final_version: true, total_amount_cents: 1000) }
+    let!(:not_latest_order_version) { create(:order_version, order: order, final_version: false, total_amount_cents: 2000) }
+
+    it 'returns the latest version total amount' do
+      expect(order.latest_version_total).to eq(Money.new(1000, 'THB'))
+      not_latest_order_version.update(final_version: true)
+      expect(order.latest_version_total).to eq(Money.new(2000, 'THB'))
+    end
+
+    it 'returns zero if no final version exists' do
+      order_version.update(final_version: false)
+      expect(order.latest_version_total).to eq(Money.new(0, 'THB'))
+    end
+
+    it 'returns zero if no order versions exist' do
+      order.order_versions.destroy_all
+      expect(order.latest_version_total).to eq(Money.new(0, 'THB'))
+    end
+  end
 end

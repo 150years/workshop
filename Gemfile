@@ -28,7 +28,6 @@ gem 'dentaku', '~> 3.5.4'
 gem 'prawn'
 gem 'prawn-table'
 
-
 # Deploy
 gem 'kamal', require: false
 gem 'thruster', require: false

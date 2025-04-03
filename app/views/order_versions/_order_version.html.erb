@@ -43,10 +43,11 @@
         <th style='white-space: nowrap;'>Width, m</th>
         <th style='white-space: nowrap;'>Height, m</th>
         <th style='white-space: nowrap;'>Area, m²</th>
-        <td>Aluminum</td>
-        <td>Glass</td>
-        <td>Other</td>
-        <th class="text-end">Price</th>
+        <th>Aluminum</th>
+        <th>Glass</th>
+        <th>Other</th>
+        <th>Price</th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="<%= dom_id(order_version, 'products') %>">
@@ -58,6 +59,7 @@
         <td class="text-end">
           <%= order_version.total_amount.format %>
         </td>
+        <td></td>
       </tr>
     </tfoot>
   </table>

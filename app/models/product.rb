@@ -33,6 +33,9 @@ class Product < ApplicationRecord
   delegate :currency, to: :company, allow_nil: true
 
   monetize :price_cents, with_model_currency: :currency
+  monetize :aluminum_price_cents, with_model_currency: :currency
+  monetize :glass_price_cents, with_model_currency: :currency
+  monetize :other_price_cents, with_model_currency: :currency
 
   belongs_to :company
   belongs_to :order_version, optional: true
@@ -91,6 +94,27 @@ class Product < ApplicationRecord
 
   def perimeter
     2 * (width + height)
+  end
+
+  def aluminum_price_cents
+    product_components.joins(:component)
+                      .where(components: { category: 'aluminum' })
+                      .sum('components.price_cents * product_components.quantity')
+                      .to_i
+  end
+
+  def glass_price_cents
+    product_components.joins(:component)
+                      .where(components: { category: 'glass' })
+                      .sum('components.price_cents * product_components.quantity')
+                      .to_i
+  end
+
+  def other_price_cents
+    product_components.joins(:component)
+                      .where(components: { category: 'other' })
+                      .sum('components.price_cents * product_components.quantity')
+                      .to_i
   end
 
   private

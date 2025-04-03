@@ -36,13 +36,19 @@
       <%= form.file_field :image, accept: "image/*", class: "input" %>
     </div>
   <% end %>
-  <div class="flex flex-col items-start gap-half mbe-4">
+  <div class="flex flex-col gap-half mbe-4" data-controller="mm-to-m">
     <%= form.label :width, "Width, mm", class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :width, class: "input" %>
+    <div class=" flex items-center gap">
+      <%= form.number_field :width, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
+      <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
   </div>
-  <div class="flex flex-col items-start gap-half mbe-4">
+  <div class="flex flex-col gap-half mbe-10" data-controller="mm-to-m">
     <%= form.label :height, "Height, mm", class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :height, class: "input" %>
+    <div class=" flex items-center gap">
+      <%= form.number_field :height, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
+      <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
   </div>
   <div class="flex items-center justify-between">
     <% if product.persisted? %>

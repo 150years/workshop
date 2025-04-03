@@ -2,7 +2,7 @@
 
 module DropdownHelper
   def dropdown_button(links:, button_label: nil, popover_size: '8rem', placement: 'bottom-end')
-    content_tag :div, data: { controller: 'popover', 'popover-placement-value': placement } do
+    content_tag :div, id: 'dropdown', data: { controller: 'popover', 'popover-placement-value': placement } do
       safe_join([dropdown_button_html(button_label), dropdown_menu_html(links, popover_size)])
     end
   end

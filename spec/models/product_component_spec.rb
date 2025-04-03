@@ -116,8 +116,8 @@ RSpec.describe ProductComponent, type: :model do
 
       describe '#calculate_quantity_real' do
         it 'returns the calculated quantity' do
-          product = create(:product, height: 10, width: 10)
-          component = create(:component, height: 10, length: 10, min_quantity: 1, thickness: 1, weight: 1, width: 10)
+          product = create(:product, height: 10_000, width: 10)
+          component = create(:component, height: 10_000, length: 10, min_quantity: 1, thickness: 1, weight: 1, width: 10)
           product_component = build(:product_component, product: product, component: component, formula: 'product_height * component_height')
 
           product_component.set_quantity_fields

@@ -7,3 +7,7 @@ turbo-frame[busy], turbo-frame[complete] {
 }
 
 @import 'select2';
+.nowrap {
+  white-space: nowrap;
+}
+

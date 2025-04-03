@@ -2,13 +2,13 @@
   <td><%= image_or_placeholder(product.image, 100, 150) %></td>
   <td>
     <%= product.name %>
-    <dialog class="dialog" data-dialog-target="menu"  style="--max-i-lg: fit-content;">
+    <dialog class="dialog" data-dialog-target="menu"  style="--max-i-lg: fit-content;" data-action="click->dialog#closeOnClickOutside">
       <button type="button" class="btn btn--plain dialog__close" data-action="click->dialog#close">
         <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
         <span class="sr-only">Close</span>
       </button>
       <div class="dialog__content">
-        <%= turbo_frame_tag product, src: product_path(product), loading: "lazy" do %>
+        <%= turbo_frame_tag product, src: product_path(product), loading: "lazy", data: {dialog_target: "frame"} do %>
           <div class="flex flex-col gap">
             <div class="skeleton rounded-lg" style="height: 300px; width: 300px;"></div>
           </div>
@@ -19,8 +19,19 @@
   <td><%= UnitConverter.mm_to_m(product.width) %></td>
   <td><%= UnitConverter.mm_to_m(product.height) %></td>
   <td><%= product.area_m2 %></td>
-  <td>Alumimium price</td>
-  <td>Glass price</td>
-  <td>Other prices</td>
-  <td class="text-end">Should be SUM of all cats <%= product.price.format %></td>
+  <td><%= product.aluminum_price.format %></td>
+  <td><%= product.glass_price.format %></td>
+  <td><%= product.other_price.format %></td>
+  <td><%= product.price.format %></td>
+  <td>
+    <%= dropdown_button(
+      links: [
+        { name: "Show", url: '#', data: { action: "click->dialog#show"} },
+        { name: "Edit", url: edit_product_path(product), data: { action: "click->dialog#openFromLink"} },
+        :separator,
+        { name: "Delete", url: product, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } }
+      ]
+    )
+    %>
+  </td>
 </tr>

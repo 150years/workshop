@@ -16,6 +16,9 @@ application.register("context-menu", ContextMenuController)
 import DialogController from "./dialog_controller"
 application.register("dialog", DialogController)
 
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
 import DynamicUnitsController from "./dynamic_units_controller"
 application.register("dynamic-units", DynamicUnitsController)
 
@@ -25,8 +28,17 @@ application.register("element-removal", ElementRemovalController)
 import FormController from "./form_controller"
 application.register("form", FormController)
 
+import HotkeysController from "./hotkeys_controller"
+application.register("hotkeys", HotkeysController)
+
+import LinkController from "./link_controller"
+application.register("link", LinkController)
+
 import MenuController from "./menu_controller"
 application.register("menu", MenuController)
+
+import MmToMController from "./mm_to_m_controller"
+application.register("mm-to-m", MmToMController)
 
 import NavigationController from "./navigation_controller"
 application.register("navigation", NavigationController)
@@ -52,5 +64,3 @@ application.register("use", UseController)
 
 import ToggleController from "./toggle_controller"
 application.register("toggle", ToggleController)
-
-

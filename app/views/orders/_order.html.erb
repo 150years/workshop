@@ -9,6 +9,7 @@
     <div class="flex items-center gap"> 
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
+      <%= link_to "Copy", new_order_path(copy_from: order.id), class: "btn" %>
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
     </div>
   </div>

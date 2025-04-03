@@ -1,5 +1,24 @@
 ---
 releases:
+- version: 0.33.0
+  date: 03-04-2025
+  notes:
+  - 'Project: name align left with #, design button alight right sam style as other buttons'
+  - 'Fix: dialog controller not working properly in table'
+  - 'Fix: order glass and other tables contains unnecessary unit'
+  - 'Orders: added copy action'
+  - 'Products: show aluminum, glass and other components price in table'
+  - 'Order: quick action to make version final'
+  - 'Order: added actions menu for products'
+- version: 0.32.0
+  date: 03-04-2025
+  notes:
+  - 'Components and products: show dimension values in m'
+  - 'Components and products: dynamic converting mm to m in form'
+  - 'Order version: display latest order version in tabs'
+  - 'Formula: changed formula to use m instead of mm where applicable'
+  - 'Formula: updated instruction'
+  - 'Product component: show quantity in selected unit'
 - version: 0.31.0
   date: 02-04-2025
   notes:

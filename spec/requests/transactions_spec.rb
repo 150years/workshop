@@ -8,7 +8,7 @@ RSpec.describe 'Transactions', type: :request do
 
   describe 'GET /index' do
     it 'returns http success' do
-      get '/transactions/index'
+      get '/transactions'
       expect(response).to have_http_status(:success)
     end
   end

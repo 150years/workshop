@@ -27,16 +27,16 @@
 #
 class ProductComponent < ApplicationRecord
   CALCULATION_VARIABLES = {
-    product_height: ->(pc) { pc.product.height },
-    product_width: ->(pc) { pc.product.width },
-    product_area: ->(pc) { pc.product.area },
-    product_perimeter: ->(pc) { pc.product.perimeter },
-    component_height: ->(pc) { pc.component.height },
-    component_length: ->(pc) { pc.component.length },
+    product_height: ->(pc) { UnitConverter.mm_to_m(pc.product.height) },
+    product_width: ->(pc) { UnitConverter.mm_to_m(pc.product.width) },
+    product_area: ->(pc) { UnitConverter.mm2_to_m2(pc.product.area) },
+    product_perimeter: ->(pc) { UnitConverter.mm_to_m(pc.product.perimeter) },
+    component_height: ->(pc) { UnitConverter.mm_to_m(pc.component.height) },
+    component_length: ->(pc) { UnitConverter.mm_to_m(pc.component.length) },
     component_min_quantity: ->(pc) { pc.component.min_quantity },
     component_thickness: ->(pc) { pc.component.thickness },
     component_weight: ->(pc) { pc.component.weight },
-    component_width: ->(pc) { pc.component.width }
+    component_width: ->(pc) { UnitConverter.mm_to_m(pc.component.width) }
   }.freeze
 
   belongs_to :product

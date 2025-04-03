@@ -35,10 +35,10 @@
               form: { data: { turbo_confirm: "Delete this file?" } },
               class: "flex items-center justify-center w-5 h-5 rounded-full hover:bg-red-600 transition",
               style: "background: transparent; border: none; padding: 0;" do %>
-            <%= image_tag "x.svg", class: "w-3 h-3", style: "filter: brightness(0) invert(1);", aria: { hidden: true } %>
+            <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
           <% end %>
 
-          <% unless index == order.files.size - 1 %><span>,</span><% end %>
+          <% unless index == order.files.size - 1 %>,&nbsp;<% end %>
         </div>
       <% end %>
     </div>
@@ -51,4 +51,3 @@
     </div>
   </div>
 </div>
- 

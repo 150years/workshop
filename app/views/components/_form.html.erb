@@ -38,15 +38,24 @@
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :length, "Length, mm", class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :length, min: 0, step: 0.1, class: "input" %>
+    <div class="flex items-center gap" data-controller="mm-to-m">
+      <%= form.number_field :length, min: 0, step: 0.1, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
+      <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
   </div>
-  <div class="flex flex-col gap-half mbe-4">
+  <div class="flex flex-col gap-half mbe-4" data-controller="mm-to-m">
     <%= form.label :width, "Width, mm", class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :width, min: 0, step: 0.1, class: "input" %>
+    <div class=" flex items-center gap">
+      <%= form.number_field :width, min: 0, step: 0.1, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
+      <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
   </div>
-  <div class="flex flex-col gap-half mbe-4">
+  <div class="flex flex-col gap-half mbe-4" data-controller="mm-to-m">
     <%= form.label :height, "Height, mm", class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :height, min: 0, step: 0.1, class: "input" %>
+    <div class=" flex items-center gap">
+      <%= form.number_field :height, min: 0, step: 0.1, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
+      <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
   </div>
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :thickness, "Thickness, mm", class: "text-sm font-medium leading-none" %>

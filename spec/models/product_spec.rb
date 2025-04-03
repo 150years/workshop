@@ -213,16 +213,16 @@ RSpec.describe Product, type: :model do
   end
 
   describe '#recalculate_product_components_amount' do
-    let(:product) { create(:product, width: 1, height: 1) }
+    let(:product) { create(:product, width: 1000, height: 1000) }
     let!(:product_component1) { create(:product_component, product: product, formula: 'product_width') }
     let!(:product_component2) { create(:product_component, product: product, formula: 'product_height') }
 
     it 'updates the quantity of each product component' do
-      expect { product.reload.update(width: 777, height: 888) }
+      expect { product.reload.update(width: 7000, height: 8000) }
         .to change { product_component1.reload.quantity }
-        .from(1).to(777)
+        .from(1).to(7)
         .and change { product_component2.reload.quantity }
-        .from(1).to(888)
+        .from(1).to(8)
     end
   end
 

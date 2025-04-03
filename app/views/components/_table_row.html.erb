@@ -6,8 +6,8 @@
   <th><%= link_to component.name, component, data: {turbo_frame: "_top"} %></th>
   <th><%= component.color %></th>
   <th><%= component.unit %></th>
-  <th><%= component.length %></th>
-  <th><%= component.width %></th>
+  <th><%= UnitConverter.mm_to_m(component.length) %></th>
+  <th><%= UnitConverter.mm_to_m(component.width) %></th>
   <th><%= component.thickness %></th>
   <th><%= component.weight %></th>
   <th><%= component.min_quantity %> <%= component.unit %></th>

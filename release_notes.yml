@@ -104,6 +104,7 @@ releases:
   - "- spec/models/order_version_spec.rb"
   - "- spec/models/supplier_spec.rb"
   - Small changes along the way
+  - Test
 - version: 0.21.0
   date: 31-03-2025
   notes:

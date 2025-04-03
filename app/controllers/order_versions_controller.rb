@@ -46,6 +46,11 @@ class OrderVersionsController < ApplicationController
     redirect_to @order, notice: 'Order version was successfully destroyed.', status: :see_other
   end
 
+  def mark_as_final
+    @order_version.update(final_version: true)
+    redirect_to order_path(@order), notice: 'Order version was successfully marked as final.'
+  end
+
   private
 
   def set_order

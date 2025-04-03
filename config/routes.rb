@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  get 'balances/index'
-  get 'transactions/index'
-  get 'transactions/new'
-  get 'transactions/create'
-
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   # It should be before users controller to avoid conflicts
@@ -20,7 +15,9 @@ Rails.application.routes.draw do
     resources :components, except: %i[index show], controller: 'product_components'
   end
   resources :orders do
-    resources :versions, except: %i[index], controller: 'order_versions'
+    resources :versions, except: %i[index], controller: 'order_versions' do
+      patch :mark_as_final, on: :member
+    end
     delete :remove_file, on: :member
   end
   resources :transactions do
@@ -28,7 +25,7 @@ Rails.application.routes.draw do
       delete :destroy_attachment
     end
   end
-  
+
   resources :balances, only: [:index]
 
 

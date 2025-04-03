@@ -2,14 +2,15 @@
 <p>Profit, %: <%= order_version.profit %></p>
 <p>Agent, %: <%= order_version.agent_comm %></p>
 <p>Total Amount: <%= order_version.total_amount %>
-
-<%= link_to "View Balance", balances_path(order_id: order_version.order_id), class: "btn text-blue-600 text-sm", data: { turbo_frame: "_top" } %>
-
+  <%= link_to "View Balance", balances_path(order_id: order_version.order_id), class: "btn text-blue-600 text-sm", data: { turbo_frame: "_top" } %>
+</p>
 <p>Version Note: <%= order_version.version_note %></p>
-<p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
-<div class="flex items-center gap">
+<p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %>
+<%= link_to "Make final", mark_as_final_order_version_path(order_version.order_id, order_version), class: "btn text-blue-600 text-sm", data: { turbo_method: :patch, turbo_frame: "_top" } unless order_version.final_version %>
+</p>
+<div class="flex items-center justify-end gap">
   <%= link_to 'Copy', new_order_version_path(order_version.order_id, copy_from: order_version.id), class: "btn", data: {turbo_frame: "_top"} %>
-  <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn btn--primary", data: {turbo_frame: "_top"} %>
+  <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_frame: "_top"} %>
   <%= link_to 'Destroy', order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?",turbo_frame: "_top" } %>
   + pdf
   + bin
@@ -42,10 +43,11 @@
         <th style='white-space: nowrap;'>Width, m</th>
         <th style='white-space: nowrap;'>Height, m</th>
         <th style='white-space: nowrap;'>Area, m²</th>
-        <td>Cat: Alumimium</td>
-        <td>Cat: Glass</td>
-        <td>Cat: Other (have many from 3rd tab)</td>
-        <th class="text-end">Price</th>
+        <th>Aluminum</th>
+        <th>Glass</th>
+        <th>Other</th>
+        <th>Price</th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="<%= dom_id(order_version, 'products') %>">
@@ -57,6 +59,7 @@
         <td class="text-end">
           <%= order_version.total_amount.format %>
         </td>
+        <td></td>
       </tr>
     </tfoot>
   </table>

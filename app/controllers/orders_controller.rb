@@ -18,7 +18,11 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
+    @order = if params[:copy_from].blank?
+               Order.new
+             else
+               current_company.orders.find(params[:copy_from]).dup
+             end
   end
 
   # GET /orders/1/edit
@@ -28,7 +32,6 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.company = current_company
-    # @order.files.attach(params[:images])
 
     if @order.save
       redirect_to @order, notice: 'Order was successfully created.'

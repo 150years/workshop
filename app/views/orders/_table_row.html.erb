@@ -29,6 +29,7 @@
       links: [
         { name: "View", url: order_path(order), data: {turbo_frame: "_top"} },
         { name: "Edit", url: edit_order_path(order), data: {turbo_frame: "_top"} },
+        { name: "Copy", url: new_order_path(copy_from: order.id), data: {turbo_frame: "_top"} },
         :separator,
         { name: "Delete", url: order_path(order), data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } }
       ]

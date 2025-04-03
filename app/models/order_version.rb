@@ -58,11 +58,6 @@ class OrderVersion < ApplicationRecord
     "QT_TGT_#{created_at.strftime('%Y%m%d')}_V#{id}_#{name}.pdf"
   end
 
-  # def quotation_number
-  #   created = created_at || Time.current
-  #   "QT_TGT_#{created.strftime('%Y%m%d')}_V#{id}"
-  # end
-
   def generate_quotation_number
     today = Time.zone.today
     version_number = (order.order_versions.count + 1).to_s

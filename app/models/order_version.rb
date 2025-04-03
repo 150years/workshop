@@ -63,4 +63,8 @@ class OrderVersion < ApplicationRecord
     version_number = (order.order_versions.count + 1).to_s
     self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
   end
+
+  def pdf_filename(order)
+    "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
+  end
 end

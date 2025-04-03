@@ -79,11 +79,10 @@ class OrdersController < ApplicationController
   def quotation_pdf
     @order = current_company.orders.find(params[:id])
     @version = @order.order_versions.order(created_at: :desc).first
-
     pdf = Orders::QuotationPdfGenerator.new(@order, @version).render
 
     send_data pdf,
-              filename: "#{@version.quotation_filename(@order)}.pdf",
+              filename: @version.pdf_filename(@order),
               type: 'application/pdf',
               disposition: 'inline'
   end

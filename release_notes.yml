@@ -14,6 +14,12 @@ releases:
   - "- app/controllers/materials_controller.rb"
   - "- app/controllers/orders_controller.rb"
   - "- app/services/orders/quotation_pdf_generator.rb"
+  - Quotation generation
+  - " Components Order - Ability to send orders to suppliers, as well as receive and
+    record invoices and materials from them."
+  - "- app/helpers/application_helper.rb"
+  - "- app/models/order_version.rb"
+  - "- app/views/products/_form.html.erb"
 - version: 0.30.1
   date: 01-04-2025
   notes:

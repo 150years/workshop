@@ -27,7 +27,7 @@ gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails-controller-testing'
+
 
 # Deploy
 gem 'kamal', require: false
@@ -66,4 +66,5 @@ group :test do
   gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
   gem 'timecop'
+  gem 'rails-controller-testing'
 end

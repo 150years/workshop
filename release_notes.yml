@@ -107,6 +107,9 @@ releases:
   - Test
   - TEst
   - Resolve conflict
+  - Fix pavel suggestions
+  - "- app/controllers/materials_controller.rb"
+  - "- app/views/layouts/quotation.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

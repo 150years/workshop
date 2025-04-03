@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class MaterialsController < ApplicationController
-  include Pagy::Backend
+class MaterialsController < ApplicationControlle
 
   def index
     @search = Material.ransack(params[:q])

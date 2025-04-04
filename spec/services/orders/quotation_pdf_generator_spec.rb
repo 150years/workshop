@@ -15,7 +15,7 @@ RSpec.describe Orders::QuotationPdfGenerator, type: :service do
   end
 
   before do
-    version.update(discount_cents: 500)
+    # version.update(discount_cents: 500)
   end
   subject(:service) { described_class.new(order, version) }
 

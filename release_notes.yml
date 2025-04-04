@@ -45,6 +45,10 @@ releases:
   - "- app/views/orders/components_order_pdf.html.erb"
   - "- app/views/orders/show.html.erb"
   - "- config/routes.rb"
+  - Try to fix rspec
+  - "- spec/factories/order_versions.rb"
+  - "- spec/factories/orders.rb"
+  - "- spec/services/orders/quotation_pdf_generator_spec.rb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

@@ -18,13 +18,8 @@ Rails.application.routes.draw do
     resources :versions, except: %i[index], controller: 'order_versions' do
       patch :mark_as_final, on: :member
     end
-    # resources :order_versions do
-    #   get :components_order, on: :member
-    # end
     delete :remove_file, on: :member
     member do
-      # get :prepare_components_order
-      # get :components_order_pdf
       get :quotation_pdf
       get :components_order
     end

@@ -69,7 +69,7 @@ class OrderVersion < ApplicationRecord
 
   def pdf_filename(order)
     "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
-  end
+  end 
 
   def unset_other_final_versions
     return unless final_version?

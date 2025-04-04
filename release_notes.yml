@@ -54,6 +54,8 @@ releases:
   - "- spec/requests/accounting/components_order_pdf_spec.rb"
   - "- spec/requests/components_order_spec.rb"
   - "- spec/requests/orders/components_order_pdf_spec.rb"
+  - Try
+  - "- app/views/orders/components_order.html.erb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

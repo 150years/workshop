@@ -142,7 +142,6 @@ class OrdersController < ApplicationController
   end
 
   def components_order
-    @order = Order.find(params[:order_id])
     @version = @order.order_versions.find(params[:id])
     @grouped_components = @version.grouped_components_by_category_and_supplier
     @minimal_layout = params[:bare].present?

@@ -6,8 +6,8 @@
   <div class="flex items-center justify-end w-full gap">
     <div class="badge badge--primary"><%= order.status.humanize %></div>
     <%= link_to "Quotation", quotation_pdf_order_path(@order, format: :pdf), class: "btn", target: "_blank", data: { turbo: false } %>
-    <%= link_to "Components order", components_order_order_path(@order, @order.order_versions.final_or_latest), class: "btn", target: "_blank", data: { turbo: false } %>
-    <div class="flex items-center gap"> 
+    <%= link_to "Components order", components_order_order_path(@order), class: "btn", target: "_blank", data: { turbo: false } %>
+    <div class="flex items-center gap">
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
       <%= link_to "Copy", new_order_path(copy_from: order.id), class: "btn" %>

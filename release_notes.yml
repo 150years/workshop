@@ -35,6 +35,8 @@ releases:
   - "- bun.lockb"
   - app/services/orders/quotation_pdf_generator_spec.rb
   - "- app/services/orders/quotation_pdf_generator_spec.rb"
+  - Fix
+  - "- app/services/orders/components_order_pdf_generator.rb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

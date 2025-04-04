@@ -8,4 +8,6 @@ window.Stimulus   = application
 
 export { application }
 import LinkController from "./link_controller"
-application.register("link", LinkController)        
+application.register("link", LinkController)     
+import $ from 'jquery'
+import 'select2'   

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show edit update destroy]
+  before_action :set_order, only: %i[show edit update destroy components_order]
   before_action :set_clients_and_agents, except: %i[index show destroy]
-  before_action :set_order_versions, only: %i[show]
+  before_action :set_order_versions, only: %i[show components_order]
 
   # GET /orders
   def index
@@ -61,6 +61,27 @@ class OrdersController < ApplicationController
     file = order.files.find(params[:file_id])
     file.purge
     redirect_to order_path(order), notice: 'File was successfully deleted.'
+  end
+
+  def quotation_pdf
+    @order = current_company.orders.find(params[:id])
+    @version = @order.order_versions.order(created_at: :desc).first
+    pdf = Orders::QuotationPdfGenerator.new(@order, @version).render
+
+    send_data pdf,
+              filename: @version.pdf_filename(@order),
+              type: 'application/pdf',
+              disposition: 'inline'
+  end
+
+  
+
+  def components_order
+    @order = current_company.orders.find(params[:id])
+    @version = @order.order_versions.order(created_at: :desc).first
+    @grouped_components = @version.grouped_components_by_category_and_supplier(@order, @version)
+    fetch_product_components
+    @minimal_layout = params[:bare].present?
   end
 
   private

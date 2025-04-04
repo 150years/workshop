@@ -8,6 +8,7 @@
 #  agent_comm         :integer          default(0), not null
 #  final_version      :boolean          default(FALSE), not null
 #  profit             :integer          default(0), not null
+#  quotation_number   :string
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -34,6 +35,7 @@ FactoryBot.define do
     profit { rand(0..100) }
     version_note { Faker::Lorem.sentence }
     final_version { false }
+    category
   end
 
   trait :final do

@@ -3,13 +3,59 @@ releases:
 - version: 0.33.0
   date: 03-04-2025
   notes:
-  - 'Project: name align left with #, design button alight right sam style as other buttons'
+  - 'Project: name align left with #, design button alight right sam style as other
+    buttons'
   - 'Fix: dialog controller not working properly in table'
   - 'Fix: order glass and other tables contains unnecessary unit'
   - 'Orders: added copy action'
   - 'Products: show aluminum, glass and other components price in table'
   - 'Order: quick action to make version final'
   - 'Order: added actions menu for products'
+  - lint+rspec fix
+  - "- .rubocop.yml"
+  - "- app/controllers/materials_controller.rb"
+  - "- app/controllers/order_versions_controller.rb"
+  - "- app/controllers/suppliers_controller.rb"
+  - "- app/javascript/controllers/index.js"
+  - "- app/models/order_version.rb"
+  - "- app/services/orders/quotation_pdf_generator.rb"
+  - "- app/views/order_versions/_order_version.html.erb"
+  - "- spec/controllers/materials_controller_spec.rb"
+  - "- spec/controllers/suppliers_controller_spec.rb"
+  - "- spec/factories/suppliers.rb"
+  - "- spec/models/order_spec.rb"
+  - "- spec/models/order_version_spec.rb"
+  - "- spec/views/suppliers/edit.html.css_zero_spec.rb"
+  - "- spec/views/suppliers/index.html.css_zero_spec.rb"
+  - "- spec/views/suppliers/show.html.css_zero_spec.rb"
+  - Fix rspec, but still <90%
+  - "- app/assets/texts/agreement.txt"
+  - "- app/controllers/orders_controller.rb"
+  - "- app/views/orders/prepare_components_order.html.erb"
+  - "- bun.lockb"
+  - app/services/orders/quotation_pdf_generator_spec.rb
+  - "- app/services/orders/quotation_pdf_generator_spec.rb"
+  - Fix
+  - "- app/services/orders/components_order_pdf_generator.rb"
+  - Try add copmponnent order page
+  - "- Gemfile.lock"
+  - "- app/controllers/components_controller.rb"
+  - "- app/views/layouts/pdf.html.erb"
+  - "- app/views/orders/_order.html.erb"
+  - "- app/views/orders/components_order_pdf.html.erb"
+  - "- app/views/orders/show.html.erb"
+  - "- config/routes.rb"
+  - Try to fix rspec
+  - "- spec/factories/order_versions.rb"
+  - "- spec/factories/orders.rb"
+  - "- spec/services/orders/quotation_pdf_generator_spec.rb"
+  - Components order tune... not finished
+  - Try to fix componewnt order
+  - "- spec/requests/accounting/components_order_pdf_spec.rb"
+  - "- spec/requests/components_order_spec.rb"
+  - "- spec/requests/orders/components_order_pdf_spec.rb"
+  - Try
+  - "- app/views/orders/components_order.html.erb"
 - version: 0.32.0
   date: 03-04-2025
   notes:
@@ -27,6 +73,18 @@ releases:
   - 'Order version: only one order version can be latest per order'
   - 'Orders: fixed menu dropdown'
   - 'Orders: changed latest_version_total to show total from latest order version'
+  - Fix
+  - PDF
+  - "- Gemfile"
+  - "- app/controllers/materials_controller.rb"
+  - "- app/controllers/orders_controller.rb"
+  - "- app/services/orders/quotation_pdf_generator.rb"
+  - Quotation generation
+  - " Components Order - Ability to send orders to suppliers, as well as receive and
+    record invoices and materials from them."
+  - "- app/helpers/application_helper.rb"
+  - "- app/models/order_version.rb"
+  - "- app/views/products/_form.html.erb"
 - version: 0.30.1
   date: 01-04-2025
   notes:
@@ -80,6 +138,63 @@ releases:
   - "- spec/models/transaction_spec.rb"
   - "- spec/requests/transactions_spec.rb"
   - Copilor suggestion edit
+  - Mobile menu
+  - "- app/views/application/_mobile_menu.html.erb"
+  - "\x7FSupplier"
+  - Materials
+  - Material stock
+  - Connect stock to orders
+  - "- app/assets/stylesheets/application.css"
+  - "- app/javascript/controllers/application.js"
+  - "- bun.lockb"
+  - "- config/initializers/pagy.rb"
+  - "- package.json"
+  - Fix
+  - "- app/controllers/material_uses_controller.rb"
+  - "- app/controllers/suppliers_controller.rb"
+  - "- app/javascript/controllers/use_controller.js"
+  - "- app/views/materials/_form.html.erb"
+  - "- app/views/materials/index.html.erb"
+  - "- app/views/materials/new.html.erb"
+  - "- app/views/materials/show.html.erb"
+  - "- app/views/suppliers/show.html.erb"
+  - "- spec/requests/materials_spec.rb"
+  - "- spec/requests/suppliers_spec.rb"
+  - "- spec/routing/suppliers_routing_spec.rb"
+  - "- spec/views/materials/edit.html.css_zero_spec.rb"
+  - "- spec/views/materials/index.html.css_zero_spec.rb"
+  - "- spec/views/materials/new.html.css_zero_spec.rb"
+  - Fix lint + spec
+  - "- spec/rails_helper.rb"
+  - "- spec/views/suppliers/index.html.css_zero_spec.rb"
+  - Fix i dont know what!
+  - Fix coverage %
+  - Make coverage > 90% (try)
+  - "- spec/controllers/materials_controller_spec.rb"
+  - "- spec/controllers/suppliers_controller_spec.rb"
+  - Try to add quotatio and send request Product order to supplier
+  - Have problem with spec 79 errors
+  - Will try to fix
+  - "- app/controllers/components_controller.rb"
+  - "- app/controllers/orders_controller.rb"
+  - "- app/models/component.rb"
+  - "- app/models/order_version.rb"
+  - "- app/models/supplier.rb"
+  - "- app/views/components/_form.html.erb"
+  - "- app/views/suppliers/_form.html.erb"
+  - "- spec/factories/components.rb"
+  - "- spec/factories/order_versions.rb"
+  - "- spec/factories/suppliers.rb"
+  - "- spec/models/component_spec.rb"
+  - "- spec/models/order_version_spec.rb"
+  - "- spec/models/supplier_spec.rb"
+  - Small changes along the way
+  - Test
+  - TEst
+  - Resolve conflict
+  - Fix pavel suggestions
+  - "- app/controllers/materials_controller.rb"
+  - "- app/views/layouts/quotation.html.erb"
 - version: 0.21.0
   date: 31-03-2025
   notes:

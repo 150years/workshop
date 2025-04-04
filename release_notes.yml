@@ -28,6 +28,11 @@ releases:
   - "- spec/views/suppliers/edit.html.css_zero_spec.rb"
   - "- spec/views/suppliers/index.html.css_zero_spec.rb"
   - "- spec/views/suppliers/show.html.css_zero_spec.rb"
+  - Fix rspec, but still <90%
+  - "- app/assets/texts/agreement.txt"
+  - "- app/controllers/orders_controller.rb"
+  - "- app/views/orders/prepare_components_order.html.erb"
+  - "- bun.lockb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

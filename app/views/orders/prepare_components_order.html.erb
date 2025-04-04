@@ -3,7 +3,12 @@
   Components order - #<%= @order.id %> <%= @order.name %> <%= @version.quotation_number %>
 </h2>
 
-<%= link_to image_tag("download.svg", size: "24x24"), components_order_pdf_order_path(@order), target: "_blank", class: "btn btn--icon", title: "Download PDF" %>
+<%= link_to image_tag("download.svg", size: "24x24"),
+            components_order_pdf_order_path(@order),
+            target: "_blank",
+            class: "btn btn--icon",
+            title: "Download PDF" %>
+
 
 <% @grouped_by_type.each do |type, items| %>
   <div class="prose"><h4><%= type.capitalize %></h4></div>

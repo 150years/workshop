@@ -63,22 +63,6 @@ class OrdersController < ApplicationController
     redirect_to order_path(order), notice: 'File was successfully deleted.'
   end
 
-  def prepare_components_order
-    @order = Order.find(params[:id])
-    @version = @order.order_versions.last # или .final если так помечается
-
-    @components_summary = Hash.new(0)
-
-    @version.products.includes(:components).find_each do |product|
-      product.product_components.each do |pc|
-        @components_summary[pc.component] += pc.quantity
-      end
-    end
-
-    @grouped_by_type = @components_summary.group_by { |component, _| component.category } # Aluminium, Glass
-    @grouped_by_supplier = @components_summary.group_by { |component, _| component.supplier }
-  end
-
   def quotation_pdf
     @order = current_company.orders.find(params[:id])
     @version = @order.order_versions.order(created_at: :desc).first
@@ -103,6 +87,15 @@ class OrdersController < ApplicationController
     )
 
     send_data pdf, filename: @version.quotation_filename(@order), type: 'application/pdf', disposition: 'inline'
+  end
+
+  def prepare_components_order
+    @order = Order.find(params[:id])
+    @version = @order.order_versions.final_or_latest
+
+    @components_by_category = @version.products
+                                      .includes(component: :supplier)
+                                      .group_by { |p| p.component.category } # "aluminium", "glass", "other"
   end
 
   private

@@ -29,9 +29,18 @@
 require 'rails_helper'
 
 RSpec.describe OrderVersion, type: :model do
+  let(:company) { create(:company) }
+  let(:client) { create(:client, company: company) }
+  let(:agent) { create(:agent, company: company) }
+  let(:order) { create(:order, company: company, client: client, agent: agent) }
+
   describe 'associations' do
     it { is_expected.to belong_to(:order).required }
     it { is_expected.to have_many(:products).dependent(:destroy) }
+    it 'belongs to order' do
+      version = OrderVersion.create!(company: company, order: order, total_amount_cents: 1000, final_version: true)
+      expect(version.order).to eq(order)
+    end
   end
 
   describe 'delegations' do

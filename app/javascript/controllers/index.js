@@ -51,16 +51,3 @@ application.register("tabs", TabsController)
 
 import TurboConfirmController from "./turbo_confirm_controller"
 application.register("turbo-confirm", TurboConfirmController)
-
-import DropdownController from "./dropdown_controller"
-application.register("dropdown", DropdownController)
-
-
-import HotkeysController from "./hotkeys_controller"
-application.register("hotkeys", HotkeysController)
-
-import UseController from "./use_controller"
-application.register("use", UseController)
-
-import ToggleController from "./toggle_controller"
-application.register("toggle", ToggleController)

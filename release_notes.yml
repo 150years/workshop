@@ -3,13 +3,31 @@ releases:
 - version: 0.33.0
   date: 03-04-2025
   notes:
-  - 'Project: name align left with #, design button alight right sam style as other buttons'
+  - 'Project: name align left with #, design button alight right sam style as other
+    buttons'
   - 'Fix: dialog controller not working properly in table'
   - 'Fix: order glass and other tables contains unnecessary unit'
   - 'Orders: added copy action'
   - 'Products: show aluminum, glass and other components price in table'
   - 'Order: quick action to make version final'
   - 'Order: added actions menu for products'
+  - lint+rspec fix
+  - "- .rubocop.yml"
+  - "- app/controllers/materials_controller.rb"
+  - "- app/controllers/order_versions_controller.rb"
+  - "- app/controllers/suppliers_controller.rb"
+  - "- app/javascript/controllers/index.js"
+  - "- app/models/order_version.rb"
+  - "- app/services/orders/quotation_pdf_generator.rb"
+  - "- app/views/order_versions/_order_version.html.erb"
+  - "- spec/controllers/materials_controller_spec.rb"
+  - "- spec/controllers/suppliers_controller_spec.rb"
+  - "- spec/factories/suppliers.rb"
+  - "- spec/models/order_spec.rb"
+  - "- spec/models/order_version_spec.rb"
+  - "- spec/views/suppliers/edit.html.css_zero_spec.rb"
+  - "- spec/views/suppliers/index.html.css_zero_spec.rb"
+  - "- spec/views/suppliers/show.html.css_zero_spec.rb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

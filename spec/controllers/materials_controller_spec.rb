@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe MaterialsController, type: :controller do
-  let!(:supplier) { Supplier.create!(name: 'Supplier', contact_info: 'info') }
+  let!(:supplier) { create(:supplier) }
   let!(:material) { Material.create!(name: 'Glass', code: 'GL-001', price: 100, amount: 10, supplier:) }
   before do
     sign_in FactoryBot.create(:user) # или create(:admin), в зависимости от логики

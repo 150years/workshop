@@ -17,7 +17,8 @@
 #
 FactoryBot.define do
   factory :supplier do
-    name { 'MyString' }
-    contact_info { 'MyText' }
+    name { 'Test Supplier' }
+    contact_info { 'Some contact info' }
+    email { "supplier#{rand(1000)}@example.com" }
   end
 end

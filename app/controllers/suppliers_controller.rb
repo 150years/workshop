@@ -56,6 +56,6 @@ class SuppliersController < ApplicationController
   end
 
   def supplier_params
-    params.require(supplier: %i[name contact_info email])
+    params.expect(supplier: %i[code name contact_info email])
   end
 end

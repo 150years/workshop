@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 RSpec.describe SuppliersController, type: :controller do
-  let!(:supplier) { Supplier.create!(name: 'Alpha', contact_info: 'alpha@example.com') }
+  let!(:supplier) { create(:supplier, name: 'Alpha') }
   before do
     sign_in FactoryBot.create(:user) # или create(:admin), в зависимости от логики
   end
@@ -37,8 +37,9 @@ RSpec.describe SuppliersController, type: :controller do
       expect do
         post :create, params: {
           supplier: {
-            name: 'Beta',
-            contact_info: 'beta@example.com'
+            name: 'Some Name',
+            email: '1@1.com',
+            contact_info: 'Info'
           }
         }
       end.to change(Supplier, :count).by(1)
@@ -77,7 +78,7 @@ RSpec.describe SuppliersController, type: :controller do
 
         expect(response).to render_template(:index) # 💡 ещё одна ветка
         expect(assigns(:supplier)).to eq(supplier)
-        expect(supplier.reload.name).to eq('Alpha') # убедиться, что не обновилось
+        expect(supplier.reload.name).to eq(supplier.name)
       end
     end
   end

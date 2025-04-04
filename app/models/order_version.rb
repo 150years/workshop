@@ -28,6 +28,7 @@
 #
 class OrderVersion < ApplicationRecord
   before_validation :generate_quotation_number, on: :create
+  after_save :unset_other_final_versions, if: :saved_change_to_final_version?
   delegate :currency, to: :company, allow_nil: true
   monetize :total_amount_cents, with_model_currency: :currency
 
@@ -59,6 +60,8 @@ class OrderVersion < ApplicationRecord
   end
 
   def generate_quotation_number
+    return if order.nil?
+
     today = Time.zone.today
     version_number = (order.order_versions.count + 1).to_s
     self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
@@ -66,5 +69,13 @@ class OrderVersion < ApplicationRecord
 
   def pdf_filename(order)
     "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
+  end
+
+  def unset_other_final_versions
+    return unless final_version?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    order.order_versions.where.not(id: id).update_all(final_version: false)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

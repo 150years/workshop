@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MaterialsController < ApplicationControlle
+class MaterialsController < ApplicationController
   def index
     @search = Material.ransack(params[:q])
     materials = @search.result.order(:name)

@@ -4,10 +4,10 @@ require 'rails_helper'
 
 RSpec.describe 'suppliers/edit', type: :view do
   let(:supplier) do
-    Supplier.create!(
-      name: 'MyString',
-      contact_info: 'MyText'
-    )
+    create(:supplier,
+           name: 'MyString',
+           contact_info: 'MyText',
+           email: 'test@example.com')
   end
 
   before(:each) do

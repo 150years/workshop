@@ -107,11 +107,11 @@ module Orders
 
         # 2. Сумма скидки
         discount =
-        if @version.respond_to?(:discount_cents) && @version.discount_cents.present?
-          @version.discount_cents.to_i
-        else
-          0
-        end
+          if @version.respond_to?(:discount_cents) && @version.discount_cents.present?
+            @version.discount_cents.to_i
+          else
+            0
+          end
 
         # 3. Вычисляем withholding tax от стоимости работ
         labor_total_cents = @version.products.sum do |product|

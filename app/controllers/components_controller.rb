@@ -56,9 +56,49 @@ class ComponentsController < ApplicationController
     end
   end
 
+  def components_order_pdf
+    @order = Order.find(params[:id])
+    @version = @order.order_versions.final_or_latest
+
+    category = params[:category]
+    supplier_id = params[:supplier_id]
+
+    if category.blank? || supplier_id.blank?
+      render plain: 'Category or Supplier not provided', status: :bad_request and return
+    end
+
+    supplier = supplier_id == 'none' ? nil : Supplier.find_by(id: supplier_id)
+
+    components_data = @version.products
+                              .flat_map(&:product_components)
+                              .select do |pc|
+                                pc.component.category == category &&
+                                  pc.component.supplier_id == supplier&.id
+                              end
+
+    if components_data.empty?
+      render plain: "No components found for category #{category} and supplier #{supplier&.name || 'Unknown'}",
+             status: :not_found and return
+    end
+
+    @components = components_data.group_by(&:component).transform_values { |pcs| pcs.sum(&:quantity) }
+
+    pdf = render_to_string(
+      pdf: "components_order_#{category}_supplier_#{supplier&.name || 'unknown'}",
+      template: 'orders/components_order_pdf',
+      formats: [:html],
+      encoding: 'UTF-8'
+    )
+
+    send_data pdf,
+              filename: "components_order_#{category}_#{supplier&.name&.parameterize || 'unknown'}.pdf",
+              type: 'application/pdf',
+              disposition: 'inline'
+  end
+
   def prepare_components_order
     @order = Order.find(params[:id])
-    @version = @order.order_versions.last # или .final если так помечается
+    @version = @order.order_versions.where(final_version: true).first # или .final если так помечается
 
     @components_summary = Hash.new(0)
 
@@ -68,7 +108,15 @@ class ComponentsController < ApplicationController
       end
     end
 
-    @grouped_by_type = @components_summary.group_by { |component, _| component.material_type } # Aluminium, Glass
+    @grouped_by_type = @version.products
+                               .includes(product_components: { component: :supplier })
+                               .flat_map(&:product_components)
+                               .group_by { |pc| pc.component.category }
+                               .transform_values do |pcs|
+      pcs.group_by(&:component).transform_values do |pcs_for_component|
+        pcs_for_component.sum(&:quantity)
+      end
+    end
     @grouped_by_supplier = @components_summary.group_by { |component, _| component.supplier }
   end
 
@@ -86,6 +134,6 @@ class ComponentsController < ApplicationController
 
   def component_params
     params.expect(component: {}).permit(:code, :category, :name, :note, :color, :unit, :length, :width, :height,
-                                        :thickness, :weight, :min_quantity, :price, :image)
+                                        :thickness, :weight, :min_quantity, :price, :image, :supplier_id)
   end
 end

@@ -37,6 +37,14 @@ releases:
   - "- app/services/orders/quotation_pdf_generator_spec.rb"
   - Fix
   - "- app/services/orders/components_order_pdf_generator.rb"
+  - Try add copmponnent order page
+  - "- Gemfile.lock"
+  - "- app/controllers/components_controller.rb"
+  - "- app/views/layouts/pdf.html.erb"
+  - "- app/views/orders/_order.html.erb"
+  - "- app/views/orders/components_order_pdf.html.erb"
+  - "- app/views/orders/show.html.erb"
+  - "- config/routes.rb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

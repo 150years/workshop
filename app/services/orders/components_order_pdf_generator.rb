@@ -1,29 +1,37 @@
 # frozen_string_literal: true
 
-module Orders
-  class ComponentsOrderPdfGenerator
-    def initialize(order, version, products, category)
-      @order = order
-      @version = version
-      @products = products
-      @category = category
-    end
+pdf.text "Project: #{@order.name}"
+pdf.text "Number: #{@version.quotation_number}"
+pdf.text 'Color: Grey sahara' # (можно сделать авто из компонента, если одинаковый)
 
-    def render
-      Prawn::Document.new(page_size: 'A4') do |pdf|
-        pdf.text "Components Order - #{@category.capitalize}", size: 18, style: :bold
-        pdf.move_down 10
+data = [['', 'รหัส', 'อลูมิเนียม', 'จำนวน', '', '', '', 'Total']]
 
-        table_data = [%w[Image Code Color Name Quantity]]
+@components.each do |component, quantities|
+  row = []
 
-        @products.each do |product|
-          c = product.component
-          table_data << ['', c.code, c.color, c.name, product.quantity.to_s]
-        end
-
-        pdf.table(table_data, header: true, row_colors: %w[F0F0F0 FFFFFF])
-      end.render
-    end
+  # Картинка
+  if component.image.attached?
+    tmp = Tempfile.new(['component_image', '.png'])
+    tmp.binmode
+    tmp.write(component.image.download)
+    tmp.rewind
+    row << { image: tmp.path, fit: [40, 40] }
+  else
+    row << ''
   end
+
+  row << component.code
+  row << component.name
+
+  # Массив количеств по каждому продукту
+  quantity_list = quantities.map(&:to_f)
+  total = quantity_list.sum
+
+  # Показать только первые 4 значения и потом Total
+  row += quantity_list[0...4]
+  row << total
+
+  data << row
 end
 
+pdf.table(data, header: true, cell_style: { size: 9 })

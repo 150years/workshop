@@ -1,49 +1,53 @@
-<!-- app/views/orders/prepare_components_order.html.erb -->
 <h2 class="font-bold text-xl mbe-4">
   Components order - #<%= @order.id %> <%= @order.name %> <%= @version.quotation_number %>
 </h2>
 
-<%= link_to image_tag("download.svg", size: "24x24"),
-            components_order_pdf_order_path(@order),
-            target: "_blank",
-            class: "btn btn--icon",
-            title: "Download PDF" %>
+<% if @grouped_components.present? %>
+  <% @grouped_components.each do |category, suppliers_hash| %>
+    <div class="prose">
+      <h3 class="text-lg font-semibold text-primary"><%= category.capitalize %></h3>
+    </div>
 
+    <% suppliers_hash.each do |supplier, components_hash| %>
+      <div class="mb-4">
+        <h5 class="font-semibold">Supplier:
+          <% if supplier&.email.present? %>
+            <%= mail_to supplier.email, supplier.name, class: "underline text-primary" %>
+          <% else %>
+            <%= supplier&.name || "Unknown" %>
+          <% end %>
+          <%= link_to image_tag('download.svg', size: '16x16'),
+            components_order_pdf_order_path(@order, category: category, supplier_id: supplier&.id || 'none'),
+            target: '_blank',
+            class: 'btn btn--icon text-sm',
+            title: "PDF for #{supplier&.name || 'Unknown'}" %>
+        </h5>
 
-<% @grouped_by_type.each do |type, items| %>
-  <div class="prose"><h4><%= type.capitalize %></h4></div>
-  <hr class="border-dark">
-
-  <% items.group_by { |component, _| component.supplier }.each do |supplier, comps| %>
-    <h5 class="font-semibold">Supplier: 
-      <% if supplier&.email.present? %>
-        <%= mail_to supplier.email, supplier.name, class: "underline text-primary" %>
-      <% else %>
-        <%= supplier&.name || "Unknown" %>
-      <% end %>
-    </h5>
-
-    <table class="table mbe-6">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Code</th>
-          <th>Color</th>
-          <th>Name</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% comps.each do |component, quantity| %>
-          <tr>
-            <td><%= image_or_placeholder(component.image, 40, 40) %></td>
-            <td><%= component.code %></td>
-            <td><%= component.color %></td>
-            <td><%= component.name %></td>
-            <td><%= quantity %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-<% end %>
+        <table class="prose table mbe-4">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Code</th>
+              <th>Color</th>
+              <th>Name</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% components_hash.each do |component, quantity| %>
+              <tr>
+                <td><%= image_or_placeholder(component.image, 40, 40) %></td>
+                <td><%= component.code %></td>
+                <td><%= component.color %></td>
+                <td><%= component.name %></td>
+                <td><%= quantity %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  <% end %> 
+<% else %>
+  <p>No components found.</p>
+<% end %>   

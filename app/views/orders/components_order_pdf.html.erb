@@ -1,3 +1,35 @@
-<h1>Components Order</h1>
-<p>Order: <%= @order.name %></p>
-<p>Quotation #: <%= @version.quotation_number %></p>
+<h2>Project: <%= @order.name %></h2>
+<h2>Quotation: <%= @version.quotation_number %></h2>
+<h5 class="font-semibold">Supplier:
+  <%= supplier&.email.present? ? mail_to(supplie/r.email, supplier.name, class: "underline text-primary") : (supplier&.name || "Unknown") %>
+
+  <%= link_to image_tag('download.svg', size: '16x16'),
+              components_order_pdf_order_path(@order, category: category, supplier_id: supplier&.id),
+              target: '_blank',
+              class: 'btn btn--icon text-sm',
+              title: "PDF for #{supplier&.name || 'unknown'}" %>
+</h5>
+
+<table class="prose table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Color</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @components.each do |component, quantity| %>
+      <tr>
+        <td><%= image_or_placeholder(component.image, 150, 150) %></td>
+        <td><%= component.code %></td>
+        <td><%= component.name %></td>
+        <td><%= component.color %></td>
+        <td><%= quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+                

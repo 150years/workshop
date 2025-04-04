@@ -19,6 +19,17 @@ RSpec.describe Orders::QuotationPdfGenerator, type: :service do
   end
   subject(:service) { described_class.new(order, version) }
 
+  describe Orders::QuotationPdfGenerator do
+    let(:order) { create(:order_with_final_version) } # твоя фабрика
+    let(:version) { order.order_versions.last }
+
+    it 'renders pdf successfully' do
+      pdf = described_class.new(order, version).render
+      expect(pdf).to be_a(String)
+      expect(pdf.bytesize).to be > 1000
+    end
+  end
+
   describe '#render' do
     it 'returns a non-empty PDF string' do
       result = service.render

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe '/agents', type: :request do
-
   describe 'GET /orders/:id/components_order_pdf' do
     let(:order) { create(:order) }
     let(:version) { create(:order_version, order:) }

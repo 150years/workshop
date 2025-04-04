@@ -69,7 +69,7 @@ class OrderVersion < ApplicationRecord
 
   def pdf_filename(order)
     "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
-  end 
+  end
 
   def unset_other_final_versions
     return unless final_version?
@@ -79,9 +79,8 @@ class OrderVersion < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  # app/models/order_version.rb
-  class OrderVersion < ApplicationRecord
-    # ...
+  
+  
 
     def grouped_components_by_category_and_supplier
       product_components = fetch_product_components
@@ -110,5 +109,4 @@ class OrderVersion < ApplicationRecord
     def group_by_component(pcs)
       pcs.group_by(&:component).transform_values { |group| group.sum(&:quantity) }
     end
-  end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Components Order PDF', type: :request do
@@ -21,8 +23,8 @@ RSpec.describe 'Components Order PDF', type: :request do
     expect(response.content_type).to eq('application/pdf')
   end
 
-#   it 'returns 400 if category or supplier missing' do
-#     get components_order_pdf_order_path(order.id)
-#     expect(response.status).to eq(400)
-#   end
-# end
+  #   it 'returns 400 if category or supplier missing' do
+  #     get components_order_pdf_order_path(order.id)
+  #     expect(response.status).to eq(400)
+  #   end
+end

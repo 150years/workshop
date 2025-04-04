@@ -27,7 +27,7 @@
 #
 FactoryBot.define do
   factory :order do
-    name { "Test Order" }
+    name { 'Test Order' }
     status { :quotation }
     association :client
     association :agent
@@ -42,4 +42,3 @@ FactoryBot.define do
     factory :order_with_final_version, traits: [:with_final_version]
   end
 end
-

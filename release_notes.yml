@@ -49,6 +49,11 @@ releases:
   - "- spec/factories/order_versions.rb"
   - "- spec/factories/orders.rb"
   - "- spec/services/orders/quotation_pdf_generator_spec.rb"
+  - Components order tune... not finished
+  - Try to fix componewnt order
+  - "- spec/requests/accounting/components_order_pdf_spec.rb"
+  - "- spec/requests/components_order_spec.rb"
+  - "- spec/requests/orders/components_order_pdf_spec.rb"
 - version: 0.32.0
   date: 03-04-2025
   notes:

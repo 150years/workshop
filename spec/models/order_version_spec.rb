@@ -102,17 +102,17 @@ RSpec.describe OrderVersion, type: :model do
       expect(grouped['aluminium'][supplier1][component1]).to eq(5)
       expect(grouped['glass'][supplier2][component2]).to eq(5)
     end
-  end 
+  end
 
   describe 'GET /orders/:order_id/order_versions/:id/components_order' do
     let(:order) { create(:order) }
     let(:version) { create(:order_version, order:) }
-  
+
     # it 'renders successfully' do
     #   get components_order_order_order_version_path(order_id: order.id, id: version.id)
     #   expect(response).to be_successful
     # end
-  
+
     it 'renders minimal layout when bare param is present' do
       get components_order_order_order_version_path(order_id: order.id, id: version.id, bare: true)
       expect(assigns(:minimal_layout)).to eq(true)
@@ -145,5 +145,4 @@ RSpec.describe OrderVersion, type: :model do
       expect(grouped['glass'][supplier2][component2]).to eq(1)
     end
   end
-
 end

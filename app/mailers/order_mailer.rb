@@ -39,7 +39,7 @@ class OrderMailer < ApplicationMailer
       pdf.move_down 10
       pdf.text 'Thank you for your business!', size: 12, align: :center
       pdf.move_down 20
-      pdf.text "Generated on: #{Time.now.strftime('%d.%m.%Y %H:%M')}", size: 10, align: :right
+      pdf.text "Generated on: #{Time.zone.now.strftime('%d.%m.%Y %H:%M')}", size: 10, align: :right
     end
   end
 end

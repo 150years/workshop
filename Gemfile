@@ -54,7 +54,6 @@ group :development do
   gem 'binding_of_caller'
   gem 'hotwire-spark'
   gem 'letter_opener'
-  gem 'letter_opener_web'
   gem 'web-console'
 end
 

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions' do
       patch :mark_as_final, on: :member
+      patch :send_invoice, on: :member
     end
     delete :remove_file, on: :member
   end

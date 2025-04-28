@@ -11,9 +11,8 @@
 <div class="flex items-center justify-end gap">
   <%= link_to 'Copy', new_order_version_path(order_version.order_id, copy_from: order_version.id), class: "btn", data: {turbo_frame: "_top"} %>
   <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_frame: "_top"} %>
-  <%= link_to 'Destroy', order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?",turbo_frame: "_top" } %>
-  + pdf
-  + bin
+  <%= link_to 'Destroy', order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?", turbo_frame: "_top" } %>
+  <%= link_to 'Send to client', send_invoice_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_method: :patch, turbo_frame: "_top"} %>
 </div>
 <div class="mbs-2">
   <div class="flex items-center justify-between w-full gap mbe-2">

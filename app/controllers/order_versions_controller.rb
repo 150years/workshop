@@ -51,6 +51,12 @@ class OrderVersionsController < ApplicationController
     redirect_to order_path(@order), notice: 'Order version was successfully marked as final.'
   end
 
+  def send_invoice
+    OrderMailer.invoice(@order_version).deliver_now
+
+    redirect_to order_path(@order), notice: 'Order version was successfully sent.'
+  end
+
   private
 
   def set_order

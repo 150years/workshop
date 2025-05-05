@@ -35,7 +35,6 @@ FactoryBot.define do
     profit { rand(0..100) }
     version_note { Faker::Lorem.sentence }
     final_version { false }
-    category
   end
 
   trait :final do

@@ -74,8 +74,6 @@ class OrdersController < ApplicationController
               disposition: 'inline'
   end
 
-  
-
   def components_order
     @order = current_company.orders.find(params[:id])
     @version = @order.order_versions.order(created_at: :desc).first

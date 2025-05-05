@@ -9,7 +9,7 @@
 #  status     :integer          default("quotation"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  agent_id   :integer          not null
+#  agent_id   :integer
 #  client_id  :integer          not null
 #  company_id :integer          not null
 #

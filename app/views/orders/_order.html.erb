@@ -21,7 +21,7 @@
     </div>
     <div class="flex items-center gap">
       <span class="font-bold">Agent:</span>
-      <span><%= order.agent.name %></span>
+      <span><%= order.agent.name if order.agent.present? %></span>
     </div>
     <div class="flex items-start gap-2 py-1">
     <span class="font-bold mt-1">Files:</span>&nbsp;

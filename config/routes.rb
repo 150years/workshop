@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     delete :remove_file, on: :member
     member do
       get :quotation_pdf
-      get :components_order
+      # get :components_order
     end
   end 
   resources :transactions do

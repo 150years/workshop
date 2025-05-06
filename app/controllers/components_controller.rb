@@ -29,7 +29,7 @@ class ComponentsController < ApplicationController
     service = Components::CreationService.new(current_company, params, Component.new(component_params))
 
     if service.save
-      redirect_to service.component, notice: 'Component was successfully created.'
+      redirect_to components_path, notice: 'Component was successfully created.'
     else
       @component = service.component
       @original_component = service.original_component
@@ -40,7 +40,7 @@ class ComponentsController < ApplicationController
   # PATCH/PUT /components/1
   def update
     if @component.update(component_params)
-      redirect_to @component, notice: 'Component was successfully updated.', status: :see_other
+      redirect_to components_path, notice: 'Component was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end

@@ -27,9 +27,6 @@ class SuppliersController < ApplicationController
     if @supplier.save
       redirect_to suppliers_path, notice: 'Supplier was successfully created.'
     else
-      # @search = Supplier.ransack(params[:q])
-      # @pagy, @suppliers = pagy(@search.result(distinct: true))
-      # render :index, status: :unprocessable_entity
       render :new, status: :unprocessable_entity
     end
   end

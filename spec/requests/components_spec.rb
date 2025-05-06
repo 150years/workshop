@@ -134,7 +134,7 @@ RSpec.describe '/components', type: :request do
 
       it 'redirects to the created component' do
         post components_url, params: { component: valid_attributes }
-        expect(response).to redirect_to(component_url(Component.last))
+        expect(response).to redirect_to(components_url)
       end
     end
 
@@ -176,9 +176,9 @@ RSpec.describe '/components', type: :request do
         expect { component.reload }.to change(component, :code).to('NewString')
       end
 
-      it 'redirects to the component' do
+      it 'redirects to the components index' do
         patch component_url(component), params: { component: new_attributes }
-        expect(response).to redirect_to(component_url(component))
+        expect(response).to redirect_to(components_url)
       end
     end
 

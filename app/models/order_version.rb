@@ -84,7 +84,6 @@ class OrderVersion < ApplicationRecord
   #   group_by_category_and_supplier(product_components)
   # end
 
-  # rubocop:disable Metrics/PerceivedComplexity
   # def fetch_product_components(_order, version)
   #   @grouped_components =
   #     version.products
@@ -99,8 +98,6 @@ class OrderVersion < ApplicationRecord
   #       end
   #     end
   # end
-  # rubocop:enable Metrics/PerceivedComplexity
-
   # def group_by_category_and_supplier(components)
   #   components.group_by { |pc| pc.component.category }
   #             .transform_values do |pcs|

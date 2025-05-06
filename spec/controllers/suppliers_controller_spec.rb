@@ -55,7 +55,7 @@ RSpec.describe SuppliersController, type: :controller do
           }
         end.not_to change(Supplier, :count)
 
-        expect(response).to render_template(:index) # 💡 покрытие ветки
+        expect(response).to render_template(:new) # 💡 покрытие ветки
         expect(assigns(:supplier)).to be_a_new(Supplier)
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe SuppliersController, type: :controller do
           }
         }
 
-        expect(response).to render_template(:index) # 💡 ещё одна ветка
+        expect(response).to render_template(:edit) # 💡 ещё одна ветка
         expect(assigns(:supplier)).to eq(supplier)
         expect(supplier.reload.name).to eq(supplier.name)
       end

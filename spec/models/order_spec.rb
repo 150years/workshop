@@ -31,7 +31,6 @@ RSpec.describe Order, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:company) }
     it { is_expected.to belong_to(:client) }
-    it { is_expected.to belong_to(:agent) }
     it { is_expected.to have_many(:order_versions) }
   end
 

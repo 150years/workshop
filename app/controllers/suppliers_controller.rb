@@ -27,9 +27,10 @@ class SuppliersController < ApplicationController
     if @supplier.save
       redirect_to suppliers_path, notice: 'Supplier was successfully created.'
     else
-      @search = Supplier.ransack(params[:q])
-      @pagy, @suppliers = pagy(@search.result(distinct: true))
-      render :index, status: :unprocessable_entity
+      # @search = Supplier.ransack(params[:q])
+      # @pagy, @suppliers = pagy(@search.result(distinct: true))
+      # render :index, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -38,7 +39,7 @@ class SuppliersController < ApplicationController
     if @supplier.update(supplier_params)
       redirect_to @supplier, notice: 'Supplier was successfully updated.', status: :see_other
     else
-      render :index, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 

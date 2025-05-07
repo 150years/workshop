@@ -63,24 +63,12 @@ class OrdersController < ApplicationController
     redirect_to order_path(order), notice: 'File was successfully deleted.'
   end
 
-  # def quotation_pdf
-  #   @order = current_company.orders.find(params[:id])
-  #   @version = @order.order_versions.order(created_at: :desc).first
-  #   pdf = Orders::QuotationPdfGenerator.new(@order, @version).render
-
-  #   send_data pdf,
-  #             filename: @version.pdf_filename(@order),
-  #             type: 'application/pdf',
-  #             disposition: 'inline'
-  # end
-
-  # def components_order
-  #   @order = current_company.orders.find(params[:id])
-  #   @version = @order.order_versions.order(created_at: :desc).first
-  #   @grouped_components = @version.grouped_components_by_category_and_supplier(@order, @version)
-  #   fetch_product_components
-  #   @minimal_layout = params[:bare].present?
-  # end
+  def quotation_preview
+    @order = current_company.orders.find(params[:id])
+    @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
+  
+    render layout: "print"
+  end
 
   private
 

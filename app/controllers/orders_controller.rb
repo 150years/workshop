@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show edit update destroy]
+  before_action :set_order, only: %i[show edit update destroy send_quotation_email]
   before_action :set_clients_and_agents, except: %i[index show destroy]
   before_action :set_order_versions, only: %i[show]
 
@@ -66,8 +66,20 @@ class OrdersController < ApplicationController
   def quotation_preview
     @order = current_company.orders.find(params[:id])
     @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
-  
-    render layout: "print"
+    @labor_total = @version.products.sum do |product|
+      product.product_components.includes(:component).select do |pc|
+        pc.component.name.to_s.downcase.include?('labor')
+      end.sum { |pc| pc.quantity.to_f * (pc.component.price || 0) }
+    end
+    @withholding_tax = (@labor_total * 0.03).round(2)
+
+    render layout: 'print'
+  end
+
+  def send_quotation_email
+    OrderMailer.with(order: @order).quotation_email.deliver_later
+
+    redirect_to quotation_preview_order_path(@order), notice: "Quotation was sent to #{@order.client.email}"
   end
 
   private

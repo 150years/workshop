@@ -5,6 +5,7 @@
   </div>
   <div class="flex items-center justify-end w-full gap">
     <div class="flex items-center gap">
+      <%= link_to "Quotation", quotation_preview_order_path(order), target: "_blank", class: "btn btn--primary no-print" %>
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
       <%= link_to "Copy", new_order_path(copy_from: order.id), class: "btn" %>

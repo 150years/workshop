@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     delete :remove_file, on: :member
     member do
       get :quotation_preview
+      post :send_quotation_email
       # get :quotation_pdf
       # get :components_order
     end
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
     resources :material_uses, only: %i[index new create]
   end
   
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
   
 
 

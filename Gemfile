@@ -27,6 +27,8 @@ gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'
 gem 'prawn'
 gem 'prawn-table'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # Deploy
 gem 'kamal', require: false

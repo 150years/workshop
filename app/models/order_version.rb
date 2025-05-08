@@ -78,39 +78,4 @@ class OrderVersion < ApplicationRecord
     order.order_versions.where.not(id: id).update_all(final_version: false)
     # rubocop:enable Rails/SkipsModelValidations
   end
-
-  # def grouped_components_by_category_and_supplier(order, version)
-  #   product_components = fetch_product_components(order, version)
-  #   group_by_category_and_supplier(product_components)
-  # end
-
-  # def fetch_product_components(_order, version)
-  #   @grouped_components =
-  #     version.products
-  #            .includes(product_components: { component: :supplier })
-  #            .flat_map(&:product_components)
-  #            .group_by { |pc| pc.component.category }
-  #            .transform_values do |pcs|
-  #       pcs.group_by { |pc| pc.component.supplier }.transform_values do |pc_array|
-  #         pc_array.group_by(&:component).transform_values do |pcs_group|
-  #           pcs_group.sum(&:quantity)
-  #         end
-  #       end
-  #     end
-  # end
-  # def group_by_category_and_supplier(components)
-  #   components.group_by { |pc| pc.component.category }
-  #             .transform_values do |pcs|
-  #               group_by_supplier(pcs)
-  #             end
-  # end
-
-  # def group_by_supplier(pcs)
-  #   pcs.group_by { |pc| pc.component.supplier }
-  #      .transform_values { |pcs_for_supplier| group_by_component(pcs_for_supplier) }
-  # end
-
-  # def group_by_component(pcs)
-  #   pcs.group_by(&:component).transform_values { |group| group.sum(&:quantity) }
-  # end
 end

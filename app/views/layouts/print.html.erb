@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
+<html>
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Quotation" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", media: "all" %>
-    <%= javascript_include_tag "application", defer: true %>
-
-    <style>
-      @media print {
-        .no-print {
-          display: none;
-        }
-      }
-      body {
-        font-family: "Noto Sans", sans-serif;
-        font-size: 12px;
-        margin: 2rem;
-      }
-    </style>
+    <%= stylesheet_link_tag "css-zero/reset", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "css-zero/variables", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "css-zero/utilities", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="text-center" style="padding: 1rem;">
+    <div class="print_layout">
+      <div class="no-print" style="text-align: right; margin-bottom: 1rem;">
+        <button onclick="window.print()" class="btn btn--primary">🖨 Print or save as PDF</button>
+      </div>
+      <small class="no-print" style="display: block; text-align: right; margin-bottom: 1rem;">
+        <em>⚠️ In the print dialog, uncheck "Headers and footers" to remove page info.</em>
+      </small>
+      <div class="a4-page">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

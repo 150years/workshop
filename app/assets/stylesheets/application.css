@@ -45,8 +45,12 @@ turbo-frame[busy], turbo-frame[complete] {
   color: white;
 }
 
-.quotation th, td, tfoot {
+.quotation th, td {
   padding: 5px;
+}
+
+.quotation td {
+  font-size: 11px;
 }
 
 .thin-border table, th, td {

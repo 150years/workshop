@@ -50,7 +50,7 @@ class Product < ApplicationRecord
   after_destroy :update_order_version_total_amount, if: -> { order_version.present? }
   after_save :recalculate_product_components_amount, if: -> { saved_change_to_width? || saved_change_to_height? }
   before_commit :update_order_version_total_amount, if: lambda {
-    order_version.present? && saved_change_to_price_cents?
+    order_version.present? && (saved_change_to_price_cents? || saved_change_to_quantity?)
   }, on: %i[update create]
 
   scope :templates, -> { where(order_version: nil) }

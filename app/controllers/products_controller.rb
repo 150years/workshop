@@ -78,6 +78,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.expect(product: %i[name width height comment image from_template template_id])
+    params.expect(product: %i[name width height comment image from_template template_id quantity])
   end
 end

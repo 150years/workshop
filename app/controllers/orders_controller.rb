@@ -69,7 +69,7 @@ class OrdersController < ApplicationController
     @labor_total = @version.products.sum do |product|
       product.product_components.includes(:component).select do |pc|
         pc.component.name.to_s.downcase.include?('labor')
-      end.sum { |pc| pc.quantity.to_f * (pc.component.price || 0) }
+      end.sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
     end
     @withholding_tax = (@labor_total * 0.03).round(2)
 

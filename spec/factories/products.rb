@@ -9,6 +9,7 @@
 #  height           :integer          default(0), not null
 #  name             :string           not null
 #  price_cents      :integer          default(0), not null
+#  quantity         :integer
 #  width            :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -41,5 +42,6 @@ FactoryBot.define do
 
   trait :with_order_version do
     order_version { create(:order_version, company: company) }
+    # order_version { order_version || create(:order_version, company: company) } /Sergey
   end
 end

@@ -1,6 +1,7 @@
 inherit_mode:
   merge:
     - Exclude
+    
 plugins:
   - rubocop-performance
   - rubocop-rails
@@ -8,6 +9,8 @@ plugins:
 AllCops:
   NewCops: enable
   SuggestExtensions: false
+  Exclude:
+    - 'app/services/orders/quotation_pdf_generator.rb'
 
 Layout:
   Exclude:
@@ -17,6 +20,9 @@ Performance:
   Enabled: true
   Exclude:
     - "spec/**/*"
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'app/services/orders/quotation_pdf_generator.rb'
 
 Layout/ClassStructure:
   Enabled: true

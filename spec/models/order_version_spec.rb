@@ -8,6 +8,7 @@
 #  agent_comm         :integer          default(0), not null
 #  final_version      :boolean          default(FALSE), not null
 #  profit             :integer          default(0), not null
+#  quotation_number   :string
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -28,9 +29,18 @@
 require 'rails_helper'
 
 RSpec.describe OrderVersion, type: :model do
+  let(:company) { create(:company) }
+  let(:client) { create(:client, company: company) }
+  let(:agent) { create(:agent, company: company) }
+  let(:order) { create(:order, company: company, client: client, agent: agent) }
+
   describe 'associations' do
     it { is_expected.to belong_to(:order).required }
     it { is_expected.to have_many(:products).dependent(:destroy) }
+    it 'belongs to order' do
+      version = OrderVersion.create!(company: company, order: order, total_amount_cents: 1000, final_version: true)
+      expect(version.order).to eq(order)
+    end
   end
 
   describe 'delegations' do
@@ -65,6 +75,18 @@ RSpec.describe OrderVersion, type: :model do
           order_version.update(final_version: true)
         end.to broadcast_to(order_version.to_gid_param)
       end
+    end
+  end
+
+  describe '#update_total_amount' do
+    it 'sums the product prices (which already include quantity)' do
+      order_version = create(:order_version)
+      create(:product, order_version: order_version, price_cents: 1000, quantity: 2) # → price_cents = 2000
+      create(:product, order_version: order_version, price_cents: 1500, quantity: 1) # → price_cents = 1500
+
+      order_version.update_total_amount
+
+      expect(order_version.total_amount_cents).to eq((1000 * 2) + 1500)
     end
   end
 end

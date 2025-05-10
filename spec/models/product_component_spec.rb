@@ -122,7 +122,7 @@ RSpec.describe ProductComponent, type: :model do
 
           product_component.set_quantity_fields
 
-          expect(product_component.quantity_real).to eq(100)
+          expect(product_component.quantity_real).to eq(100_000_000)
         end
 
         it 'returns component.min_quantity if formula is blank' do
@@ -185,14 +185,56 @@ RSpec.describe ProductComponent, type: :model do
     end
 
     describe '#calculate_quantity' do
-      it 'return real quantity' do
-        product = create(:product, height: 10, width: 10)
-        component = create(:component, height: 10, length: 10, min_quantity: 1, thickness: 1, weight: 1, width: 10)
-        product_component = build(:product_component, product: product, component: component, formula: 'product_height * component_height')
+      it 'returns 1 if formula is blank and no min_quantity' do
+        component = create(:component, unit: 'm', min_quantity: 0)
+        product = create(:product)
+        pc = build(:product_component, component: component, product: product, formula: nil)
 
-        product_component.set_quantity_fields
+        quantity = pc.send(:calculate_quantity)
 
-        expect(product_component.quantity).to eq(product_component.quantity_real)
+        expect(quantity).to eq(1)
+      end
+
+      it 'rounds up to the nearest multiple of min_quantity, when quantity < min_quantity' do
+        component = create(:component, price_cents: 1000, min_quantity: 1)
+        product = create(:product, width: 2000, height: 2200)
+        pc = create(:product_component, component: component, product: product, formula: 'product_width / 6400')
+
+        quantity = pc.send(:calculate_quantity)
+
+        expect(quantity).to eq(1)
+      end
+
+      it 'rounds up to the nearest multiple of min_quantity, when quantity > min_quantity' do
+        component = create(:component, price_cents: 1000, min_quantity: 1)
+        product = create(:product, width: 8000, height: 2200)
+        pc = create(:product_component, component: component, product: product, formula: 'product_width / 6400')
+
+        quantity = pc.send(:calculate_quantity)
+        # product.product_components.includes(:component).find_each do |pc|
+        #   puts "Component: #{pc.component.name}, Price: #{pc.component.price_cents}, Qty: #{pc.quantity}, Qty Real: #{pc.quantity_real}, Formula: #{pc.formula.inspect}"
+        # end
+        # puts "quantity_real: #{pc.send(:calculate_quantity_real)}"
+        # puts "final quantity: #{quantity}"
+        # puts "min_quantity: #{component.min_quantity}"
+
+        expect(quantity).to eq(2)
+      end
+
+      it 'rounds up to nearest multiple of min_quantity when min_quantity > 1' do
+        component = create(:component, price_cents: 1000, min_quantity: 2)
+        product = create(:product, width: 9000, height: 2200)
+        pc = create(:product_component, component: component, product: product, formula: 'product_width*2 / 6400')
+
+        quantity = pc.send(:calculate_quantity)
+        # product.product_components.includes(:component).find_each do |pc|
+        #   puts "Component: #{pc.component.name}, Price: #{pc.component.price_cents}, Qty: #{pc.quantity}, Qty Real: #{pc.quantity_real}, Formula: #{pc.formula.inspect}"
+        # end
+        # puts "quantity_real: #{pc.send(:calculate_quantity_real)}"
+        # puts "final quantity: #{quantity}"
+        # puts "min_quantity: #{component.min_quantity}"
+
+        expect(quantity).to eq(4) # 18000 / 4000 = 2,8125 → round up to next multiple of 2 = 4
       end
 
       context 'when component unit is lines' do

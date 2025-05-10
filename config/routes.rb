@@ -19,7 +19,13 @@ Rails.application.routes.draw do
       patch :mark_as_final, on: :member
     end
     delete :remove_file, on: :member
-  end
+    member do
+      get :quotation_preview
+      post :send_quotation_email
+      # get :quotation_pdf
+      # get :components_order
+    end
+  end 
   resources :transactions do
     member do
       delete :destroy_attachment
@@ -27,6 +33,15 @@ Rails.application.routes.draw do
   end
 
   resources :balances, only: [:index]
+  resources :suppliers, except: [:show]
+  resources :materials do
+    resources :material_uses, only: %i[index new create]
+  end
+  
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+  
+
+
 
 
 

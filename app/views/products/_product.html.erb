@@ -7,6 +7,11 @@
     <p class="leading-none"><%= product.name %></p>
   </div>
   <div class="flex justify-between">
+    <h4 class="font-medium leading-none">Quantity:</h4>
+    <p class="leading-none"><%= product.quantity %></p>
+  </div>
+
+  <div class="flex justify-between">
     <h4 class="font-medium leading-none">Width:</h4>
     <p class="leading-none"><%= UnitConverter.mm_to_m(product.width) %> m</p>
   </div>

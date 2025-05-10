@@ -45,7 +45,7 @@ FactoryBot.define do
     height { rand(100..1000) }
     thickness { rand(1..10) }
     weight { rand(10..10_000) }
-    min_quantity { rand(1.0..99.9) }
+    min_quantity { 1 }
     price_cents { rand(10..10_000) }
     note { Faker::Lorem.sentence }
     company

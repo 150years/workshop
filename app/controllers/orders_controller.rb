@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show edit update destroy send_quotation_email]
+  before_action :set_order, only: %i[show edit update destroy send_quotation_email quotation_preview]
   before_action :set_clients_and_agents, except: %i[index show destroy]
   before_action :set_order_versions, only: %i[show]
+  before_action :set_final_version, only: %i[quotation_preview]
 
   # GET /orders
   def index
@@ -64,15 +65,8 @@ class OrdersController < ApplicationController
   end
 
   def quotation_preview
-    @order = current_company.orders.find(params[:id])
-    @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
-    @labor_total = @version.products.sum do |product|
-      product.product_components.includes(:component).select do |pc|
-        pc.component.name.to_s.downcase.include?('labor')
-      end.sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
-    end
+    @labor_total = calculate_labor_total(@version)
     @withholding_tax = (@labor_total * 0.03).round(2)
-
     render layout: 'print'
   end
 
@@ -99,5 +93,17 @@ class OrdersController < ApplicationController
 
   def set_order_versions
     @order_versions = @order.order_versions.order(created_at: :desc)
+  end
+
+  def set_final_version
+    @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
+  end
+
+  def calculate_labor_total(version)
+    version.products.includes(product_components: :component).sum do |product|
+      product.product_components
+             .select { |pc| pc.component.name.to_s.downcase.include?('labor') }
+             .sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
+    end
   end
 end

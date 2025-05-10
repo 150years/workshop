@@ -76,7 +76,8 @@ class Product < ApplicationRecord
   end
 
   def update_price
-    self.price_cents = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
+    component_total = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
+    self.price_cents = component_total * (quantity || 1)
     save
   end
 

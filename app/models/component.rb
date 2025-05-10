@@ -47,7 +47,7 @@ class Component < ApplicationRecord
        validate: true, prefix: true
   enum :category, { aluminum: 0, glass: 1, other: 2 }, validate: true
 
-  validates :code, :name, :unit, :min_quantity, :category, presence: true
+  validates :code, :name, :unit, :category, presence: true
   validates :length, :width, :height, :thickness, :weight, :min_quantity,
             numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 

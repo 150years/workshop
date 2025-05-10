@@ -42,5 +42,6 @@ FactoryBot.define do
 
   trait :with_order_version do
     order_version { create(:order_version, company: company) }
+    # order_version { order_version || create(:order_version, company: company) } /Sergey
   end
 end

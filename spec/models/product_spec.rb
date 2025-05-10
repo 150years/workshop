@@ -221,9 +221,9 @@ RSpec.describe Product, type: :model do
     it 'updates the quantity of each product component' do
       expect { product.reload.update(width: 7000, height: 8000) }
         .to change { product_component1.reload.quantity }
-        .from(1).to(7)
+        .from(1000).to(7000)
         .and change { product_component2.reload.quantity }
-        .from(1).to(8)
+        .from(1000).to(8000)
     end
   end
 
@@ -256,6 +256,24 @@ RSpec.describe Product, type: :model do
       it 'adds an error' do
         expect(product.errors[:template_id]).to include('not found')
       end
+    end
+  end
+
+  describe '#update_price' do
+    it 'updates price according to component quantity and product quantity' do
+      product = create(:product, quantity: 2, width: 100, height: 100)
+      component = create(:component, price_cents: 200, min_quantity: 1)
+      create(:product_component, product: product, component: component, formula: nil)
+
+      product.reload.update_price
+
+      # product.product_components.includes(:component).find_each do |pc|
+      #   puts "Component: #{pc.component.name}, Price: #{pc.component.price_cents}, Qty: #{pc.quantity}, Qty Real: #{pc.quantity_real}, Formula: #{pc.formula.inspect}"
+      # end
+
+      # puts "Product quantity: #{product.quantity}, Final price_cents: #{product.price_cents}"
+
+      expect(product.price_cents).to eq(200 * 1 * 2) # min_quantity = 1, product qty = 2
     end
   end
 end

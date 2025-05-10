@@ -26,17 +26,29 @@
 #  product_id    (product_id => products.id)
 #
 class ProductComponent < ApplicationRecord
+  # CALCULATION_VARIABLES = {
+  #   product_height: ->(pc) { UnitConverter.mm_to_m(pc.product.height) },
+  #   product_width: ->(pc) { UnitConverter.mm_to_m(pc.product.width) },
+  #   product_area: ->(pc) { UnitConverter.mm2_to_m2(pc.product.area) },
+  #   product_perimeter: ->(pc) { UnitConverter.mm_to_m(pc.product.perimeter) },
+  #   component_height: ->(pc) { UnitConverter.mm_to_m(pc.component.height) },
+  #   component_length: ->(pc) { UnitConverter.mm_to_m(pc.component.length) },
+  #   component_min_quantity: ->(pc) { pc.component.min_quantity },
+  #   component_thickness: ->(pc) { pc.component.thickness },
+  #   component_weight: ->(pc) { pc.component.weight },
+  #   component_width: ->(pc) { UnitConverter.mm_to_m(pc.component.width) }
+  # }.freeze
   CALCULATION_VARIABLES = {
-    product_height: ->(pc) { UnitConverter.mm_to_m(pc.product.height) },
-    product_width: ->(pc) { UnitConverter.mm_to_m(pc.product.width) },
-    product_area: ->(pc) { UnitConverter.mm2_to_m2(pc.product.area) },
-    product_perimeter: ->(pc) { UnitConverter.mm_to_m(pc.product.perimeter) },
-    component_height: ->(pc) { UnitConverter.mm_to_m(pc.component.height) },
-    component_length: ->(pc) { UnitConverter.mm_to_m(pc.component.length) },
+    product_height: ->(pc) { pc.product.height },
+    product_width: ->(pc) { pc.product.width },
+    product_area: ->(pc) { pc.product.area },
+    product_perimeter: ->(pc) { pc.product.perimeter },
+    component_height: ->(pc) { pc.component.height },
+    component_length: ->(pc) { pc.component.length },
     component_min_quantity: ->(pc) { pc.component.min_quantity },
     component_thickness: ->(pc) { pc.component.thickness },
     component_weight: ->(pc) { pc.component.weight },
-    component_width: ->(pc) { UnitConverter.mm_to_m(pc.component.width) }
+    component_width: ->(pc) { pc.component.width }
   }.freeze
 
   belongs_to :product
@@ -76,8 +88,9 @@ class ProductComponent < ApplicationRecord
   private
 
   def calculate_quantity_real
-    return component.min_quantity if formula.blank?
+    # return component.min_quantity if formula.blank?
     # If the quantity is already calculated during validation, we don't need to calculate it again
+    return 1 if formula.blank? # 👈 значение по умолчанию
     return @calculated_quantity_real if defined?(@calculated_quantity_real) && @calculated_quantity_real.present?
 
     @calculated_quantity_real = evaluate_quantity
@@ -86,8 +99,21 @@ class ProductComponent < ApplicationRecord
   end
 
   def calculate_quantity
-    # If component unit is lines, we need to round up the quantity. For all other units we set the quantity to the real
-    component.unit == 'lines' ? quantity_real&.ceil : quantity_real
+    quantity = formula.blank? ? 1 : evaluate_quantity.to_f
+
+    if component.min_quantity.to_f.positive?
+      min_qty = component.min_quantity.to_f
+      quantity = (quantity / min_qty).ceil * min_qty
+    end
+
+    quantity
+  rescue Dentaku::ParseError,
+         Dentaku::UnboundVariableError,
+         Dentaku::ZeroDivisionError,
+         Dentaku::ArgumentError => e
+
+    errors.add(:formula, e.message)
+    1
   end
 
   def calculate_waste

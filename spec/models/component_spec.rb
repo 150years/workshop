@@ -59,7 +59,6 @@ RSpec.describe Component, type: :model do
     it { is_expected.to validate_presence_of(:code) }
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:unit) }
-    it { is_expected.to validate_presence_of(:min_quantity) }
     it { is_expected.to validate_presence_of(:category) }
 
     it { is_expected.to validate_numericality_of(:length).is_greater_than_or_equal_to(0) }

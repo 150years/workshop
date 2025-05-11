@@ -1,5 +1,23 @@
 ---
 releases:
+- version: 0.35.0
+  date: 11-05-2025
+  notes:
+  - 'Order, order_version - show price per product before total (total = qty*product price)'
+  - 'Product_component - separate methods price (price per unit) and total_price (price per unit x product quantity)'
+  - 'Rspec, add test that quotation show correct details'
+  - 'Order_version, profit - show profit and take in account when calculating totals for product and order'
+- version: 0.33.0
+  date: 11-05-2025
+  notes:
+  - 'Mobile menu'
+  - 'Supplier'
+  - 'Materials'
+  - 'Material stock'
+  - 'Connect stock to orders'
+  - 'Quotation generation with prawn pdf (cancelled)'
+  - 'Quotation generation with html and separate layout.'
+  - 'Order, Products included in order - add ability to add/edit product quantity because now after add product is nil'
 - version: 0.33.0
   date: 03-04-2025
   notes:

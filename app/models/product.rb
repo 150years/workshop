@@ -27,6 +27,8 @@
 #  order_version_id  (order_version_id => order_versions.id)
 #
 class Product < ApplicationRecord
+  include PriceCalculations
+
   attribute :from_template, :boolean, default: false
   attribute :template_id, :integer
 
@@ -36,6 +38,12 @@ class Product < ApplicationRecord
   monetize :aluminum_price_cents, with_model_currency: :currency
   monetize :glass_price_cents, with_model_currency: :currency
   monetize :other_price_cents, with_model_currency: :currency
+  monetize :nett_price_cents, with_model_currency: :currency
+  monetize :profit_amount_cents, with_model_currency: :currency
+  monetize :price_with_profit_cents, with_model_currency: :currency
+  monetize :total_nett_price_cents, with_model_currency: :currency
+  monetize :total_profit_amount_cents, with_model_currency: :currency
+  monetize :total_price_with_profit_cents, with_model_currency: :currency
 
   belongs_to :company
   belongs_to :order_version, optional: true
@@ -76,9 +84,19 @@ class Product < ApplicationRecord
   end
 
   def update_price
-    component_total = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
-    self.price_cents = component_total * (quantity || 1)
+    # component_total = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
+    # self.price_cents = component_total
+    base = aluminum_price_cents + glass_price_cents + other_price_cents
+    self.price_cents = (base + (base * profit_percentage / 100.0)).round
     save
+  end
+
+  def total_price_cents
+    price_cents * (quantity || 1)
+  end
+
+  def total_price
+    Money.new(total_price_cents, currency)
   end
 
   def area
@@ -97,27 +115,6 @@ class Product < ApplicationRecord
     2 * (width + height)
   end
 
-  def aluminum_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'aluminum' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-
-  def glass_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'glass' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-
-  def other_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'other' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-
   private
 
   def recalculate_product_components_amount
@@ -126,6 +123,10 @@ class Product < ApplicationRecord
       product_component.set_quantity_fields
       product_component.save
     end
+  end
+
+  def profit_percentage
+    order_version&.profit.to_f
   end
 
   def update_order_version_total_amount

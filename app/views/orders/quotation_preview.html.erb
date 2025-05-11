@@ -71,8 +71,8 @@
         <%= raw(product.comment.present? ? "<br>Comment: #{product.comment} " : "") %>
       </td>
       <td class="text-center"><%= product.quantity %></td>
-      <td class="text-end"><%= number_to_currency(product.price.present? ? product.price : 0, unit: "฿") %></td>
-      <td class="text-end"><%= number_to_currency((product.quantity || 0) * (product.price || 0), unit: "฿") %></td>
+      <td class="text-end"><%= product.price_with_profit.format %></td>
+      <td class="text-end"><%= product.total_price_with_profit.format %></td>
     </tr>
     <% end %>
   </tbody>
@@ -98,13 +98,13 @@
       <tr>
         <td colspan="5" class="text-end">Labor:</td>
         <td class="text-end">
-          <%= @labor_total.format %>
+          <%= (@labor_total*1.07).format %>
         </td>
       </tr>
       <tr>
         <td colspan="5" class="text-end">Material:</td>
         <td class="text-end">
-          <%= (@version.total_amount - @labor_total).format %>
+          <%= (@version.total_amount + vat - @labor_total*1.07).format %>
         </td>
       </tr>
     </tfoot>
@@ -112,16 +112,16 @@
 
 <div class="text-start text-xs" style="white-space: pre-line;">
   <span class="font-bold">Payment / กำหนดการชำระเงิน</span>
-  <% if @version.total_amount.to_f > 50000 %>
-    50%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= (@version.total_amount*0.5).format %>
-    40%  Products ready for installation / สินค้าพร้อมติดตั้ง = <%= (@version.total_amount*0.4).format %>
-    10%  Upon completion of work / เมื่องานเสร็จเรียบร้อย = <%= (@version.total_amount*0.1).format %>
+  <% if (@version.total_amount + vat).to_f > 50000 %>
+    50%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= ((@version.total_amount + vat)*0.5).format %>
+    40%  Products ready for installation / สินค้าพร้อมติดตั้ง = <%= ((@version.total_amount + vat)*0.4).format %>
+    10%  Upon completion of work / เมื่องานเสร็จเรียบร้อย = <%= ((@version.total_amount + vat)*0.1).format %>
     Deposit is non-refundable in any cases / มัดจำไม่สามารถคืนได้ในทุก ๆ กรณี 
-  <% elsif @version.total_amount.to_f < 50000 && @version.total_amount.to_f > 20000 %>
-    50% Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= (@version.total_amount*0.5).format %>
-    50% Products ready for installation/ สินค้าพร้อมติดตั้ง = <%= (@version.total_amount*0.5).format %>
+  <% elsif (@version.total_amount + vat).to_f < 50000 && (@version.total_amount + vat).to_f > 20000 %>
+    50% Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= ((@version.total_amount + vat)*0.5).format %>
+    50% Products ready for installation/ สินค้าพร้อมติดตั้ง = <%= ((@version.total_amount + vat)*0.5).format %>
   <% else %>
-    100%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ  = <%= @version.total_amount.format %>
+    100%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ  = <%= (@version.total_amount + vat).format %>
   <% end %>
   
   <span class="font-bold">Agreement / ข้อตกลง</span>

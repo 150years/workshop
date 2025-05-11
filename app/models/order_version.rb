@@ -57,7 +57,7 @@ class OrderVersion < ApplicationRecord
   # end
 
   def update_total_amount
-    total = products.reload.sum { |product| (product.price_cents || 0) * (product.quantity || 1) }
+    total = products.reload.sum(&:total_price_with_profit_cents)
     self.total_amount_cents = total
     save
   end

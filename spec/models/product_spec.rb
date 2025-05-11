@@ -259,8 +259,10 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  describe '#update_price' do
-    it 'updates price according to component quantity and product quantity' do
+  describe '#price' do
+    let(:company) { create(:company) }
+
+    it 'Price methods return correct price according to component quantity and product quantity' do
       product = create(:product, quantity: 2, width: 100, height: 100)
       component = create(:component, price_cents: 200, min_quantity: 1)
       create(:product_component, product: product, component: component, formula: nil)
@@ -273,7 +275,52 @@ RSpec.describe Product, type: :model do
 
       # puts "Product quantity: #{product.quantity}, Final price_cents: #{product.price_cents}"
 
-      expect(product.price_cents).to eq(200 * 1 * 2) # min_quantity = 1, product qty = 2
+      expect(product.price_cents).to eq(200 * 1) # min_quantity = 1
+      expect(product.total_price_cents).to eq(200 * 1 * 2) # min_quantity = 1, product qty = 2
+    end
+
+    it 'returns price for a single product if quantity is 1' do
+      product = create(:product, company:, price_cents: 5000, quantity: 1)
+      expect(product.total_price_cents).to eq(5000)
+      expect(product.total_price.format).to eq('$50.00')
+    end
+
+    it 'returns price multiplied by quantity' do
+      product = create(:product, company:, price_cents: 5000, quantity: 3)
+      expect(product.total_price_cents).to eq(15_000)
+      expect(product.total_price.format).to eq('$150.00')
+    end
+
+    it 'assumes quantity = 1 if quantity is nil' do
+      product = create(:product, company:, price_cents: 8000, quantity: nil)
+      expect(product.total_price_cents).to eq(8000)
+      expect(product.total_price.format).to eq('$80.00')
+    end
+  end
+
+  describe '#price category breakdowns' do
+    it 'calculates aluminum, glass, and other price_cents correctly' do
+      aluminium1 = create(:component, name: 'Frame', code: 'F001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 189_000, length: 6400, category: 'aluminum')
+      aluminium2 = create(:component, name: 'Frame_lock', code: 'FL001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 46_000, length: 6400, category: 'aluminum')
+      glass = create(:component, name: 'Glass', code: 'GL1', unit: 'm2', price_cents: 308_000, category: 'glass')
+      misc = create(:component, name: 'Misc', code: 'M1', unit: 'lot', price_cents: 20_000, category: 'other')
+      labor = create(:component, name: 'Labor', code: 'L1', unit: 'lot', price_cents: 60_000, category: 'other')
+      admin = create(:component, name: 'Administration', code: 'A1', unit: 'lot', price_cents: 10_000, category: 'other')
+
+      order = create(:order)
+      version = create(:order_version, order: order, final_version: true)
+
+      product = create(:product, order_version: version, name: 'Fixed window', width: 2000, height: 3000, quantity: 3)
+      create(:product_component, product: product, component: aluminium1, formula: 'product_perimeter/6.4')
+      create(:product_component, product: product, component: aluminium2, formula: 'product_perimeter/6.4')
+      create(:product_component, product: product, component: glass, formula: 'product_area')
+      create(:product_component, product: product, component: misc, formula: 'product_area')
+      create(:product_component, product: product, component: labor, formula: 'product_area')
+      create(:product_component, product: product, component: admin, formula: 'product_area')
+
+      expect(product.aluminum_price_cents).to eq(470_000)
+      expect(product.glass_price_cents).to eq(1_848_000)
+      expect(product.other_price_cents).to eq(540_000)
     end
   end
 end

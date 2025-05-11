@@ -1,4 +1,4 @@
-turbo-frame {
+  turbo-frame {
   display: block;
 }
 
@@ -6,6 +6,54 @@ turbo-frame[busy], turbo-frame[complete] {
   display: contents;
 }
 
+@import 'select2';
 .nowrap {
   white-space: nowrap;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+.print_layout {
+  width: 793px; margin: 0 auto;
+}
+
+.a4-page {
+  width: 793px;
+  margin: 28px auto;  /* ~0.5 cm on all sides */
+  padding: 28px;
+  background: white;
+  color: black;
+  font-size: 0.9em;
+}
+
+.quotation table {
+  width: 100%;
+  padding: 5px;
+}
+
+.quotation th {
+  background-color: #384889;
+  color: white;
+}
+
+.quotation tfoot {
+  background-color: #384889;
+  color: white;
+}
+
+.quotation th, td {
+  padding: 5px;
+}
+
+.quotation td {
+  font-size: 11px;
+}
+
+.thin-border table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }

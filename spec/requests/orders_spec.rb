@@ -7,8 +7,11 @@ RSpec.describe '/orders', type: :request do
   let(:user) { create(:user, company:) }
   let(:agent) { create(:agent, company:) }
   let(:client) { create(:client, company:) }
-  let!(:order) { create(:order, company:) }
-  let(:another_order) { create(:order) }
+
+  let(:another_company) { create(:company) }
+  let!(:order) { create(:order, name: 'Company A Order', company:) }
+  let!(:another_order) { create(:order, name: 'Company B Order', company: another_company) }
+
   let(:valid_attributes) do
     {
       name: 'Order 1',
@@ -37,8 +40,8 @@ RSpec.describe '/orders', type: :request do
     it 'only returns orders from the current company' do
       get orders_url
 
-      expect(response.body).to include(CGI.escapeHTML(order.name))
-      expect(response.body).not_to include(CGI.escapeHTML(another_order.name))
+      expect(response.body).to include('Company A Order')
+      expect(response.body).not_to include('Company B Order')
     end
 
     context 'when user is not logged in' do

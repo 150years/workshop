@@ -8,6 +8,7 @@
 #  agent_comm         :integer          default(0), not null
 #  final_version      :boolean          default(FALSE), not null
 #  profit             :integer          default(0), not null
+#  quotation_number   :string
 #  total_amount_cents :integer          default(0), not null
 #  version_note       :text
 #  created_at         :datetime         not null
@@ -26,6 +27,8 @@
 #  order_id    (order_id => orders.id)
 #
 class OrderVersion < ApplicationRecord
+  before_validation :generate_quotation_number, on: :create
+  after_save :unset_other_final_versions, if: :saved_change_to_final_version?
   delegate :currency, to: :company, allow_nil: true
   monetize :total_amount_cents, with_model_currency: :currency
 
@@ -39,7 +42,6 @@ class OrderVersion < ApplicationRecord
                                     greater_than_or_equal_to: 0,
                                     less_than_or_equal_to: 100
                                   }
-  after_save :remove_other_final_versions, if: -> { saved_change_to_final_version? && final_version? }
 
   after_commit do
     broadcast_update_to self
@@ -47,14 +49,41 @@ class OrderVersion < ApplicationRecord
 
   scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
 
+  # def update_total_amount
+  #   # self.total_amount_cents = products.sum(&:price_cents)
+  #   total = products.sum { |product| (product.price_cents || 0) * (product.quantity || 1) }
+  #   self.total_amount_cents = total
+  #   save
+  # end
+
   def update_total_amount
-    self.total_amount_cents = products.sum(&:price_cents)
+    total = products.reload.sum { |product| (product.price_cents || 0) * (product.quantity || 1) }
+    self.total_amount_cents = total
     save
   end
 
-  private
+  def quotation_filename(order)
+    name = order.name.parameterize.underscore
+    "QT_TGT_#{created_at.strftime('%Y%m%d')}_V#{id}_#{name}.pdf"
+  end
 
-  def remove_other_final_versions
-    order.order_versions.where.not(id: id).update_all(final_version: false) # rubocop:disable Rails/SkipsModelValidations
+  def generate_quotation_number
+    return if order.nil?
+
+    today = Time.zone.today
+    version_number = (order.order_versions.count + 1).to_s
+    self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
+  end
+
+  def pdf_filename(order)
+    "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
+  end
+
+  def unset_other_final_versions
+    return unless final_version?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    order.order_versions.where.not(id: id).update_all(final_version: false)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

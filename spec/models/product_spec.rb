@@ -9,6 +9,7 @@
 #  height           :integer          default(0), not null
 #  name             :string           not null
 #  price_cents      :integer          default(0), not null
+#  quantity         :integer
 #  width            :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -255,6 +256,24 @@ RSpec.describe Product, type: :model do
       it 'adds an error' do
         expect(product.errors[:template_id]).to include('not found')
       end
+    end
+  end
+
+  describe '#update_price' do
+    it 'updates price according to component quantity and product quantity' do
+      product = create(:product, quantity: 2, width: 100, height: 100)
+      component = create(:component, price_cents: 200, min_quantity: 1)
+      create(:product_component, product: product, component: component, formula: nil)
+
+      product.reload.update_price
+
+      # product.product_components.includes(:component).find_each do |pc|
+      #   puts "Component: #{pc.component.name}, Price: #{pc.component.price_cents}, Qty: #{pc.quantity}, Qty Real: #{pc.quantity_real}, Formula: #{pc.formula.inspect}"
+      # end
+
+      # puts "Product quantity: #{product.quantity}, Final price_cents: #{product.price_cents}"
+
+      expect(product.price_cents).to eq(200 * 1 * 2) # min_quantity = 1, product qty = 2
     end
   end
 end

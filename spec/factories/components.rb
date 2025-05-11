@@ -21,14 +21,17 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
+#  supplier_id  :integer
 #
 # Indexes
 #
-#  index_components_on_company_id  (company_id)
+#  index_components_on_company_id   (company_id)
+#  index_components_on_supplier_id  (supplier_id)
 #
 # Foreign Keys
 #
-#  company_id  (company_id => companies.id)
+#  company_id   (company_id => companies.id)
+#  supplier_id  (supplier_id => suppliers.id)
 #
 FactoryBot.define do
   factory :component do
@@ -42,7 +45,7 @@ FactoryBot.define do
     height { rand(100..1000) }
     thickness { rand(1..10) }
     weight { rand(10..10_000) }
-    min_quantity { rand(1.0..99.9) }
+    min_quantity { 1 }
     price_cents { rand(10..10_000) }
     note { Faker::Lorem.sentence }
     company

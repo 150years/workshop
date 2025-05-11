@@ -33,7 +33,16 @@ class OrderVersionsController < ApplicationController
 
   # PATCH/PUT /order_versions/1
   def update
+    was_final = @order_version.final_version_before_last_save
+
     if @order_version.update(order_version_params)
+      if @order_version.final_version && !was_final
+        @order.order_versions.where.not(id: @order_version.id).find_each do |ov|
+          ov.final_version = false
+          ov.save!
+        end
+      end
+
       redirect_to @order, notice: 'Order version was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity

@@ -9,7 +9,7 @@
 #  status     :integer          default("quotation"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  agent_id   :integer          not null
+#  agent_id   :integer
 #  client_id  :integer          not null
 #  company_id :integer          not null
 #
@@ -28,7 +28,7 @@
 class Order < ApplicationRecord
   belongs_to :company
   belongs_to :client
-  belongs_to :agent
+  belongs_to :agent, optional: true
   has_many :order_versions, dependent: :destroy
   has_many_attached :files
 

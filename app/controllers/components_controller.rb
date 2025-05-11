@@ -29,7 +29,7 @@ class ComponentsController < ApplicationController
     service = Components::CreationService.new(current_company, params, Component.new(component_params))
 
     if service.save
-      redirect_to service.component, notice: 'Component was successfully created.'
+      redirect_to components_path, notice: 'Component was successfully created.'
     else
       @component = service.component
       @original_component = service.original_component
@@ -40,7 +40,7 @@ class ComponentsController < ApplicationController
   # PATCH/PUT /components/1
   def update
     if @component.update(component_params)
-      redirect_to @component, notice: 'Component was successfully updated.', status: :see_other
+      redirect_to components_path, notice: 'Component was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -56,7 +56,80 @@ class ComponentsController < ApplicationController
     end
   end
 
+  # def components_order_pdf
+  #   @order = Order.find(params[:id])
+  #   @version = @order.order_versions.final_or_latest
+
+  #   category = params[:category]
+  #   supplier_id = params[:supplier_id]
+
+  #   if category.blank? || supplier_id.blank?
+  #     render plain: 'Category or Supplier not provided', status: :bad_request and return
+  #   end
+
+  #   supplier = supplier_id == 'none' ? nil : Supplier.find_by(id: supplier_id)
+
+  #   components_data = @version.products
+  #                             .flat_map(&:product_components)
+  #                             .select do |pc|
+  #                               pc.component.category == category &&
+  #                                 pc.component.supplier_id == supplier&.id
+  #                             end
+
+  #   if components_data.empty?
+  #     render plain: "No components found for category #{category} and supplier #{supplier&.name || 'Unknown'}",
+  #            status: :not_found and return
+  #   end
+
+  #   @components = components_data.group_by(&:component).transform_values { |pcs| pcs.sum(&:quantity) }
+
+  #   pdf = render_to_string(
+  #     pdf: "components_order_#{category}_supplier_#{supplier&.name || 'unknown'}",
+  #     template: 'orders/components_order_pdf',
+  #     formats: [:html],
+  #     encoding: 'UTF-8'
+  #   )
+
+  #   send_data pdf,
+  #             filename: "components_order_#{category}_#{supplier&.name&.parameterize || 'unknown'}.pdf",
+  #             type: 'application/pdf',
+  #             disposition: 'inline'
+  # end
+
+  def prepare_components_order
+    @order = Order.find(params[:id])
+    @version = @order.order_versions.find_by(final_version: true)
+
+    @components_summary = build_components_summary(@version)
+    @grouped_by_type     = group_by_category(@version)
+    @grouped_by_supplier = @components_summary.group_by { |component, _| component.supplier }
+  end
+
   private
+
+  def build_components_summary(version)
+    summary = Hash.new(0)
+
+    version.products.includes(:components).find_each do |product|
+      product.product_components.each do |pc|
+        summary[pc.component] += pc.quantity
+      end
+    end
+
+    summary
+  end
+
+  def group_by_category(version)
+    version.products
+           .includes(product_components: { component: :supplier })
+           .flat_map(&:product_components)
+           .group_by { |pc| pc.component.category }
+           .transform_values do |pcs|
+      pcs.group_by(&:component).transform_values do |pcs_for_component|
+        pcs_for_component.sum(&:quantity)
+      end
+    end
+  end
 
   def set_component
     @component = current_company.components.find(params.expect(:id))
@@ -70,6 +143,6 @@ class ComponentsController < ApplicationController
 
   def component_params
     params.expect(component: {}).permit(:code, :category, :name, :note, :color, :unit, :length, :width, :height,
-                                        :thickness, :weight, :min_quantity, :price, :image)
+                                        :thickness, :weight, :min_quantity, :price, :image, :supplier_id)
   end
 end

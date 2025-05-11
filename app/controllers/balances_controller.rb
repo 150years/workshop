@@ -9,10 +9,14 @@ class BalancesController < ApplicationController
             .includes(:order, :client, :agent)
             .order(date: :desc, created_at: :desc)
 
-    scope = scope.where(order_id: params[:order_id]) if params[:order_id].present?
+    # scope = scope.where(order_id: params[:order_id]) if params[:order_id].present?
 
+    # @pagy, @transactions = pagy(scope, items: 10)
+
+    # calculate_totals(scope)
+
+    scope = apply_filters(scope)
     @pagy, @transactions = pagy(scope, items: 10)
-
     calculate_totals(scope)
 
     respond_to do |format|
@@ -35,8 +39,8 @@ class BalancesController < ApplicationController
   end
 
   def apply_filters(scope)
+    scope = scope.where(order_id: params[:order_id]) if params[:order_id].present?
     scope = scope.where(type_id: params[:type_id]) if params[:type_id].present?
-    scope = scope.where(house_id: params[:house_id]) if params[:house_id].present?
     scope
   end
 

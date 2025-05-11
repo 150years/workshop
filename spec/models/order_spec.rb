@@ -9,7 +9,7 @@
 #  status     :integer          default("quotation"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  agent_id   :integer          not null
+#  agent_id   :integer
 #  client_id  :integer          not null
 #  company_id :integer          not null
 #
@@ -31,7 +31,7 @@ RSpec.describe Order, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:company) }
     it { is_expected.to belong_to(:client) }
-    it { is_expected.to belong_to(:agent) }
+    it { is_expected.to have_many(:order_versions) }
   end
 
   describe 'enums' do
@@ -60,17 +60,20 @@ RSpec.describe Order, type: :model do
 
   describe '#latest_version_total' do
     let(:order) { create(:order) }
-    let!(:order_version) { create(:order_version, order: order, final_version: true, total_amount_cents: 1000) }
-    let!(:not_latest_order_version) { create(:order_version, order: order, final_version: false, total_amount_cents: 2000) }
+
+    before do
+      create(:order_version, order:, total_amount_cents: 1000, final_version: false)
+      create(:order_version, order:, total_amount_cents: 2000, final_version: true)
+    end
 
     it 'returns the latest version total amount' do
-      expect(order.latest_version_total).to eq(Money.new(1000, 'THB'))
-      not_latest_order_version.update(final_version: true)
       expect(order.latest_version_total).to eq(Money.new(2000, 'THB'))
     end
 
     it 'returns zero if no final version exists' do
-      order_version.update(final_version: false)
+      # rubocop:disable Rails/SkipsModelValidations
+      order.order_versions.update_all(final_version: false)
+      # rubocop:enable Rails/SkipsModelValidations
       expect(order.latest_version_total).to eq(Money.new(0, 'THB'))
     end
 

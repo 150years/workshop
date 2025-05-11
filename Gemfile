@@ -22,11 +22,13 @@ gem 'rails_app_version', '1.3.2'
 gem 'css-zero', '1.1.15'
 gem 'devise', '4.9.4'
 gem 'pagy', '~> 9.3.4'
-gem 'ransack', '~> 4.3.0'
+gem 'ransack'
 gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'
 gem 'prawn'
 gem 'prawn-table'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # Deploy
 gem 'kamal', require: false
@@ -65,4 +67,6 @@ group :test do
   gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
   gem 'timecop'
+  gem 'rails-controller-testing'
+  gem 'pdf-reader'
 end

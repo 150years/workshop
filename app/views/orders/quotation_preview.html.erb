@@ -1,0 +1,199 @@
+<div class="flex justify-between">
+  <div><%= image_tag "logo_docs.png", alt: "Logo", style: "width: 200px;" %></div>
+  <div class="text-end text-xs">
+    THAI GLAZING CO., LTD (HEAD OFFICE)<br>
+    บริษัท ไทย แกลซิ่ง จำกัด (สำนักงานใหญ่)<br>
+    Address 102/183 Moo 5, T. Rasada A. Muang Phuket 83000<br>
+    Phone: 062-093-9965, email: office@thaiglazing.com<br>
+    Tax ID: 0835565015301
+  </div>
+</div>
+
+<div class="mb-6"></div>
+
+<h1 class="text-3xl font-bold mbe-4 text-center">Quotation / ใบเสนอราคา</h1>
+
+<div class="flex justify-between mb-4">
+  <div class="text-start">
+    <p><strong>Project:</strong> <%= @order.name %></p>
+    <p><strong>Client:</strong> <%= @order.client.name %></p>
+    <p><strong>Contacts:</strong> <%= @order.client.phone %>, <%= @order.client.email %></p>
+    <p><strong>Address:</strong> <%= @order.client.address %></p>
+    <p><strong>Tax ID:</strong> <%= @order.client.tax_id.present? ? @order.client.tax_id : "N/A" %></p>
+  </div>
+  <div class="text-end">
+    <p><strong>Date:</strong> <%= @version.created_at.to_date.strftime("%d.%m.%Y") %></p>  
+    <p><strong>Quotation No:</strong> <%= @version.quotation_number %></p>
+  </div>
+</div>
+
+<table class="quotation" width="100%">
+  <thead>
+    <tr style="text-align: center;" >
+      <th style="text-align: center; width: 30px;">#</th>
+      <th style="text-align: center; width: 100px;">Image</th>
+      <th style="text-align: center;">Product</th>
+      <th style="text-align: center; width: 30px;">Qty</th>
+      <th style="text-align: center; width: 100px;">Unit Price</th>
+      <th style="text-align: center; width: 100px;">Total</th>
+    </tr>
+  </thead>
+  <tbody class="text-start">
+    <% @version.products.each_with_index do |product, i| %>
+    <tr>
+      <td class="text-center"><%= i + 1 %></td>
+      <td class="text-center">
+      <% if product.image.attached? %>
+          <%= image_tag(product.image.variant(resize_to_limit: [100, 100]), width: 80) %>
+      <% end %>
+      </td>
+      <td>
+        Name: <%= product.name %><br>
+        Size: <%= "W#{product.width} x H#{product.height}" %><br>
+        <% glass_components = product.product_components
+                      .includes(:component)
+                      .select { |pc| pc.component.category == "glass" }
+                      .map { |pc| pc.component.name }
+                      .uniq %>
+
+        <% if glass_components.any? %>
+          Glass:
+          <% if glass_components.size == 1 %>
+            <%= glass_components.first %>
+          <% else %>
+            <ul>
+              <% glass_components.each do |name| %>
+                <li><%= name %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>  
+        <%= raw(product.comment.present? ? "<br>Comment: #{product.comment} " : "") %>
+      </td>
+      <td class="text-center"><%= product.quantity %></td>
+      <td class="text-end"><%= number_to_currency(product.price.present? ? product.price : 0, unit: "฿") %></td>
+      <td class="text-end"><%= number_to_currency((product.quantity || 0) * (product.price || 0), unit: "฿") %></td>
+    </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+      <tr>
+        <td colspan="5" class="text-end">Total:</td>
+        <td class="text-end">
+          <%= @version.total_amount.format %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-end">VAT:</td>
+        <td class="text-end">
+          <%= (vat = @version.total_amount*0.07).format %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-end">Grand total:</td>
+        <td class="text-end">
+          <%= (@version.total_amount + vat).format %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-end">Labor:</td>
+        <td class="text-end">
+          <%= @labor_total.format %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-end">Material:</td>
+        <td class="text-end">
+          <%= (@version.total_amount - @labor_total).format %>
+        </td>
+      </tr>
+    </tfoot>
+</table>
+
+<div class="text-start text-xs" style="white-space: pre-line;">
+  <span class="font-bold">Payment / กำหนดการชำระเงิน</span>
+  <% if @version.total_amount.to_f > 50000 %>
+    50%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= (@version.total_amount*0.5).format %>
+    40%  Products ready for installation / สินค้าพร้อมติดตั้ง = <%= (@version.total_amount*0.4).format %>
+    10%  Upon completion of work / เมื่องานเสร็จเรียบร้อย = <%= (@version.total_amount*0.1).format %>
+    Deposit is non-refundable in any cases / มัดจำไม่สามารถคืนได้ในทุก ๆ กรณี 
+  <% elsif @version.total_amount.to_f < 50000 && @version.total_amount.to_f > 20000 %>
+    50% Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= (@version.total_amount*0.5).format %>
+    50% Products ready for installation/ สินค้าพร้อมติดตั้ง = <%= (@version.total_amount*0.5).format %>
+  <% else %>
+    100%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ  = <%= @version.total_amount.format %>
+  <% end %>
+  
+  <span class="font-bold">Agreement / ข้อตกลง</span>
+  1. The final dimensions may change according to the actual site conditions. / ขนาดอาจเปลี่ยนแปลงตามหน้างานจริง.
+  2. Product images are for illustration purposes only and may not exactly represent the final product. Actual delivered products may vary due to improvements or modifications. / ภาพสินค้าที่แสดงเป็นเพียงภาพร่างประกอบเบื้องต้นเท่านั้น ผลิตภัณฑ์จริงอาจแตกต่างกันไป.
+  3. Not included in quotation if not specified separately: preparing the workplace, concrete work, steel support work, wall painting after installation, electricity and water expenses, transportation of materials to high-rise buildings in the case there is no elevator. / ไม่รวมในใบเสนอราคาหากไม่ได้ระบุแยก ได้แก่ การเตรียมสถานที่ งานคอนกรีต งานรองรับเหล็ก งานทาสีผนังหลังติดตั้ง ค่าไฟฟ้าและค่าน้ำ ค่าขนส่งวัสดุขึ้นอาคารสูง กรณีไม่มีลิฟต์.
+  4. The warranty period for installation work is 1 year from the date of handover of works (see warranty conditions below). If the handover document is not signed by the Client, the warranty will not be applicable. / ระยะเวลารับประกันงานติดตั้งคือ 1 ปี นับจากวันที่ส่งมอบงาน (ดูเงื่อนไขการรับประกันด้านล่าง) หากลูกค้าไม่ลงนามในเอกสารการส่งมอบงาน การรับประกันจะไม่มีผลใช้บังคับ.
+  5. Quotation is valid for 15 days after that price may change / ใบเสนอราคาเบื้องต้นยืนราคา - 15 วัน หลังจาก 15 วัน ราคาอาจมีการเปลี่ยนแปลง.
+
+  <span class="font-bold">Installation terms / เงื่อนไขการติดตั้ง</span>
+  1. Material delivery will be completed within 30 working days after receiving the deposit and final site measurements, unless otherwise specified in the contract. / การจัดส่งวัสดุจะเสร็จสิ้นภายใน 30 วันทำการหลังจากได้รับเงินมัดจำและการวัดไซต์ขั้นสุดท้าย เว้นแต่จะระบุไว้เป็นอย่างอื่นในสัญญา.
+  2. Installation must be completed within 30 working days after receiving the second payment, unless otherwise specified in the contract. / การติดตั้งจะต้องเสร็จสิ้นภายใน 30 วันทำการหลังจากได้รับการชำระเงินครั้งที่สอง เว้นแต่จะระบุไว้เป็นอย่างอื่นในสัญญา.
+  3. Any delay in installation may be subject to a claim by the Client; however, such claim cannot exceed the value of the installation payment. / ความล่าช้าของการส่งของทีเกิดจากบริษัทฯจะต้องแจ้งลูกค้าทราบล่วงหน้า และลูกค้าสามารถเรียกร้องสิทธิค่าเสียหายได้แต่ไม่เกินยอดที่ชำระแล้วเท่านั้น.
+
+  The actual delivery and installation schedule will be confirmed upon order placement, based on our current production workload. / กำหนดการจัดส่งและการติดตั้งจริงจะได้รับการยืนยันเมื่อมีการวางคำสั่งซื้อโดยอิงตามปริมาณงานการผลิตปัจจุบันของเรา.
+                
+  <span class="font-bold">Timeline Conditions / เงื่อนไขไทม์ไลน์</span>
+  Any deviation or change from the conditions listed below may result in a delay in the final delivery and installation schedule:
+  การเบี่ยงเบนหรือการเปลี่ยนแปลงใดๆ จากเงื่อนไขที่ระบุไว้ด้านล่างอาจส่งผลให้เกิดความล่าช้าในกำหนดการส่งมอบและติดตั้งขั้นสุดท้าย
+  1. Payment must be made according to the agreed schedule and within 3 days after invoice issuance. / จะต้องชำระเงินตามกำหนดการที่ตกลงกันไว้และภายใน 3 วันหลังจากออกใบแจ้งหนี้.
+  2. There are no changes in product after order received / ไม่มีการเปลี่ยนแปลงใดๆ ในผลิตภัณฑ์หลังจากได้รับคำสั่งซื้อ.
+  3. All openings must be rendered and skimmed on the sides and top before final site measurement. / ต้องฉาบและฉาบผิวช่องเปิดทั้งหมดบนด้านข้างและด้านบนก่อนการวัดไซต์ขั้นสุดท้าย.
+  4. Floors must be fully finished before final measurement and installation. If the bottom opening finishing is not ready, installation can be proceed based on the off-meter line, which will be used to determine the final height and to instruct the construction team on the required floor drop level for each opening. / พื้นต้องเสร็จสมบูรณ์ก่อนการวัดขั้นสุดท้ายและการติดตั้ง หากการตกแต่งช่องเปิดด้านล่างยังไม่พร้อม การติดตั้งสามารถดำเนินการต่อตามเส้นนอกมิเตอร์ ซึ่งจะใช้ในการกำหนดความสูงขั้นสุดท้ายและเพื่อแจ้งทีมงานก่อสร้างเกี่ยวกับระดับการลงพื้นที่จำเป็นสำหรับช่องเปิดแต่ละช่อง.
+  5. Possible production delays due to factory issues or material defects must be considered and accepted as part of the timeline risk. / ต้องพิจารณาและยอมรับความล่าช้าในการผลิตที่อาจเกิดขึ้นเนื่องจากปัญหาของโรงงานหรือข้อบกพร่องของวัสดุเป็นส่วนหนึ่งของความเสี่ยงตามระยะเวลา.
+                
+  <span class="font-bold">Warranty conditions / เงื่อนไขการรับประกัน</span>
+  1. Warranty Period: The Company provides a warranty for a period of one (1) year from the date of installation and Client’s signature on the handover document. / ระยะเวลารับประกัน : บริษัทให้การรับประกันเป็นระยะเวลาหนึ่ง (1) ปี นับจากวันที่ติดตั้งและวันที่ลูกค้าลงนามในเอกสารส่งมอบสินค้า.
+  2. Scope of Warranty: This warranty covers defects in materials and workmanship under normal use and service conditions for products and installation work supplied under this quotation. During the warranty period, the Company will, at its sole discretion, repair or replace any defective part at no additional cost to the Client. / ขอบเขตการรับประกัน:การรับประกันนี้ครอบคลุมถึงข้อบกพร่องในวัสดุและฝีมือการผลิตภายใต้เงื่อนไขการใช้งานและการบริการปกติสำหรับผลิตภัณฑ์และงานติดตั้งที่จัดหาภายใต้ใบเสนอราคาฉบับนี้ ในช่วงระยะเวลาการรับประกัน บริษัทจะซ่อมแซมหรือเปลี่ยนชิ้นส่วนที่ชำรุดตามดุลยพินิจของตนเองโดยไม่มีค่าใช้จ่ายเพิ่มเติมใดๆ สำหรับลูกค้า.
+  3. This warranty does not cover damages or defects resulting from / การรับประกันนี้ไม่ครอบคลุมความเสียหายหรือข้อบกพร่องอันเกิดจาก:
+  * Mechanical damage to profiles, fittings, glass, or mosquito nets not recorded at the time of handover / ความเสียหายทางกลต่อโปรไฟล์ อุปกรณ์ กระจก หรือมุ้งกันยุง ไม่ได้รับการบันทึกไว้ในเวลาที่ส่งมอบ.
+  * Improper installation not performed by company or its authorized agents.การติดตั้งที่ไม่เหมาะสมไม่ได้ดำเนินการโดยบริษัทหรือตัวแทนที่ได้รับอนุญาต.
+  * Unauthorized alterations or modifications. การเปลี่ยนแปลงหรือแก้ไขโดยไม่ได้รับอนุญาต.
+  * Misuse, abuse, or neglect.การใช้ในทางที่ผิดการละเมิดหรือการละเลย.
+  * Normal wear and tear.มีริ้วรอยตามการใช้งานปกติ.
+  * Environmental and natural disasters, including but not limited to, fire, flood, earthquakes, and extreme weather conditions.ภัยพิบัติด้านสิ่งแวดล้อมและธรรมชาติ รวมถึงแต่ไม่จำกัดเพียง ไฟไหม้ น้ำท่วม แผ่นดินไหว และสภาพอากาศที่รุนแรง.
+  4. Warranty Claims: The Client must notify the Company in writing within three (3) days of discovering any defect. Upon notification, the Company will arrange an inspection and carry out necessary repairs or replacements as required under this warranty. /การเรียกร้องการรับประกัน: ลูกค้าต้องแจ้งให้บริษัททราบเป็นลายลักษณ์อักษรภายในสาม (3) วันนับจากวันที่พบข้อบกพร่อง เมื่อได้รับแจ้งแล้ว บริษัทจะดำเนินการตรวจสอบและซ่อมแซมหรือเปลี่ยนสินค้าตามที่จำเป็นภายใต้การรับประกันนี้
+  5. Limitation of Liability: Under no circumstances shall the Company be liable for any incidental, indirect, special, or consequential damages related to the aluminum products supplied
+  The Company's total liability under this warranty shall not exceed the original purchase price of the defective product. /การจำกัดความรับผิด: ไม่ว่าในสถานการณ์ใดก็ตาม บริษัทจะไม่รับผิดชอบต่อความเสียหายโดยบังเอิญ โดยอ้อม พิเศษ หรือเป็นผลสืบเนื่องใดๆ ที่เกิดขึ้นจากหรือเกี่ยวข้องกับผลิตภัณฑ์อะลูมิเนียมที่จัดให้ ความรับผิดของบริษัทภายใต้การรับประกันนี้จะต้องไม่เกินราคาซื้อเดิมของผลิตภัณฑ์ที่มีข้อบกพร่อง.
+
+  <span class="font-bold text-xs">Payment method / ช่องทางการชำระเงิน</span>
+  
+</div>
+
+<table width="100%">
+  <tr>
+    <td rowspan="3" width="200px"><%= image_tag "kbank_logo.png", alt: "Bank Logo", style: "width: 200px;" %></td>
+    <td class="text-end">Bank / ธนาคาร:</td>
+    <td class="text-start">Kasikorn bank (ธนาคารกสิกรไทย)</td>
+  </tr>
+  <tr>
+    <td class="text-end">Account No. / เลขที่บัญชี:</td>
+    <td class="text-start">137-342-6829</td>
+  </tr>
+  <tr>
+    <td class="text-end">Account Name / ชื่อบัญชี:</td>
+    <td class="text-start">Thai Glazing Co., Ltd</td>
+  </tr>
+</table>
+
+<script>
+  function saveAsPdf() {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Quotation</title>');
+    printWindow.document.write(document.head.innerHTML); // переносим стили
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(document.getElementById("print-content").innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
+  }
+</script>

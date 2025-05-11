@@ -1,0 +1,58 @@
+<%= form_with(model: material, local: true) do |form| %>
+  <% if material.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(material.errors.count, "error") %> prohibited this material from being saved:</h2>
+      <ul>
+        <% material.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+<div class="field">
+  <%= form.label :stock %>
+  <%= form.number_field :amount, class: "input", min: 0 %>
+</div>
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :code %>
+    <%= form.text_field :code, class: "input" %>
+  </div>
+
+<div class="field">
+  <label for="material_supplier_id">Supplier</label>
+  <%= form.select :supplier_id,
+          options_from_collection_for_select(Supplier.all, :id, :name, @material.supplier_id),
+        { include_blank: true },
+        class: "input" %>
+</div>
+  
+<%= javascript_include_tag 'application' %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#supplier_select').select2({
+      placeholder: 'Select Supplier',
+      allowClear: true
+    });
+  });
+</script> 
+
+  <div class="field mb-2">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: "input" %>
+  </div>
+
+  <div class="actions gap mt-4">
+    <%= form.submit class: "btn btn--primary"  %>
+    <%= link_to "Back to materials", materials_path, class: "btn" %>
+  </div>
+<% end %>

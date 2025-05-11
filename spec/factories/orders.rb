@@ -9,7 +9,7 @@
 #  status     :integer          default("quotation"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  agent_id   :integer          not null
+#  agent_id   :integer
 #  client_id  :integer          not null
 #  company_id :integer          not null
 #
@@ -27,17 +27,18 @@
 #
 FactoryBot.define do
   factory :order do
+    name { 'Test Order' }
+    status { :quotation }
+    association :client
+    association :agent
     association :company
-    sequence(:name) { |n| "Order #{n}" }
-    status { rand(0..7) }
 
-    after(:build) do |order|
-      order.client ||= create(:client, company: order.company)
-      order.agent ||= create(:agent, company: order.company)
+    trait :with_final_version do
+      after(:create) do |order|
+        create(:order_version, order:, company: order.company, final_version: true)
+      end
     end
-  end
 
-  trait :competed do
-    status { 'completed' }
+    factory :order_with_final_version, traits: [:with_final_version]
   end
 end

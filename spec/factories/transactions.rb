@@ -32,10 +32,10 @@
 #
 FactoryBot.define do
   factory :transaction do
-    date { '2025-03-31' }
-    description { 'MyString' }
-    amount { '9.99' }
-    type_id { 1 }
+    date { Time.zone.today }
+    description { Faker::Lorem.sentence(word_count: 3) }
+    amount { rand(-1000.0..1000.0).round(2) }
+    type_id { Transaction.type_ids.keys.sample }
     order { nil }
     agent { nil }
     client { nil }

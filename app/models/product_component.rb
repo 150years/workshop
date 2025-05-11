@@ -76,8 +76,9 @@ class ProductComponent < ApplicationRecord
   private
 
   def calculate_quantity_real
-    return component.min_quantity if formula.blank?
+    # return component.min_quantity if formula.blank?
     # If the quantity is already calculated during validation, we don't need to calculate it again
+    return 1 if formula.blank? # 👈 значение по умолчанию
     return @calculated_quantity_real if defined?(@calculated_quantity_real) && @calculated_quantity_real.present?
 
     @calculated_quantity_real = evaluate_quantity
@@ -86,8 +87,21 @@ class ProductComponent < ApplicationRecord
   end
 
   def calculate_quantity
-    # If component unit is lines, we need to round up the quantity. For all other units we set the quantity to the real
-    component.unit == 'lines' ? quantity_real&.ceil : quantity_real
+    quantity = formula.blank? ? 1 : evaluate_quantity.to_f
+
+    if component.min_quantity.to_f.positive?
+      min_qty = component.min_quantity.to_f
+      quantity = (quantity / min_qty).ceil * min_qty
+    end
+
+    quantity
+  rescue Dentaku::ParseError,
+         Dentaku::UnboundVariableError,
+         Dentaku::ZeroDivisionError,
+         Dentaku::ArgumentError => e
+
+    errors.add(:formula, e.message)
+    1
   end
 
   def calculate_waste

@@ -1,8 +1,11 @@
 <div id="<%= dom_id order %>" class="card flex flex-col gap">
-  <div class="flex items-center justify-between w-full gap">
-    <h2 class="font-bold text-2xl">#<%= order.id %> <%= order.name %></h2>
-    <div class="badge badge--primary"><%= order.status.humanize %></div>
+  <div class="flex">
+    <h2 class="font-bold text-2xl">#<%= order.id %></h2>
+    <span class="font-bold text-2xl"><%= order.name %></span>
+  </div>
+  <div class="flex items-center justify-end w-full gap">
     <div class="flex items-center gap">
+      <%= link_to "Quotation", quotation_preview_order_path(order), target: "_blank", class: "btn btn--primary no-print" %>
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
       <%= link_to "Copy", new_order_path(copy_from: order.id), class: "btn" %>
@@ -11,12 +14,16 @@
   </div>
   <div class="flex flex-col gap">
     <div class="flex items-center gap">
+      <span class="font-bold">Status: </span>
+      <%= order.status.humanize %>
+    </div>
+    <div class="flex items-center gap">
       <span class="font-bold">Client:</span>
       <span><%= order.client.name %></span>
     </div>
     <div class="flex items-center gap">
       <span class="font-bold">Agent:</span>
-      <span><%= order.agent.name %></span>
+      <span><%= order.agent.name if order.agent.present? %></span>
     </div>
     <div class="flex items-start gap-2 py-1">
     <span class="font-bold mt-1">Files:</span>&nbsp;

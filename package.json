@@ -7,6 +7,11 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.12",
-    "autoprefixer": "^10.4.20"
+    "autoprefixer": "^10.4.20",
+    "jquery": "^3.7.1",
+    "select2": "^4.1.0-rc.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.0.17"
   }
 }

@@ -24,7 +24,12 @@
   <td><%= product.glass_price.format %></td>
   <td><%= product.other_price.format %></td>
   <td><%= product.price.format %></td>
-  <td><%= product.total_price.format %></td>
+  <td><%= product.nett_price.format %></td>
+  <td><%= product.profit_amount.format %></td>
+  <td><%= product.price_with_profit.format %></td>
+  <td><%= product.total_nett_price.format %></td>
+  <td><%= product.total_profit_amount.format %></td>
+  <td><%= product.total_price_with_profit.format %></td>
   <td>
     <%= dropdown_button(
       links: [

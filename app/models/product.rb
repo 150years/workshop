@@ -36,6 +36,12 @@ class Product < ApplicationRecord
   monetize :aluminum_price_cents, with_model_currency: :currency
   monetize :glass_price_cents, with_model_currency: :currency
   monetize :other_price_cents, with_model_currency: :currency
+  monetize :nett_price_cents, with_model_currency: :currency
+  monetize :profit_amount_cents, with_model_currency: :currency
+  monetize :price_with_profit_cents, with_model_currency: :currency
+  monetize :total_nett_price_cents, with_model_currency: :currency
+  monetize :total_profit_amount_cents, with_model_currency: :currency
+  monetize :total_price_with_profit_cents, with_model_currency: :currency
 
   belongs_to :company
   belongs_to :order_version, optional: true
@@ -76,11 +82,10 @@ class Product < ApplicationRecord
   end
 
   def update_price
-    component_total = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
-    # self.price_cents = component_total * (quantity || 1)
-    # Sergey 11.05.25
-    # component_total = product_components.joins(:component).sum('components.price_cents')
-    self.price_cents = component_total
+    # component_total = product_components.joins(:component).sum('components.price_cents * product_components.quantity')
+    # self.price_cents = component_total
+    base = aluminum_price_cents + glass_price_cents + other_price_cents
+    self.price_cents = (base + (base * profit_percentage / 100.0)).round
     save
   end
 
@@ -128,6 +133,30 @@ class Product < ApplicationRecord
                       .sum('components.price_cents * product_components.quantity')
                       .to_i
   end
+  
+  def profit_amount_cents # For 1 product
+    (nett_price_cents * profit_percentage / 100.0).round
+  end
+  
+  def nett_price_cents # For 1 product
+    aluminum_price_cents + glass_price_cents + other_price_cents
+  end
+  
+  def price_with_profit_cents # For 1 product
+    nett_price_cents + profit_amount_cents
+  end
+
+  def total_nett_price_cents # For product x product.quantity
+    (nett_price_cents * (quantity || 1)).round
+  end
+  
+  def total_profit_amount_cents # For product x product.quantity
+    (profit_amount_cents * (quantity || 1)).round
+  end
+  
+  def total_price_with_profit_cents # For product x product.quantity
+    (price_with_profit_cents * (quantity || 1)).round
+  end
 
   private
 
@@ -137,6 +166,10 @@ class Product < ApplicationRecord
       product_component.set_quantity_fields
       product_component.save
     end
+  end
+
+  def profit_percentage
+    order_version&.profit.to_f
   end
 
   def update_order_version_total_amount
@@ -156,4 +189,5 @@ class Product < ApplicationRecord
       throw :abort
     end
   end
+  
 end

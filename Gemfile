@@ -64,7 +64,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 6.0'
+  gem 'shoulda-matchers', '~> 6.5'
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'rails-controller-testing'

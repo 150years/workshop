@@ -99,11 +99,30 @@ class OrdersController < ApplicationController
     @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
   end
 
+  # def calculate_labor_total(version)
+  #   total = version.products.includes(product_components: :component).sum do |product|
+  #     product.product_components
+  #            .select { |pc| pc.component.name.to_s.downcase.include?('labor') }
+  #            .sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
+  #   end
+
+  #   # применяем наценку и создаём Money-объект
+  #   amount_with_profit = (total * (1 + (version.profit.to_f / 100))).round * 1.07
+  #   Money.new(amount_with_profit, version.currency || 'THB')
+  # end
+
   def calculate_labor_total(version)
-    version.products.includes(product_components: :component).sum do |product|
-      product.product_components
-             .select { |pc| pc.component.name.to_s.downcase.include?('labor') }
-             .sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
+    total_cents = version.products.includes(product_components: :component).sum do |product|
+      labor_component_price(product)
     end
+
+    total_with_profit_cents = (total_cents * (1 + (version.profit.to_f / 100))).round
+    Money.new(total_with_profit_cents, version.currency || 'THB')
+  end
+
+  def labor_component_price(product)
+    product.product_components
+           .select { |pc| pc.component.name.to_s.downcase.include?('labor') }
+           .sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price_cents || 0) }
   end
 end

@@ -79,14 +79,16 @@ RSpec.describe OrderVersion, type: :model do
   end
 
   describe '#update_total_amount' do
-    it 'sums the product prices (which already include quantity)' do
-      order_version = create(:order_version)
-      create(:product, order_version: order_version, price_cents: 1000, quantity: 2) # → price_cents = 2000
-      create(:product, order_version: order_version, price_cents: 1500, quantity: 1) # → price_cents = 1500
+    it 'sums the total_price_with_profit_cents of each product' do
+      order_version = create(:order_version, profit: 30)
+      product1 = create(:product, order_version: order_version, price_cents: 1000, quantity: 2)
+      product2 = create(:product, order_version: order_version, price_cents: 1500, quantity: 1)
 
       order_version.update_total_amount
 
-      expect(order_version.total_amount_cents).to eq((1000 * 2) + 1500)
+      expected_total = product1.total_price_with_profit_cents + product2.total_price_with_profit_cents
+
+      expect(order_version.total_amount_cents).to eq(expected_total)
     end
   end
 end

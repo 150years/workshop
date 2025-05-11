@@ -27,6 +27,8 @@
 #  order_version_id  (order_version_id => order_versions.id)
 #
 class Product < ApplicationRecord
+  include PriceCalculations
+
   attribute :from_template, :boolean, default: false
   attribute :template_id, :integer
 
@@ -113,51 +115,6 @@ class Product < ApplicationRecord
     2 * (width + height)
   end
 
-  def aluminum_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'aluminum' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-
-  def glass_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'glass' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-
-  def other_price_cents
-    product_components.joins(:component)
-                      .where(components: { category: 'other' })
-                      .sum('components.price_cents * product_components.quantity')
-                      .to_i
-  end
-  
-  def profit_amount_cents # For 1 product
-    (nett_price_cents * profit_percentage / 100.0).round
-  end
-  
-  def nett_price_cents # For 1 product
-    aluminum_price_cents + glass_price_cents + other_price_cents
-  end
-  
-  def price_with_profit_cents # For 1 product
-    nett_price_cents + profit_amount_cents
-  end
-
-  def total_nett_price_cents # For product x product.quantity
-    (nett_price_cents * (quantity || 1)).round
-  end
-  
-  def total_profit_amount_cents # For product x product.quantity
-    (profit_amount_cents * (quantity || 1)).round
-  end
-  
-  def total_price_with_profit_cents # For product x product.quantity
-    (price_with_profit_cents * (quantity || 1)).round
-  end
-
   private
 
   def recalculate_product_components_amount
@@ -189,5 +146,4 @@ class Product < ApplicationRecord
       throw :abort
     end
   end
-  
 end

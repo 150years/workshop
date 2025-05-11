@@ -245,4 +245,55 @@ RSpec.describe '/orders', type: :request do
       end
     end
   end
+
+  describe 'Quotation Preview' do
+    it 'shows correct details same as confirmed order' do
+      # company = create(:company)
+      # user = create(:user, company: company)
+      # sign_in user
+  
+      aluminium1 = create(:component, name: 'Frame', code: 'F001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 189_000, length: 6400, category: 'aluminum')
+      aluminium2 = create(:component, name: 'Frame_lock', code: 'FL001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 46_000, length: 6400, category: 'aluminum')
+      glass = create(:component, name: 'Glass', code: 'GL1', unit: 'm2', price_cents: 308_000, category: 'glass')
+      misc = create(:component, name: 'Misc', code: 'M1', unit: 'lot', price_cents: 20_000, category: 'other')
+      labor = create(:component, name: 'Labor', code: 'L1', unit: 'lot', price_cents: 60_000, category: 'other')
+      admin = create(:component, name: 'Administration', code: 'A1', unit: 'lot', price_cents: 10_000, category: 'other')
+  
+      order = create(:order, company: company)
+      version = create(:order_version, order: order, final_version: true)
+  
+      product1 = create(:product, order_version: version, name: 'Fixed window', width: 2000, height: 3000, quantity: 3)
+      create(:product_component, product: product1, component: aluminium1, formula: 'product_perimeter/6.4')
+      create(:product_component, product: product1, component: aluminium2, formula: 'product_perimeter/6.4')
+      create(:product_component, product: product1, component: glass, formula: 'product_area')
+      create(:product_component, product: product1, component: misc, formula: 'product_area')
+      create(:product_component, product: product1, component: labor, formula: 'product_area')
+      create(:product_component, product: product1, component: admin, formula: 'product_area')
+  
+      product2 = create(:product, order_version: version, name: 'Glass only', width: 1000, height: 1000, quantity: 1)
+      create(:product_component, product: product2, component: glass, formula: 'product_area')
+  
+      get quotation_preview_order_path(order)
+  
+      expect(response.body).to include('Fixed window')
+      expect(response.body).to include('Glass only')
+  
+      # Проверки цен на Product1
+      expect(response.body).to include('28,580.00') # unit price
+      expect(response.body).to include('85,740.00') # total price
+  
+      # Проверки цен на Product2
+      expect(response.body).to include('฿3,080.00')
+  
+      # Общая сумма
+      expect(response.body).to include('88,820.00')
+      expect(response.body).to include('6,217.40') # VAT
+      expect(response.body).to include('95,037.40') # Grand total
+  
+      # Проверка Labor и Material
+      expect(response.body).to include('Labor:')
+      expect(response.body).to include('10,800.00') # labor total
+      expect(response.body).to include('78,020.00') # material
+    end
+  end
 end

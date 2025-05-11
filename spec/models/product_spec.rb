@@ -221,9 +221,9 @@ RSpec.describe Product, type: :model do
     it 'updates the quantity of each product component' do
       expect { product.reload.update(width: 7000, height: 8000) }
         .to change { product_component1.reload.quantity }
-        .from(1000).to(7000)
+        .from(1).to(7)
         .and change { product_component2.reload.quantity }
-        .from(1000).to(8000)
+        .from(1).to(8)
     end
   end
 

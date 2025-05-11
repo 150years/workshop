@@ -122,7 +122,7 @@ RSpec.describe ProductComponent, type: :model do
 
           product_component.set_quantity_fields
 
-          expect(product_component.quantity_real).to eq(100_000_000)
+          expect(product_component.quantity_real).to eq(100)
         end
 
         it 'returns component.min_quantity if formula is blank' do
@@ -208,7 +208,7 @@ RSpec.describe ProductComponent, type: :model do
       it 'rounds up to the nearest multiple of min_quantity, when quantity > min_quantity' do
         component = create(:component, price_cents: 1000, min_quantity: 1)
         product = create(:product, width: 8000, height: 2200)
-        pc = create(:product_component, component: component, product: product, formula: 'product_width / 6400')
+        pc = create(:product_component, component: component, product: product, formula: 'product_width / 6.4')
 
         quantity = pc.send(:calculate_quantity)
         # product.product_components.includes(:component).find_each do |pc|
@@ -224,7 +224,7 @@ RSpec.describe ProductComponent, type: :model do
       it 'rounds up to nearest multiple of min_quantity when min_quantity > 1' do
         component = create(:component, price_cents: 1000, min_quantity: 2)
         product = create(:product, width: 9000, height: 2200)
-        pc = create(:product_component, component: component, product: product, formula: 'product_width*2 / 6400')
+        pc = create(:product_component, component: component, product: product, formula: 'product_width*2 / 6.4')
 
         quantity = pc.send(:calculate_quantity)
         # product.product_components.includes(:component).find_each do |pc|
@@ -234,7 +234,7 @@ RSpec.describe ProductComponent, type: :model do
         # puts "final quantity: #{quantity}"
         # puts "min_quantity: #{component.min_quantity}"
 
-        expect(quantity).to eq(4) # 18000 / 4000 = 2,8125 → round up to next multiple of 2 = 4
+        expect(quantity).to eq(4) # 18 / 6.4 = 2,8125 → round up to next multiple of 2 = 4
       end
 
       context 'when component unit is lines' do

@@ -68,4 +68,5 @@ group :test do
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'rails-controller-testing'
+  gem 'pdf-reader'
 end

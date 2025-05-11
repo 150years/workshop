@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (2.0.1)
     actioncable (8.0.2)
       actionpack (= 8.0.2)
       activesupport (= 8.0.2)
@@ -74,6 +75,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    afm (0.2.2)
     amazing_print (1.7.2)
     annotaterb (4.14.0)
     ast (2.4.3)
@@ -158,6 +160,7 @@ GEM
       ruby-progressbar (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashery (2.1.2)
     hotwire-spark (0.1.13)
       listen
       rails (>= 7.0.0)
@@ -257,6 +260,12 @@ GEM
       ast (~> 2.4.1)
       racc
     pdf-core (0.10.0)
+    pdf-reader (2.14.1)
+      Ascii85 (>= 1.0, < 3.0, != 2.0.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pp (0.6.2)
       prettyprint
     prawn (2.5.0)
@@ -388,6 +397,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby-rc4 (0.1.5)
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
@@ -506,6 +516,7 @@ DEPENDENCIES
   letter_opener_web
   money-rails (~> 1.12)
   pagy (~> 9.3.4)
+  pdf-reader
   prawn
   prawn-table
   propshaft

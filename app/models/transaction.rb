@@ -37,23 +37,24 @@ class Transaction < ApplicationRecord
 
   has_many_attached :files
   enum :type_id, {
-    consumables: 20,
-    equipment: 23,
-    payment: 6,
-    gasoline: 12,
-    equipment_maintenance: 24,
-    investments: 28,
-    materials: 25,
-    office: 13,
-    other: 16,
-    repair: 2,
-    salary: 11,
-    taxes: 22,
-    accounting: 30,
-    top_up: 4,
-    utilities: 7,
+    repair: 1,
+    top_up: 2,
+    payment: 3,
+    utilities: 4,
+    gasoline: 5,
+    salary: 6,
+    petty_cash: 7,
     yearly_contracts: 8,
-    petty_cash: 9
+    office: 9,
+    other: 10,
+    taxes: 11,
+    consumables: 12,
+    materials: 13,
+    equipment: 14,
+    equipment_maintenance: 15,
+    investments: 16,
+    accounting: 17,
+    transportation: 18
   }
 
   validates :date, :amount, :type_id, presence: true
@@ -68,5 +69,9 @@ class Transaction < ApplicationRecord
 
   def expense?
     amount.negative?
+  end
+
+  def amount_money
+    Money.from_amount(amount.abs)
   end
 end

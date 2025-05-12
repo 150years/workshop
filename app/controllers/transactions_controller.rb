@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
+  before_action :set_transaction, only: %i[edit update destroy]
+
   def index
     @search = Transaction.ransack(params[:q])
     @transactions = @search.result.includes(:order, :client, :agent).order(date: :desc)
@@ -12,7 +14,8 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    @transaction = Transaction.find(params[:id])
+    # @transaction = Transaction.find(params[:id])
+    redirect_to balances_path, alert: 'Editing not allowed after 7 days.' unless @transaction.editable?
   end
 
   def create
@@ -26,7 +29,9 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    @transaction = Transaction.find(params[:id])
+    # @transaction = Transaction.find(params[:id])
+    redirect_to balances_path, alert: 'Editing not allowed after 7 days.' and return unless @transaction.editable?
+
     if @transaction.update(transaction_params)
       redirect_to balances_path, notice: 'Transaction updated'
     else
@@ -35,7 +40,9 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
-    @transaction = Transaction.find(params[:id])
+    # @transaction = Transaction.find(params[:id])
+    redirect_to balances_path, alert: 'Editing not allowed after 7 days.' and return unless @transaction.editable?
+
     @transaction.destroy
     redirect_to balances_path, notice: 'Transaction was successfully deleted.', status: :see_other
   end
@@ -49,6 +56,10 @@ class TransactionsController < ApplicationController
   end
 
   private
+
+  def set_transaction
+    @transaction = Transaction.find(params[:id])
+  end
 
   def transaction_params
     params.expect(

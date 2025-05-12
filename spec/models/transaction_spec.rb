@@ -33,5 +33,15 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#editable?' do
+    it 'returns true for recent transactions' do
+      t = build(:transaction, created_at: 2.days.ago)
+      expect(t.editable?).to be true
+    end
+
+    it 'returns false for transactions older than 7 days' do
+      t = build(:transaction, created_at: 8.days.ago)
+      expect(t.editable?).to be false
+    end
+  end
 end

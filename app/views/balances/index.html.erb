@@ -77,8 +77,12 @@
               <% end %>
             </td>
             <td>
-              <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600", data: {turbo_frame: "_top"} %> |
-              <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
+              <% if transaction.editable? %>
+                <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600", data: {turbo_frame: "_top"} %> |
+                <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
+              <% else %>
+                <span class="text-gray-400 italic">Locked</span>
+              <% end %>
             </td>
           </tr>
         <% end %>

@@ -74,4 +74,8 @@ class Transaction < ApplicationRecord
   def amount_money
     Money.from_amount(amount.abs)
   end
+
+  def editable?
+    created_at.to_date >= 7.days.ago.to_date
+  end
 end

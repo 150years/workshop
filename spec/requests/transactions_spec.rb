@@ -58,4 +58,35 @@ RSpec.describe 'Transactions', type: :request do
       expect(transaction.description).to eq('Updated by spec')
     end
   end
+
+  describe 'PATCH /update restrictions' do
+    let!(:recent_transaction) { create(:transaction, date: Time.zone.today, created_at: 2.days.ago, amount: 1000) }
+    let!(:old_transaction)    { create(:transaction, date: Time.zone.today, created_at: 10.days.ago, amount: 1000) }
+
+    it 'allows updating recent transaction' do
+      patch transaction_path(recent_transaction), params: {
+        transaction: { amount: 2000 }
+      }
+
+      expect(response).to redirect_to(balances_path)
+      follow_redirect!
+      expect(response.body).to include('Transaction updated')
+
+      recent_transaction.reload
+      expect(recent_transaction.amount).to eq(2000)
+    end
+
+    it 'blocks updating old transaction' do
+      patch transaction_path(old_transaction), params: {
+        transaction: { amount: 2000 }
+      }
+
+      expect(response).to redirect_to(balances_path)
+      follow_redirect!
+      expect(response.body).to include('Editing not allowed after 7 days.')
+
+      old_transaction.reload
+      expect(old_transaction.amount).to eq(1000)
+    end
+  end
 end

@@ -25,6 +25,15 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def update
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update(transaction_params)
+      redirect_to balances_path, notice: 'Transaction updated'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @transaction = Transaction.find(params[:id])
     @transaction.destroy

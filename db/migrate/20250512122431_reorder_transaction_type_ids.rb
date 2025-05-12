@@ -21,6 +21,7 @@ class ReorderTransactionTypeIds < ActiveRecord::Migration[8.0]
     30 => 17  # accounting
   }.freeze
 
+  # rubocop:disable Rails/SkipsModelValidations
   def up
     OLD_TO_NEW.each do |old, new|
       Transaction.where(type_id: old).update_all(type_id: new)
@@ -32,4 +33,5 @@ class ReorderTransactionTypeIds < ActiveRecord::Migration[8.0]
       Transaction.where(type_id: new).update_all(type_id: old)
     end
   end
+  # rubocop:enable Rails/SkipsModelValidations
 end

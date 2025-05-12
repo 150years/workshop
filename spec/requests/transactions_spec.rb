@@ -40,4 +40,22 @@ RSpec.describe 'Transactions', type: :request do
       expect(response).to redirect_to(balances_path)
     end
   end
+
+  describe 'PATCH /update' do
+    let!(:transaction) { create(:transaction, date: Time.zone.today, amount: 1000, description: 'Original', type_id: 'payment') }
+
+    it 'updates the transaction' do
+      patch transaction_path(transaction), params: {
+        transaction: {
+          amount: 2500,
+          description: 'Updated by spec'
+        }
+      }
+
+      expect(response).to redirect_to(balances_path)
+      transaction.reload
+      expect(transaction.amount).to eq(2500)
+      expect(transaction.description).to eq('Updated by spec')
+    end
+  end
 end

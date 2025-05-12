@@ -53,7 +53,7 @@
             <td class="text-red-600"><%= transaction.amount.negative? ?  transaction.amount_money.format : "-" %></td>
             <td><%= format_money(balance) %></td>
             <td><%= transaction.type_id.humanize %></td>
-            <td><%= transaction.order&.name || "-" %></td>
+            <td><%= "##{transaction.order&.id} #{transaction.order&.name}" if transaction.order.present? %></td>
             <td><%= transaction.description || "-" %></td>
             <td>
               <% if transaction.files.attached? %>

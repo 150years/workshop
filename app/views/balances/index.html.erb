@@ -49,38 +49,32 @@
           <% balance += transaction.amount %>
           <tr>
             <td><%= transaction.date.strftime("%d.%m.%Y") %></td>
-            <td class="text-red-600"><%= transaction.amount.negative? ? number_to_currency(transaction.amount.abs) : "-" %></td>
-            <td class="text-green-600"><%= transaction.amount.positive? ? number_to_currency(transaction.amount) : "-" %></td>
-            <td><%= number_to_currency(balance) %></td>
+            <td class="text-green-600"><%= transaction.amount.positive? ? transaction.amount_money.format : "-" %></td>
+            <td class="text-red-600"><%= transaction.amount.negative? ?  transaction.amount_money.format : "-" %></td>
+            <td><%= format_money(balance) %></td>
             <td><%= transaction.type_id.humanize %></td>
             <td><%= transaction.order&.name || "-" %></td>
             <td><%= transaction.description || "-" %></td>
             <td>
-            <% if transaction.files.attached? %>
-            <ul>
-              <% transaction.files.each do |file| %>
-            <li class="flex items-center gap-2">
-            <%= link_to file.filename.to_s, url_for(file), class: "text-sm", target: "_blank" %>
-            <%= link_to rails_blob_path(file, disposition: "attachment"), class: "btn btn--ghost p-1" do %>
-              <%= image_tag "download.svg", size: 16 %>
-            <% end %>
-            
-<%= button_to destroy_attachment_transaction_path(transaction, file_id: file.id),
-              method: :delete,
-              data: { turbo_confirm: "Удалить файл?" },
-              class: "btn btn--ghost p-1 text-red-600" do %>
-  <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
-<% end %>
-
-
-
-
-
-            </li>
-            <% end %>
-
-              </ul>
-            <% end %>
+              <% if transaction.files.attached? %>
+              <ul>
+                <% transaction.files.each do |file| %>
+                <li class="flex items-center gap-2">
+                  <%= link_to file.filename.to_s, url_for(file), class: "text-sm", target: "_blank" %>
+                  <%= link_to rails_blob_path(file, disposition: "attachment"), class: "btn btn--ghost p-1" do %>
+                    <%= image_tag "download.svg", size: 16 %>
+                  <% end %>
+                  
+                  <%= button_to destroy_attachment_transaction_path(transaction, file_id: file.id),
+                                method: :delete,
+                                data: { turbo_confirm: "Удалить файл?" },
+                                class: "btn btn--ghost p-1 text-red-600" do %>
+                    <%= image_tag "x.svg", size: 16, aria: { hidden: true } %>
+                  <% end %>
+                </li>
+                <% end %>
+                </ul>
+              <% end %>
             </td>
             <td>
               <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600", data: {turbo_frame: "_top"} %> |
@@ -92,10 +86,10 @@
       <tfoot>
   <tr class="font-bold text-sm bg-gray-100">
     <td class="text-end" colspan="1">Totals:</td>
-    <td class="text-red-600"><%= number_to_currency(@expense || 0).gsub('-', '') %></td>
-    <td class="text-green-600"><%= number_to_currency(@income || 0) %></td>
+    <td class="text-green-600"><%= format_money(@income) %></td>
+    <td class="text-red-600"><%= format_money(@expense) %></td>
     <td class="<%= @balance.to_f < 0 ? 'text-red-600' : 'text-green-600' %>">
-      <%= number_to_currency(@balance || 0) %>
+      <%= format_money(@balance) %>
     </td>
     <td colspan="5"></td>
   </tr>

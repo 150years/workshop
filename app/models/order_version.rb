@@ -78,7 +78,7 @@ class OrderVersion < ApplicationRecord
 
   def full_quotation_number
     base = quotation_number
-    return base unless quotation_custom_code.present?
+    return base if quotation_custom_code.blank?
 
     base.sub(/(QT_TGT_\d{8})(?=_V\d+)/) { "#{::Regexp.last_match(1)}/#{quotation_custom_code}" }
   end

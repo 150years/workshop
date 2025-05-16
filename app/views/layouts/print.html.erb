@@ -21,6 +21,13 @@
       <small class="no-print" style="display: block; text-align: right; margin-bottom: 1rem;">
         <em>⚠️ In the print dialog, uncheck "Headers and footers" to remove page info.</em>
       </small>
+      <div class="no-print" style="margin-bottom: 1rem; text-align: right;">
+        <%= form_with url: add_custom_code_order_path(@version.order, version_id: @version.id), method: :patch, local: true do %>
+          <label>Custom Code:</label>
+          <%= text_field_tag :custom_code, @version.quotation_custom_code, placeholder: "e.g. 17" %>
+          <%= submit_tag "Apply", class: "btn btn--primary" %>
+        <% end %>
+      </div>
       <div class="a4-page">
         <%= yield %>
       </div>

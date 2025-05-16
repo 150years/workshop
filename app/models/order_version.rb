@@ -4,17 +4,18 @@
 #
 # Table name: order_versions
 #
-#  id                 :integer          not null, primary key
-#  agent_comm         :integer          default(0), not null
-#  final_version      :boolean          default(FALSE), not null
-#  profit             :integer          default(0), not null
-#  quotation_number   :string
-#  total_amount_cents :integer          default(0), not null
-#  version_note       :text
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  company_id         :integer          not null
-#  order_id           :integer          not null
+#  id                    :integer          not null, primary key
+#  agent_comm            :integer          default(0), not null
+#  final_version         :boolean          default(FALSE), not null
+#  profit                :integer          default(0), not null
+#  quotation_custom_code :string
+#  quotation_number      :string
+#  total_amount_cents    :integer          default(0), not null
+#  version_note          :text
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  company_id            :integer          not null
+#  order_id              :integer          not null
 #
 # Indexes
 #
@@ -73,6 +74,13 @@ class OrderVersion < ApplicationRecord
     today = Time.zone.today
     version_number = (order.order_versions.count + 1).to_s
     self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
+  end
+
+  def full_quotation_number
+    base = quotation_number
+    return base unless quotation_custom_code.present?
+
+    base.sub(/(QT_TGT_\d{8})(?=_V\d+)/) { "#{::Regexp.last_match(1)}/#{quotation_custom_code}" }
   end
 
   def pdf_filename(order)

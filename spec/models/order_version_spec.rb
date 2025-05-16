@@ -4,17 +4,18 @@
 #
 # Table name: order_versions
 #
-#  id                 :integer          not null, primary key
-#  agent_comm         :integer          default(0), not null
-#  final_version      :boolean          default(FALSE), not null
-#  profit             :integer          default(0), not null
-#  quotation_number   :string
-#  total_amount_cents :integer          default(0), not null
-#  version_note       :text
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  company_id         :integer          not null
-#  order_id           :integer          not null
+#  id                    :integer          not null, primary key
+#  agent_comm            :integer          default(0), not null
+#  final_version         :boolean          default(FALSE), not null
+#  profit                :integer          default(0), not null
+#  quotation_custom_code :string
+#  quotation_number      :string
+#  total_amount_cents    :integer          default(0), not null
+#  version_note          :text
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  company_id            :integer          not null
+#  order_id              :integer          not null
 #
 # Indexes
 #

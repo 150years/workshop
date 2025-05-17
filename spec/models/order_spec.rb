@@ -70,11 +70,11 @@ RSpec.describe Order, type: :model do
       expect(order.latest_version_total).to eq(Money.new(2000, 'THB'))
     end
 
-    it 'returns zero if no final version exists' do
+    it 'returns latest order_vertion total if no final version exists' do
       # rubocop:disable Rails/SkipsModelValidations
       order.order_versions.update_all(final_version: false)
       # rubocop:enable Rails/SkipsModelValidations
-      expect(order.latest_version_total).to eq(Money.new(0, 'THB'))
+      expect(order.latest_version_total).to eq(Money.new(2000, 'THB'))
     end
 
     it 'returns zero if no order versions exist' do

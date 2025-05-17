@@ -14,9 +14,7 @@ RSpec.describe '/orders', type: :request do
   let(:valid_attributes) { { name: 'Order 1', client_id: client.id, agent_id: agent.id } }
   let(:invalid_attributes) { { client_id: nil, agent_id: nil } }
 
-  before do
-    sign_in user
-  end
+  before { sign_in user }
 
   describe 'GET /index' do
     it 'renders a successful response' do

@@ -54,9 +54,17 @@ class Order < ApplicationRecord
     %w[client agent]
   end
 
+  # def latest_version_total
+  #   cents = order_versions.where(final_version: true).limit(1).pick(:total_amount_cents) || 0
+  #   Money.new(cents, 'THB')
+  # end
+
+  def final_or_latest_version
+    order_versions.order(final_version: :desc, created_at: :desc).first
+  end
+
   def latest_version_total
-    cents = order_versions.where(final_version: true).limit(1).pick(:total_amount_cents) || 0
-    Money.new(cents, 'THB')
+    Money.new(final_or_latest_version&.total_amount_cents || 0, 'THB')
   end
 
   private

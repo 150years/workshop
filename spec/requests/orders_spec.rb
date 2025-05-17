@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
 RSpec.describe '/orders', type: :request do
   let(:company) { create(:company) }
   let(:user) { create(:user, company:) }
@@ -12,20 +11,8 @@ RSpec.describe '/orders', type: :request do
   let!(:order) { create(:order, name: 'Company A Order', company:) }
   let!(:another_order) { create(:order, name: 'Company B Order', company: another_company) }
 
-  let(:valid_attributes) do
-    {
-      name: 'Order 1',
-      client_id: client.id,
-      agent_id: agent.id
-    }
-  end
-
-  let(:invalid_attributes) do
-    {
-      client_id: nil,
-      agent_id: nil
-    }
-  end
+  let(:valid_attributes) { { name: 'Order 1', client_id: client.id, agent_id: agent.id } }
+  let(:invalid_attributes) { { client_id: nil, agent_id: nil } }
 
   before do
     sign_in user
@@ -173,11 +160,7 @@ RSpec.describe '/orders', type: :request do
 
   describe 'PATCH /update' do
     context 'with valid parameters' do
-      let(:new_attributes) do
-        {
-          name: 'New name'
-        }
-      end
+      let(:new_attributes) { { name: 'New name' } }
 
       it 'updates the requested order' do
         patch order_url(order), params: { order: new_attributes }
@@ -275,13 +258,11 @@ RSpec.describe '/orders', type: :request do
       expect(response.body).to include('Fixed window')
       expect(response.body).to include('Glass only')
 
-      # Проверки цен на Product1
-      # expect(response.body).to include('28,580.00') # unit price
+      # Проверки цен на Product1б expect(response.body).to include('28,580.00') # unit price
       expect(response.body).to include('37,154.00') # unit price
       expect(response.body).to include('111,462.00') # total price
 
-      # Проверки цен на Product2
-      expect(response.body).to include('4,134.00')
+      expect(response.body).to include('4,134.00') # Проверки цен на Product2
 
       # Общая сумма
       expect(response.body).to include('115,596.00')
@@ -307,6 +288,30 @@ RSpec.describe '/orders', type: :request do
       follow_redirect!
 
       expect(order_version.reload.quotation_custom_code).to eq('17')
+    end
+  end
+
+  describe 'order total is calculated correctly' do
+    let!(:order_version) { create(:order_version, order: order, profit: 30) }
+    let!(:product) { create(:product, name: 'Fixed window', width: 600, height: 600, quantity: 3, order_version: order_version, company: company) }
+    let!(:component) { create(:component, name: 'Frame', code: 'Frame01', unit: :lines, length: 6400, min_quantity: 1, price_cents: 209_500, category: :aluminum) }
+    let!(:product_component) { create(:product_component, product: product, component: component, formula: 'product_width / component_length') }
+
+    before do
+      product_component.send(:set_quantity_fields)
+      product_component.save!
+      product.update_price
+      order_version.update_total_amount
+    end
+
+    it 'shows correct product total on /orders' do
+      get orders_path
+      expect(response.body).to include('฿8,170.50') # ошибка — ожидается ненулевое значение
+    end
+
+    it 'shows correct total on order version page directly' do
+      get order_version_path(order, order_version)
+      expect(response.body).to include('8,170.50') # total_amount formatted
     end
   end
 end

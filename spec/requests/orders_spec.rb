@@ -248,10 +248,6 @@ RSpec.describe '/orders', type: :request do
 
   describe 'Quotation Preview' do
     it 'shows correct details same as confirmed order' do
-      # company = create(:company)
-      # user = create(:user, company: company)
-      # sign_in user
-
       aluminium1 = create(:component, name: 'Frame', code: 'F001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 189_000, length: 6400, category: 'aluminum')
       aluminium2 = create(:component, name: 'Frame_lock', code: 'FL001', unit: 'lines', color: 'Black', min_quantity: 1, price_cents: 46_000, length: 6400, category: 'aluminum')
       glass = create(:component, name: 'Glass', code: 'GL1', unit: 'm2', price_cents: 308_000, category: 'glass')
@@ -296,6 +292,21 @@ RSpec.describe '/orders', type: :request do
       expect(response.body).to include('Labor:')
       expect(response.body).to include('15,022.80') # labor total
       expect(response.body).to include('108,664.92') # material
+    end
+  end
+
+  describe 'PATCH /orders/:id/add_custom_code' do
+    let!(:order_version) { create(:order_version, order:, quotation_number: 'QT_TGT_20250516_V1') }
+
+    it 'updates the quotation_custom_code and redirects to quotation preview' do
+      patch add_custom_code_order_path(order, version_id: order_version.id), params: {
+        custom_code: '17'
+      }
+
+      expect(response).to redirect_to(quotation_preview_order_path(order))
+      follow_redirect!
+
+      expect(order_version.reload.quotation_custom_code).to eq('17')
     end
   end
 end

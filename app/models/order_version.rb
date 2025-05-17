@@ -76,6 +76,13 @@ class OrderVersion < ApplicationRecord
     self.quotation_number = "QT_TGT_#{today.strftime('%Y%m%d')}_V#{version_number}"
   end
 
+  def full_quotation_number
+    base = quotation_number
+    return base if quotation_custom_code.blank?
+
+    base.sub(/(QT_TGT_\d{8})(?=_V\d+)/) { "#{::Regexp.last_match(1)}/#{quotation_custom_code}" }
+  end
+
   def pdf_filename(order)
     "#{Time.zone.today.strftime('%Y_%m_%d')}_#{quotation_number}_#{order.name.parameterize(separator: '_')}.pdf"
   end

@@ -23,7 +23,7 @@
   </div>
   <div class="text-end">
     <p><strong>Date:</strong> <%= @version.created_at.to_date.strftime("%d.%m.%Y") %></p>  
-    <p><strong>Quotation No:</strong> <%= @version.quotation_number %></p>
+    <p><strong>Quotation No:</strong> <%= @version.full_quotation_number %></p>
   </div>
 </div>
 
@@ -180,20 +180,3 @@
     <td class="text-start">Thai Glazing Co., Ltd</td>
   </tr>
 </table>
-
-<script>
-  function saveAsPdf() {
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Quotation</title>');
-    printWindow.document.write(document.head.innerHTML); // переносим стили
-    printWindow.document.write('</head><body>');
-    printWindow.document.write(document.getElementById("print-content").innerHTML);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 500);
-  }
-</script>

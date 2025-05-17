@@ -70,6 +70,12 @@ class OrdersController < ApplicationController
     render layout: 'print'
   end
 
+  def add_custom_code
+    version = OrderVersion.find(params[:version_id])
+    version.update(quotation_custom_code: params[:custom_code])
+    redirect_to quotation_preview_order_path(version.order)
+  end
+
   def send_quotation_email
     OrderMailer.with(order: @order).quotation_email.deliver_later
 
@@ -98,18 +104,6 @@ class OrdersController < ApplicationController
   def set_final_version
     @version = @order.order_versions.find_by(final_version: true) || @order.order_versions.last
   end
-
-  # def calculate_labor_total(version)
-  #   total = version.products.includes(product_components: :component).sum do |product|
-  #     product.product_components
-  #            .select { |pc| pc.component.name.to_s.downcase.include?('labor') }
-  #            .sum { |pc| product.quantity.to_f * pc.quantity.to_f * (pc.component.price || 0) }
-  #   end
-
-  #   # применяем наценку и создаём Money-объект
-  #   amount_with_profit = (total * (1 + (version.profit.to_f / 100))).round * 1.07
-  #   Money.new(amount_with_profit, version.currency || 'THB')
-  # end
 
   def calculate_labor_total(version)
     total_cents = version.products.includes(product_components: :component).sum do |product|

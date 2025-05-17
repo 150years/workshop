@@ -24,9 +24,8 @@ Rails.application.routes.draw do
     delete :remove_file, on: :member
     member do
       get :quotation_preview
-      post :send_quotation_email
-      # get :quotation_pdf
-      # get :components_order
+      # post :send_quotation_email
+      patch :add_custom_code
     end
   end 
   resources :transactions do

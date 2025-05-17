@@ -1,5 +1,10 @@
 ---
 releases:
+- version: 0.36.0
+  date: 17-05-2025
+  notes:
+  - 'Order - add ability to edit quantity manually'
+  - 'Order - add ability to ammend quotation number'
 - version: 0.35.0
   date: 11-05-2025
   notes:

@@ -4,16 +4,17 @@
 #
 # Table name: product_components
 #
-#  id            :integer          not null, primary key
-#  formula       :string
-#  quantity      :decimal(7, 1)    default(0.0), not null
-#  quantity_real :decimal(7, 1)    default(0.0), not null
-#  ratio         :decimal(3, 2)    default(0.0)
-#  waste         :decimal(7, 1)    default(0.0), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  component_id  :integer          not null
-#  product_id    :integer          not null
+#  id              :integer          not null, primary key
+#  formula         :string
+#  quantity        :decimal(7, 1)    default(0.0), not null
+#  quantity_manual :decimal(, )
+#  quantity_real   :decimal(7, 1)    default(0.0), not null
+#  ratio           :decimal(3, 2)    default(0.0)
+#  waste           :decimal(7, 1)    default(0.0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  component_id    :integer          not null
+#  product_id      :integer          not null
 #
 # Indexes
 #

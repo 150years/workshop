@@ -2,7 +2,8 @@
 
 class ProductComponentsController < ApplicationController
   before_action :set_product
-  before_action :set_product_component, except: %i[new create]
+  # before_action :set_product_component, except: %i[new create]
+  before_action :set_product_component, only: %i[edit update destroy update_quantity]
 
   # GET /product_components/new
   def new
@@ -30,6 +31,11 @@ class ProductComponentsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def update_quantity
+    @product_component.update(quantity_manual: params[:product_component][:quantity_manual])
+    redirect_to order_path(@product_component.product.order_version.order)
   end
 
   # DELETE /product_components/1

@@ -18,6 +18,12 @@
       </div>
     </div>
   </td>
+  <td>
+    <%= form_with model: product_component, url: "/products/#{@product.id}/product_components/#{product_component.id}/update_quantity", method: :patch, local: true, class: "inline-flex items-center gap", data: {turbo_frame: "_top"} do |f| %>
+      <%= f.number_field :quantity_manual, value: product_component.quantity_manual, class: "input", style: "width: 80px;", step: 0.01 %>
+      <%= f.submit "Refresh", class: "btn btn--small" %>
+    <% end %>
+  </td>
   <td><%= product_component.quantity %> </td>
   <td><%= product_component.component.price.format %></td>
   <td><%= (product_component.quantity*product_component.component.price).format %></td>

@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :components
   resources :products do
     resources :components, except: %i[index show], controller: 'product_components'
+    resources :product_components do
+      patch :update_quantity, on: :member
+    end
   end
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions' do

@@ -4,16 +4,17 @@
 #
 # Table name: product_components
 #
-#  id            :integer          not null, primary key
-#  formula       :string
-#  quantity      :decimal(7, 1)    default(0.0), not null
-#  quantity_real :decimal(7, 1)    default(0.0), not null
-#  ratio         :decimal(3, 2)    default(0.0)
-#  waste         :decimal(7, 1)    default(0.0), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  component_id  :integer          not null
-#  product_id    :integer          not null
+#  id              :integer          not null, primary key
+#  formula         :string
+#  quantity        :decimal(7, 1)    default(0.0), not null
+#  quantity_manual :decimal(, )
+#  quantity_real   :decimal(7, 1)    default(0.0), not null
+#  ratio           :decimal(3, 2)    default(0.0)
+#  waste           :decimal(7, 1)    default(0.0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  component_id    :integer          not null
+#  product_id      :integer          not null
 #
 # Indexes
 #
@@ -87,6 +88,8 @@ class ProductComponent < ApplicationRecord
   end
 
   def calculate_quantity
+    return quantity_manual.to_f if quantity_manual.present?
+
     quantity = formula.blank? ? 1 : evaluate_quantity.to_f
 
     if component.min_quantity.to_f.positive?
@@ -101,7 +104,7 @@ class ProductComponent < ApplicationRecord
          Dentaku::ArgumentError => e
 
     errors.add(:formula, e.message)
-    1
+    # 1
   end
 
   def calculate_waste

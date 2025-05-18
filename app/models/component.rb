@@ -40,6 +40,7 @@ class Component < ApplicationRecord
   belongs_to :supplier, optional: true
   has_many :product_components, dependent: :restrict_with_error
   has_many :products, through: :product_components
+  has_many :stock_movements
   has_one_attached :image
 
   # Call "component.unit_mm?" to check if the unit is mm
@@ -76,5 +77,22 @@ class Component < ApplicationRecord
 
   def perimeter
     2 * (width + length)
+  end
+
+  def stock_quantity
+    stock_movements.where(order_id: nil).sum_by_type
+  end
+
+  def project_quantity
+    stock_movements.where.not(order_id: nil).sum_by_type
+  end
+
+  def total_quantity
+    stock_quantity + project_quantity
+  end
+
+  # Вспомогательный метод
+  def self.with_quantities
+    includes(:stock_movements)
   end
 end

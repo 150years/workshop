@@ -1,0 +1,28 @@
+<div class="container flex flex-col mbe-8">
+  <div class="flex items-center justify-between">
+    <h1 class="font-bold text-4xl">Stock Summary</h1>
+    <%= link_to "New Movement", new_stock_movement_path, class: "btn btn--primary" %>
+  </div>
+</div>
+
+<table class="table-auto w-full text-sm border">
+  <thead>
+    <tr>
+      <th class="text-left p-2">Component</th>
+      <th class="text-right p-2">Stock</th>
+      <th class="text-right p-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @components.each do |component| %>
+      <tr>
+        <td class="p-2"><%= "#{component.code} - #{component.name}" %></td>
+        <td class="p-2 text-center"><%= component.total_quantity %></td>
+        <td class="p-2 text-center">
+          <%#= link_to "Details", stock_movements_path(component_id: component.id), class: "text-blue-500 underline" %>
+          <%= link_to "Details", stock_movements_path(q: { component_id_eq: component.id }) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

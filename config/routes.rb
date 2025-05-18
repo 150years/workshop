@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   
   end
   
-  resources :stock_movements, only: %i[index new create] do
+  resources :stock_movements, only: %i[index new create edit update destroy] do
     collection do
       get :summary
     end

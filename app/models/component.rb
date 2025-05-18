@@ -40,7 +40,7 @@ class Component < ApplicationRecord
   belongs_to :supplier, optional: true
   has_many :product_components, dependent: :restrict_with_error
   has_many :products, through: :product_components
-  has_many :stock_movements
+  has_many :stock_movements, dependent: :restrict_with_error
   has_one_attached :image
 
   # Call "component.unit_mm?" to check if the unit is mm
@@ -63,6 +63,11 @@ class Component < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     authorizable_ransackable_associations
+  end
+
+  # Вспомогательный метод
+  def self.with_quantities
+    includes(:stock_movements)
   end
 
   def update_products_total_amount
@@ -91,8 +96,27 @@ class Component < ApplicationRecord
     stock_quantity + project_quantity
   end
 
-  # Вспомогательный метод
-  def self.with_quantities
-    includes(:stock_movements)
+  def available_stock_quantity
+    inbound = stock_movements.where(order_id: nil, movement_type: :inbound).sum(:quantity)
+    to_project = stock_movements.where(movement_type: :to_project).sum(:quantity)
+    returned = stock_movements.where(movement_type: :returned_to_stock).sum(:quantity)
+
+    inbound + returned - to_project
+  end
+
+  def available_project_quantity(order_id)
+    inbound = stock_movements.where(order_id:, movement_type: :to_project).sum(:quantity)
+    returned = stock_movements.where(order_id:, movement_type: :returned_to_stock).sum(:quantity)
+    used = stock_movements.where(order_id:, movement_type: :used).sum(:quantity)
+
+    (inbound + returned) - used
+  end
+
+  def quantity_in_projects
+    to_project = stock_movements.where.not(order_id: nil).where(movement_type: :to_project).sum(:quantity)
+    used = stock_movements.where.not(order_id: nil).where(movement_type: :used).sum(:quantity)
+    returned = stock_movements.where.not(order_id: nil).where(movement_type: :returned_to_stock).sum(:quantity)
+
+    to_project - used - returned
   end
 end

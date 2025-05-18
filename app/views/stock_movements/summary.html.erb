@@ -1,26 +1,36 @@
-<div class="container flex flex-col mbe-8">
-  <div class="flex items-center justify-between">
-    <h1 class="font-bold text-4xl">Stock Summary</h1>
-    <%= link_to "New Movement", new_stock_movement_path, class: "btn btn--primary" %>
-  </div>
+<div class="container flex items-center justify-between mbe-6">
+  <h1 class="font-bold text-4xl">Stock Summary</h1>
+  <%= link_to "New Movement", new_stock_movement_path, class: "btn btn--primary" %>
 </div>
+
+<%= form_with url: summary_stock_movements_path, method: :get, local: true, class: "mb-4" do %>
+  <div class="flex gap items-center">
+    <%= label_tag :order_id, "Filter by project:", class: "text-sm font-medium" %>
+    <%= select_tag :order_id,
+        options_from_collection_for_select(@orders, :id, :name, params[:order_id]),
+        include_blank: "— Show warehouse —",
+        class: "input",
+        onchange: "this.form.submit();" %>
+  </div>
+<% end %>
 
 <table class="table-auto w-full text-sm border">
   <thead>
     <tr>
       <th class="text-left p-2">Component</th>
-      <th class="text-right p-2">Stock</th>
-      <th class="text-right p-2">Actions</th>
+      <th class="text-right p-2">In Stock</th>
+      <th class="text-right p-2">In Projects</th>
+      <th class="text-center p-2">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <% @components.each do |component| %>
+    <% @component_quantities.each do |component, stock_qty, in_projects_qty| %>
       <tr>
         <td class="p-2"><%= "#{component.code} - #{component.name}" %></td>
-        <td class="p-2 text-center"><%= component.total_quantity %></td>
+        <td class="p-2 text-right"><%= stock_qty %></td>
+        <td class="p-2 text-right"><%= in_projects_qty %></td>
         <td class="p-2 text-center">
-          <%#= link_to "Details", stock_movements_path(component_id: component.id), class: "text-blue-500 underline" %>
-          <%= link_to "Details", stock_movements_path(q: { component_id_eq: component.id }) %>
+          <%= link_to "Details", stock_movements_path(q: { component_id_eq: component.id, order_id_eq: @order&.id }.compact), class: "btn btn--sm btn--secondary" %>
         </td>
       </tr>
     <% end %>

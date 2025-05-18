@@ -38,7 +38,16 @@ Rails.application.routes.draw do
   resources :suppliers, except: [:show]
   resources :materials do
     resources :material_uses, only: %i[index new create]
+  
   end
+  
+  resources :stock_movements, only: %i[index new create] do
+    collection do
+      get :summary
+    end
+  end
+
+ 
   
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
   

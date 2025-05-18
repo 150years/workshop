@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_061123) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_18_062450) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -262,6 +261,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_061123) do
     t.index ["order_version_id"], name: "index_products_on_order_version_id"
   end
 
+  create_table "stock_movements", force: :cascade do |t|
+    t.integer "component_id", null: false
+    t.integer "order_id"
+    t.integer "user_id"
+    t.integer "quantity", null: false
+    t.integer "movement_type", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["component_id"], name: "index_stock_movements_on_component_id"
+    t.index ["order_id"], name: "index_stock_movements_on_order_id"
+    t.index ["user_id"], name: "index_stock_movements_on_user_id"
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.text "contact_info"
@@ -320,6 +333,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_061123) do
   add_foreign_key "product_components", "products"
   add_foreign_key "products", "companies"
   add_foreign_key "products", "order_versions"
+  add_foreign_key "stock_movements", "components"
+  add_foreign_key "stock_movements", "orders"
+  add_foreign_key "stock_movements", "users"
   add_foreign_key "transactions", "agents"
   add_foreign_key "transactions", "clients"
   add_foreign_key "transactions", "companies"

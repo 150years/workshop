@@ -10,8 +10,8 @@
     <%= link_to "Components", components_path, class: (request.path.include?("/components") ? "text-primary" : "") %>
     <%= link_to "Products", products_path, class: (request.path.include?("/products") ? "text-primary" : "") %>
     <%= link_to "Projects", orders_path, class: (request.path.include?("/orders") ? "text-primary" : "") %>
-    <%= link_to "Balance", balances_path, class: "nav-link" %>
-    <%= link_to "Stock", materials_path, class: "nav-link" %>
+    <%= link_to "Balance", balances_path, class: "nav-link" %>    
+    <%= link_to "Stock", summary_stock_movements_path, class: "nav-link" %>
     <%= link_to "Suppliers", suppliers_path, class: "nav-link" %>
 
   </nav>

@@ -1,0 +1,54 @@
+<% content_for :title, "Stock Movements" %>
+
+<div class="container flex flex-col mbe-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="font-bold text-4xl">Stock Movements</h1>
+      <p class="text-subtle">All recorded movements</p>
+    </div>
+    <%= link_to "New Movement", new_stock_movement_path, class: "btn btn--primary" %>
+  </div>
+</div>
+
+<%= search_form_for @search, class: "flex items-center gap mbe-4", data: { controller: "form" } do |form| %>
+  <div class="flex items-center grow gap">
+    <%= form.select :component_id_eq,
+      Component.all.map { |c| ["#{c.code} - #{c.name}", c.id] },
+      { include_blank: "All components" },
+      class: "input", data: { action: "change->form#submit" } %>
+
+    <%= form.select :order_id_eq,
+      Order.all.map { |o| [o.name, o.id] },
+      { include_blank: "All projects" },
+      class: "input", data: { action: "change->form#submit" } %>
+
+    <%= link_to "Reset", stock_movements_path, data: { form_target: "cancel", action: "click->form#cancel" }, class: "btn btn--borderless show@md" if params[:q].present? %>
+  </div>
+<% end %>
+
+<div class="relative i-full overflow-x-auto border rounded-lg">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Component</th>
+        <th>Project</th>
+        <th>Type</th>
+        <th>Qty</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stock_movements.each do |movement| %>
+        <tr>
+          <td><%= l(movement.created_at, format: :short) %></td>
+          <td><%= "#{movement.component.code} - #{movement.component.name}" %></td>
+          <td><%= movement.order&.name || "-" %></td>
+          <td><%= movement.movement_type.humanize %></td>
+          <td><%= movement.quantity %></td>
+          <td><%= movement.comment %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -16,7 +16,6 @@
 #  index_suppliers_on_email  (email) UNIQUE
 #
 class Supplier < ApplicationRecord
-  has_many :materials, dependent: :restrict_with_exception
   has_many :components, dependent: :destroy
   validates :name, presence: true
   validates :contact_info, presence: true

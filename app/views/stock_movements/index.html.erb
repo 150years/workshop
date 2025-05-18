@@ -36,6 +36,7 @@
         <th>Type</th>
         <th>Qty</th>
         <th>Comment</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -47,6 +48,12 @@
           <td><%= movement.movement_type.humanize %></td>
           <td><%= movement.quantity %></td>
           <td><%= movement.comment %></td>
+          <td class="text-center">
+            <%= link_to "Edit", edit_stock_movement_path(movement), class: "text-blue-600", data: { turbo_frame: "_top" } %> |
+            <%= link_to "Delete", stock_movement_path(movement, q: params[:q]&.permit!),
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure?", turbo_frame: "_top" },
+              class: "text-red-600" %>
+          </td>
         </tr>
       <% end %>
     </tbody>

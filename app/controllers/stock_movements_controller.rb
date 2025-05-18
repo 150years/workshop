@@ -14,6 +14,10 @@ class StockMovementsController < ApplicationController
     @stock_movement = StockMovement.new
   end
 
+  def edit
+    @stock_movement = StockMovement.find(params[:id])
+  end
+
   def create
     @stock_movement = StockMovement.new(stock_movement_params)
     @stock_movement.user = current_user
@@ -25,8 +29,40 @@ class StockMovementsController < ApplicationController
     end
   end
 
+  def update
+    @stock_movement = StockMovement.find(params[:id])
+    if @stock_movement.update(stock_movement_params)
+      redirect_to stock_movements_path, notice: 'Movement updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @stock_movement = StockMovement.find(params[:id])
+    @stock_movement.destroy
+
+    permitted_q = params[:q]&.permit! # разрешаем все поля в q
+    redirect_to stock_movements_path(q: permitted_q), notice: 'Movement deleted.'
+  end
+
   def summary
-    @components = Component.with_quantities.order(:name)
+    @order = Order.find_by(id: params[:order_id])
+    @orders = Order.order(:name)
+    @components = Component.with_quantities.order(:code)
+
+    @component_quantities = @components.map do |component|
+      stock_quantity =
+        if @order.present?
+          component.available_project_quantity(@order.id)
+        else
+          component.available_stock_quantity
+        end
+
+      in_projects_quantity = component.quantity_in_projects
+
+      [component, stock_quantity, in_projects_quantity]
+    end
   end
 
   private
@@ -36,6 +72,6 @@ class StockMovementsController < ApplicationController
   end
 
   def stock_movement_params
-    params.require(:stock_movement).permit(:component_id, :order_id, :quantity, :movement_type, :comment)
+    params.expect(stock_movement: %i[component_id order_id quantity movement_type comment])
   end
 end

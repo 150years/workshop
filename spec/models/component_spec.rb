@@ -79,6 +79,12 @@ RSpec.describe Component, type: :model do
 
         expect { component.update(price_cents: 500_000) }.to change { product.reload.price_cents }.to(500_000)
       end
+
+      it 'restricts destroy if stock_movements exist' do
+        create(:stock_movement, component:, movement_type: :inbound, quantity: 5)
+        expect { component.destroy }.not_to change(Component, :count)
+        expect(component.errors[:base]).to include('Cannot delete record because dependent stock movements exist')
+      end
     end
   end
 

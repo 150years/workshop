@@ -29,5 +29,30 @@
 require 'rails_helper'
 
 RSpec.describe StockMovement, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:component) { create(:component) }
+  let(:project) { create(:order) }
+
+  it 'is invalid without a component' do
+    m = described_class.new(movement_type: :inbound, quantity: 10)
+    expect(m).not_to be_valid
+    expect(m.errors[:component]).to be_present
+  end
+
+  it 'requires quantity to be greater than 0' do
+    m = described_class.new(component:, movement_type: :inbound, quantity: 0)
+    expect(m).not_to be_valid
+    expect(m.errors[:quantity]).to include('must be greater than 0')
+  end
+
+  it 'is invalid when used has no order' do
+    m = described_class.new(component:, movement_type: :used, quantity: 10)
+    expect(m).not_to be_valid
+    expect(m.errors[:order]).to include('must be present for used')
+  end
+
+  it 'is invalid when returned_to_stock has no order' do
+    m = described_class.new(component:, movement_type: :returned_to_stock, quantity: 10)
+    expect(m).not_to be_valid
+    expect(m.errors[:order]).to include('must be present for returned_to_stock')
+  end
 end

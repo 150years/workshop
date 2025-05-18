@@ -105,11 +105,11 @@ class Component < ApplicationRecord
   end
 
   def available_project_quantity(order_id)
-    inbound = stock_movements.where(order_id:, movement_type: :to_project).sum(:quantity)
-    returned = stock_movements.where(order_id:, movement_type: :returned_to_stock).sum(:quantity)
-    used = stock_movements.where(order_id:, movement_type: :used).sum(:quantity)
+    to_project = stock_movements.where(order_id:, movement_type: :to_project).sum(:quantity)
+    returned   = stock_movements.where(order_id:, movement_type: :returned_to_stock).sum(:quantity)
+    used       = stock_movements.where(order_id:, movement_type: :used).sum(:quantity)
 
-    (inbound + returned) - used
+    to_project - used - returned
   end
 
   def quantity_in_projects

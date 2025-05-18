@@ -30,7 +30,7 @@
         <td class="p-2 text-right"><%= stock_qty %></td>
         <td class="p-2 text-right"><%= in_projects_qty %></td>
         <td class="p-2 text-center">
-          <%= link_to "Details", stock_movements_path(q: { component_id_eq: component.id, order_id_eq: @order&.id }.compact), class: "btn btn--sm btn--secondary" %>
+          <%= link_to "Details", stock_movements_path(q: { component_id_eq: component.id, order_id_eq: @order&.id }.compact) %>
         </td>
       </tr>
     <% end %>

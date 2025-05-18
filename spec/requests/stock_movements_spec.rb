@@ -28,6 +28,13 @@ RSpec.describe 'StockMovements', type: :request do
     end
   end
 
+  describe 'GET /stock_movements/summary with order_id' do
+    it 'returns 200 with filtered summary' do
+      get summary_stock_movements_path(order_id: order.id)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'GET /stock_movements/new' do
     it 'returns 200' do
       get new_stock_movement_path

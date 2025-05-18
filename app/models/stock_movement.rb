@@ -42,18 +42,22 @@ class StockMovement < ApplicationRecord
   end
 
   def not_exceed_available_stock
-    return if component.nil?
-    return if quantity.blank?
+    return if component.nil? || quantity.nil?
 
-    case movement_type.to_sym
-    when :to_project
+    case movement_type
+    when 'to_project'
       available = component.available_stock_quantity
       errors.add(:quantity, "exceeds available stock (#{available})") if quantity > available
-    when :used
-      return if order_id.blank?
+    when 'used', 'returned_to_stock'
+      if order.nil?
+        errors.add(:order, "must be present for #{movement_type}")
+        return
+      end
 
-      available = component.available_project_quantity(order_id)
-      errors.add(:quantity, "exceeds available quantity on project (#{available})") if quantity > available
+      available_on_project = component.available_project_quantity(order.id)
+      if quantity > available_on_project
+        errors.add(:quantity, "exceeds available quantity on project (#{available_on_project})")
+      end
     end
   end
 end

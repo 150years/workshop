@@ -42,7 +42,7 @@ class StockMovementsController < ApplicationController
     @stock_movement = StockMovement.find(params[:id])
     @stock_movement.destroy
 
-    permitted_q = params[:q]&.permit! # разрешаем все поля в q
+    permitted_q = params[:q]&.permit(:component_id_eq, :order_id_eq)
     redirect_to stock_movements_path(q: permitted_q), notice: 'Movement deleted.'
   end
 

@@ -60,7 +60,7 @@
               <ul>
                 <% transaction.files.each_with_index do |file, index| %>
                   <li class="flex items-center gap-2">
-                    <%= link_to "File #{index + 1}", url_for(file), class: "text-sm", target: "_blank" %>
+                    <%= link_to "File_#{index + 1}", url_for(file), class: "text-sm", target: "_blank" %>
                     
                     <%= link_to rails_blob_path(file, disposition: "attachment"), class: "btn btn--ghost p-1" do %>
                       <%= image_tag "download.svg", size: 16 %>

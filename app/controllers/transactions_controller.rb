@@ -22,6 +22,12 @@ class TransactionsController < ApplicationController
     @transaction = current_company.transactions.new(transaction_params)
 
     if @transaction.save
+      if params[:transaction][:files].present?
+        params[:transaction][:files].each do |file|
+          @transaction.files.attach(file)
+        end
+      end
+
       redirect_to balances_path, notice: 'Transaction created'
     else
       render :new, status: :unprocessable_entity
@@ -29,10 +35,16 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    # @transaction = Transaction.find(params[:id])
-    redirect_to balances_path, alert: 'Editing not allowed after 7 days.' and return unless @transaction.editable?
+    return redirect_to balances_path, alert: 'Editing not allowed after 7 days.' unless @transaction.editable?
 
     if @transaction.update(transaction_params)
+      # Добавить новые файлы, если есть
+      if params[:transaction][:files].present?
+        params[:transaction][:files].each do |file|
+          @transaction.files.attach(file)
+        end
+      end
+
       redirect_to balances_path, notice: 'Transaction updated'
     else
       render :edit, status: :unprocessable_entity
@@ -63,15 +75,14 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     params.expect(
-      transaction: [
-        :date,
-        :description,
-        :amount,
-        :type_id,
-        :order_id,
-        :agent_id,
-        :client_id,
-        { files: [] }
+      transaction: %i[
+        date
+        description
+        amount
+        type_id
+        order_id
+        agent_id
+        client_id
       ]
     )
   end

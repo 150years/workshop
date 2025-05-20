@@ -165,7 +165,7 @@
   
 </div>
 
-<table width="100%">
+<table width="100%" class="mb-6">
   <tr>
     <td rowspan="3" width="200px"><%= image_tag "kbank_logo.png", alt: "Bank Logo", style: "width: 200px;" %></td>
     <td class="text-end">Bank / ธนาคาร:</td>
@@ -180,3 +180,16 @@
     <td class="text-start">Thai Glazing Co., Ltd</td>
   </tr>
 </table>
+
+<div class="flex" style="width: 100%; box-sizing: border-box;">
+  <div style="width: 50%; text-align: center;">
+    <p class="pb-6">Quoted by</p>
+    <p>Intira Raksanee</p>
+    <p>Date <%= @order.updated_at.strftime('%d.%m.%y') %></p>
+  </div>
+  <div style="width: 50%; text-align: center;">
+    <p class="pb-6">Customer Confirmation</p>
+    <p>(_______________________)</p>
+    <p>Date</p>
+  </div>
+</div>

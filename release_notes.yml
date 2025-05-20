@@ -1,6 +1,10 @@
 ---
 releases:
-- version: 0.367.0
+- version: 0.38.0
+  date: 20-05-2025
+  notes:
+  - 'Quotation - add sign area'
+- version: 0.37.0
   date: 18-05-2025
   notes:
   - 'new stock model Stock - improve functionality: add to stock and move'

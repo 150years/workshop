@@ -4,17 +4,19 @@
 #
 # Table name: transactions
 #
-#  id          :integer          not null, primary key
-#  amount      :decimal(, )
-#  date        :date
-#  description :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  agent_id    :integer
-#  client_id   :integer
-#  company_id  :integer
-#  order_id    :integer
-#  type_id     :integer
+#  id                  :integer          not null, primary key
+#  amount              :decimal(, )
+#  date                :date
+#  description         :string
+#  hidden              :boolean          default(FALSE), not null
+#  only_for_accounting :boolean          default(FALSE), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  agent_id            :integer
+#  client_id           :integer
+#  company_id          :integer
+#  order_id            :integer
+#  type_id             :integer
 #
 # Indexes
 #

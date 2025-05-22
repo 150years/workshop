@@ -83,6 +83,8 @@ class TransactionsController < ApplicationController
         order_id
         agent_id
         client_id
+        hidden
+        only_for_accounting
       ]
     )
   end

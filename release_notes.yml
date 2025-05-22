@@ -1,5 +1,12 @@
 ---
 releases:
+- version: 0.39.0
+  date: 22-05-2025
+  notes:
+  - 'Add ability to mark some transactions as hidden / only for accounting'
+  - 'Show Full and Acc balances'
+  - 'Print balance'
+  - 'Remove old pdf print from balance'
 - version: 0.38.0
   date: 20-05-2025
   notes:

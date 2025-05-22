@@ -73,6 +73,16 @@
     <% end %>
   </div>
 
+  <div>
+    <%= f.check_box :hidden %>
+    <%= f.label :hidden, "Hidden" %>
+  </div>
+
+  <div>
+    <%= f.check_box :only_for_accounting %>
+    <%= f.label :only_for_accounting, "Only for accounting" %>
+  </div>
+
   <%#= f.submit "Create Transaction", class: "btn btn--primary", data: { disable_with: "Saving..." } %>
 <%= f.submit transaction.persisted? ? "Update Transaction" : "Create Transaction",
   class: "btn btn--primary",

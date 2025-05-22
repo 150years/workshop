@@ -57,3 +57,11 @@ turbo-frame[busy], turbo-frame[complete] {
   border: 1px solid black;
   border-collapse: collapse;
 }
+
+.tr-hidden {
+  color: #9ca3af; /* серый - как text-gray-400 */
+}
+
+.tr-accounting {
+  color: #ca8a04; /* жёлтый - как text-yellow-600 */
+}

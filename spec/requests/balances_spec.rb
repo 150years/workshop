@@ -26,29 +26,4 @@ RSpec.describe 'Balances', type: :request do
       expect(response.body).not_to include(other_transaction.description.to_s)
     end
   end
-
-  describe 'GET /balances.pdf' do
-    let!(:transaction) do
-      create(:transaction,
-             order: order,
-             type_id: 'salary',
-             amount: 1500,
-             date: Time.zone.today,
-             description: 'Test salary payment')
-    end
-
-    it 'generates PDF and includes transaction data' do
-      get balances_path(format: :pdf), params: { from: Time.zone.today - 1, to: Time.zone.today + 1 }
-
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to eq 'application/pdf'
-
-      text = PDF::Reader.new(StringIO.new(response.body)).pages.map(&:text).join
-
-      expect(text).to include('Balance Report')
-      expect(text).to include('salary')
-      expect(text).to include('1500.00')
-      expect(text).to include('Test salary payment')
-    end
-  end
 end

@@ -1,34 +1,59 @@
 # frozen_string_literal: true
 
 class BalancesController < ApplicationController
+  # def index
+  #   set_date_range
+
+  #   scope = Transaction
+  #           .where(date: @from..@to)
+  #           .includes(:order, :client, :agent)
+  #           .order(date: :desc, created_at: :desc)
+
+  #   # scope = scope.where(order_id: params[:order_id]) if params[:order_id].present?
+
+  #   # @pagy, @transactions = pagy(scope, items: 10)
+
+  #   # calculate_totals(scope)
+
+  #   scope = apply_filters(scope)
+  #   @pagy, @transactions = pagy(scope, items: 10)
+  #   calculate_totals(scope)
+
+  #   respond_to do |format|
+  #     format.html
+  #     format.pdf do
+  #       pdf = generate_pdf(scope, @from, @to)
+  #       send_data pdf.render,
+  #                 filename: "balance_#{@from}_#{@to}.pdf",
+  #                 type: 'application/pdf',
+  #                 disposition: 'inline'
+  #     end
+  #   end
+  # end
+
   def index
     set_date_range
+    @mode = params[:mode].presence_in(%w[full acc]) || 'full'
 
-    scope = Transaction
-            .where(date: @from..@to)
-            .includes(:order, :client, :agent)
-            .order(date: :desc, created_at: :desc)
+    base_scope = Transaction
+                 .where(date: @from..@to)
+                 .includes(:order, :client, :agent)
+                 .order(date: :desc, created_at: :desc)
 
-    # scope = scope.where(order_id: params[:order_id]) if params[:order_id].present?
-
-    # @pagy, @transactions = pagy(scope, items: 10)
-
-    # calculate_totals(scope)
-
-    scope = apply_filters(scope)
-    @pagy, @transactions = pagy(scope, items: 10)
-    calculate_totals(scope)
-
-    respond_to do |format|
-      format.html
-      format.pdf do
-        pdf = generate_pdf(scope, @from, @to)
-        send_data pdf.render,
-                  filename: "balance_#{@from}_#{@to}.pdf",
-                  type: 'application/pdf',
-                  disposition: 'inline'
+    base_scope =
+      case @mode
+      when 'full'
+        base_scope.where(only_for_accounting: [false, nil])
+      when 'acc'
+        base_scope.where(hidden: [false, nil])
+      else
+        base_scope
       end
-    end
+
+    base_scope = apply_filters(base_scope)
+
+    @pagy, @transactions = pagy(base_scope, items: 10)
+    calculate_totals(base_scope)
   end
 
   private

@@ -26,6 +26,14 @@
     <div>
       <%= submit_tag "Filter", class: "btn btn--primary" %>
     </div>
+    <div class="flex gap-2">
+      <% full_class = "btn btn--ghost" + (@mode == "full" ? " btn--primary" : "") %>
+      <% acc_class = "btn btn--ghost" + (@mode == "acc" ? " btn--primary" : "") %>
+
+      <%= link_to "Full", balances_path(mode: "full", from: @from, to: @to, order_id: params[:order_id]), class: full_class %>
+      <%= link_to "Acc", balances_path(mode: "acc", from: @from, to: @to, order_id: params[:order_id]), class: acc_class %>
+    </div>
+
   <% end %>
 
   <div class="relative overflow-x-auto border rounded-lg mbe-4">
@@ -47,10 +55,13 @@
         <% balance = 0 %>
         <% @transactions.each do |transaction| %>
           <% balance += transaction.amount %>
-          <tr>
+          <% row_class = "" %>
+          <% row_class = "tr-hidden" if transaction.hidden? %>
+          <% row_class = "tr-accounting" if transaction.only_for_accounting? %>
+          <tr class="<%= row_class %>">
             <td><%= transaction.date.strftime("%d.%m.%Y") %></td>
-            <td class="text-green-600"><%= transaction.amount.positive? ? transaction.amount_money.format : "-" %></td>
-            <td class="text-red-600"><%= transaction.amount.negative? ?  transaction.amount_money.format : "-" %></td>
+            <td><%= transaction.amount.positive? ? transaction.amount_money.format : "-" %></td>
+            <td><%= transaction.amount.negative? ?  transaction.amount_money.format : "-" %></td>
             <td><%= format_money(balance) %></td>
             <td><%= transaction.type_id.humanize %></td>
             <td><%= "##{transaction.order&.id} #{transaction.order&.name}" if transaction.order.present? %></td>

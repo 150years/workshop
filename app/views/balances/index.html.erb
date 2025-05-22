@@ -2,10 +2,11 @@
 
 <div class="container flex flex-col gap-6" data-controller="hotkeys" data-hotkeys-shortcut-value="Shift+n">
   <div class="flex items-center justify-between">
-  <h1 class="text-3xl font-bold">Balance</h1>
-  <div class="flex gap-2">
-    <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
-    <%= link_to "Export to PDF", balances_path(format: :pdf, from: @from, to: @to), class: "btn btn--borderless", target: "_blank" %>
+    <h1 class="text-3xl font-bold">Balance <%= @mode %></h1>
+    <div class="flex gap-2">
+      <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
+      <%= link_to "Print", print_balances_path(from: @from, to: @to, order_id: params[:order_id], mode: @mode), class: "btn btn--borderless", target: "_blank" %>
+    </div>
   </div>
 </div>
 
@@ -100,18 +101,16 @@
         <% end %>
       </tbody>
       <tfoot>
-  <tr class="font-bold text-sm bg-gray-100">
-    <td class="text-end" colspan="1">Totals:</td>
-    <td class="text-green-600"><%= format_money(@income) %></td>
-    <td class="text-red-600"><%= format_money(@expense) %></td>
-    <td class="<%= @balance.to_f < 0 ? 'text-red-600' : 'text-green-600' %>">
-      <%= format_money(@balance) %>
-    </td>
-    <td colspan="5"></td>
-  </tr>
-</tfoot>
-
-
+        <tr class="font-bold text-sm bg-gray-100">
+          <td class="text-end" colspan="1">Totals:</td>
+          <td><%= format_money(@income) %></td>
+          <td><%= format_money(@expense) %></td>
+          <td>
+            <%= format_money(@balance) %>
+          </td>
+          <td colspan="5"></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 

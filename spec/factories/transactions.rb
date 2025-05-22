@@ -41,5 +41,7 @@ FactoryBot.define do
     order { nil }
     agent { nil }
     client { nil }
+    hidden { false }
+    only_for_accounting { false }
   end
 end

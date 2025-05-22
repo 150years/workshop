@@ -24,7 +24,6 @@ Rails.application.routes.draw do
     delete :remove_file, on: :member
     member do
       get :quotation_preview
-      # post :send_quotation_email
       patch :add_custom_code
     end
   end 
@@ -34,7 +33,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :balances, only: [:index]
+  resources :balances, only: [:index] do
+    collection do
+      get :print
+    end
+  end
   resources :suppliers, except: [:show]
   
   resources :stock_movements, only: %i[index new create edit update destroy] do

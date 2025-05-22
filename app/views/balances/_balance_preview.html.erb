@@ -1,0 +1,42 @@
+<div class="a4-page">
+  <h1 class="text-xl font-bold mb-4">Balance Report</h1>
+  <table class="print_table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+        <th>Type</th>
+        <th>Project</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% balance = 0 %>
+      <% @transactions.each do |transaction| %>
+        <% balance += transaction.amount %>
+        <tr>
+          <td><%= transaction.date.strftime("%d.%m.%Y") %></td>
+          <td><%= transaction.amount.positive? ? transaction.amount_money.format : "-" %></td>
+          <td><%= transaction.amount.negative? ?  transaction.amount_money.format : "-" %></td>
+          <td><%= format_money(balance) %></td>
+          <td><%= transaction.type_id.humanize %></td>
+          <td><%= "##{transaction.order&.id} #{transaction.order&.name}" if transaction.order.present? %></td>
+          <td><%= transaction.description || "-" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr class="font-bold text-sm">
+        <td colspan="1">Totals:</td>
+        <td><%= format_money(@income) %></td>
+        <td><%= format_money(@expense) %></td>
+        <td>
+          <%= format_money(@balance) %>
+        </td>
+        <td colspan="5"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

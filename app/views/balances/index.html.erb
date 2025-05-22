@@ -5,6 +5,7 @@
     <h1 class="text-3xl font-bold">Balance <%= @mode %></h1>
     <div class="flex gap-2">
       <%= link_to "New Transaction", new_transaction_path, class: "btn btn--primary" %>
+      <%= link_to "Export to PDF", balances_path(format: :pdf, from: @from, to: @to), class: "btn btn--borderless", target: "_blank" %>
       <%= link_to "Print", print_balances_path(from: @from, to: @to, order_id: params[:order_id], mode: @mode), class: "btn btn--borderless", target: "_blank" %>
     </div>
   </div>
@@ -92,7 +93,7 @@
             <td>
               <% if transaction.editable? %>
                 <%= link_to "Edit", edit_transaction_path(transaction), class: "text-blue-600", data: {turbo_frame: "_top"} %> |
-                <%= link_to "Delete", transaction_path(transaction), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
+                <%= link_to "Delete", transaction, data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
               <% else %>
                 <span class="text-gray-400 italic">Locked</span>
               <% end %>

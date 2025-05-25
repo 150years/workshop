@@ -34,10 +34,6 @@
       <%= form.text_field :name, class: "input" %>
     </div>
     <div class="flex flex-col items-start gap-half mbe-4">
-      <%= form.label :quantity, class: "text-sm font-medium leading-none" %>
-      <%= form.text_field :quantity, class: "input" %>
-    </div>
-    <div class="flex flex-col items-start gap-half mbe-4">
       <%= form.label :comment, class: "text-sm font-medium leading-none" %>
       <%= form.text_field :comment, class: "input" %>
     </div>
@@ -49,11 +45,17 @@
       <span data-mm-to-m-target="output" class="nowrap">-</span>
     </div>
   </div>
-  <div class="flex flex-col gap-half mbe-10" data-controller="mm-to-m">
+  <div class="flex flex-col gap-half mbe-4" data-controller="mm-to-m">
     <%= form.label :height, "Height, mm", class: "text-sm font-medium leading-none" %>
     <div class=" flex items-center gap">
       <%= form.number_field :height, class: "input", data: {mm_to_m_target: "field", action: "input->mm-to-m#convert"} %>
       <span data-mm-to-m-target="output" class="nowrap">-</span>
+    </div>
+  </div>
+  <div class="flex flex-col gap-half mbe-10" data-controller="mm-to-m">
+    <%= form.label :quantity, class: "text-sm font-medium leading-none" %>
+    <div class=" flex items-center gap">
+      <%= form.text_field :quantity, class: "input", value: @product.quantity || 1 %>
     </div>
   </div>
   <div class="flex items-center justify-between">

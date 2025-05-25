@@ -1,5 +1,12 @@
 ---
 releases:
+- version: 0.40.0
+  date: 25-05-2025
+  notes:
+  - 'Order version - show total amount formatted'
+  - 'Order version - make total in quotation do not repeat on every page'
+  - 'Order version - note inner, note for client'
+  - 'Order version - show quantity field when add new product, default 1'
 - version: 0.39.0
   date: 22-05-2025
   notes:

@@ -24,6 +24,7 @@
   <div class="flex flex-col items-start gap-half mbe-4">
     <%= form.label :note_for_client, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :note_for_client, class: "input" %>
+    <p style="color: var(--color-negative);">Client will see this note!</p>
   </div>
   <div class="flex items-center gap  mbe-4">
     <%= form.check_box :final_version, class: "checkbox" %>

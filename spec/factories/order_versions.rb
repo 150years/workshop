@@ -7,6 +7,7 @@
 #  id                    :integer          not null, primary key
 #  agent_comm            :integer          default(0), not null
 #  final_version         :boolean          default(FALSE), not null
+#  note_for_client       :text
 #  profit                :integer          default(0), not null
 #  quotation_custom_code :string
 #  quotation_number      :string

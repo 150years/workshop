@@ -21,7 +21,11 @@
     <%= form.label :version_note, class: "text-sm font-medium leading-none" %>
     <%= form.text_field :version_note, class: "input" %>
   </div>
-   <div class="flex items-center gap  mbe-4">
+  <div class="flex flex-col items-start gap-half mbe-4">
+    <%= form.label :note_for_client, class: "text-sm font-medium leading-none" %>
+    <%= form.text_field :note_for_client, class: "input" %>
+  </div>
+  <div class="flex items-center gap  mbe-4">
     <%= form.check_box :final_version, class: "checkbox" %>
     <%= form.label :final_version, class: "text-sm font-medium" %>
   </div>

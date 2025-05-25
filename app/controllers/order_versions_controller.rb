@@ -73,6 +73,6 @@ class OrderVersionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_version_params
-    params.expect(order_version: %i[agent_comm profit version_note final_version])
+    params.expect(order_version: %i[agent_comm profit version_note final_version note_for_client])
   end
 end

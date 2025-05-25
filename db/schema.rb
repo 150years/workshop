@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_21_141400) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_083209) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -191,6 +191,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_141400) do
     t.integer "profit", default: 0, null: false
     t.string "quotation_number"
     t.string "quotation_custom_code"
+    t.text "note_for_client"
     t.index ["company_id"], name: "index_order_versions_on_company_id"
     t.index ["order_id"], name: "index_order_versions_on_order_id"
   end

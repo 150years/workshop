@@ -1,0 +1,29 @@
+<h1 class="text-xl font-bold mb-6">
+  Components Order - #<%= @order.id %> <%= @order.name %> <%= @version.quotation_number %>
+</h1>
+
+<h2 class="text-lg font-semibold mb-4">Aluminium</h2>
+
+<% @aluminium_components.each do |supplier, components| %>
+  <h3 class="text-md font-bold mt-4 mb-2"><%= supplier&.name || "No Supplier" %></h3>
+  <div class="overflow-x-auto border rounded mb-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Total Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% components.each do |component, total_quantity| %>
+          <tr>
+            <td><%= component.code %></td>
+            <td><%= component.name %></td>
+            <td><%= total_quantity %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

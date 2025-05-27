@@ -1,0 +1,26 @@
+<h1 class="text-xl font-bold mb-6">
+  Components Order - <%= @supplier.name %> / Order #<%= @order.id %> <%= @version.quotation_number %>
+</h1>
+
+<div class="overflow-x-auto border rounded mb-4">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Total Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @components.each do |component, total_quantity| %>
+        <tr>
+          <td><%= image_or_placeholder(component.image, 100, 100) %></td>
+          <td><%= component.code %></td>
+          <td><%= component.name %></td>
+          <td><%= total_quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,5 +1,9 @@
 ---
 releases:
+- version: 0.41.0
+  date: 27-05-2025
+  notes:
+  - 'Order - component order for suppliers'
 - version: 0.40.0
   date: 25-05-2025
   notes:

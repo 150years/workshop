@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     member do
       get :quotation_preview
       patch :add_custom_code
+      get :components_order
     end
   end 
   resources :transactions do

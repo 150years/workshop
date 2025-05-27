@@ -27,6 +27,9 @@ Rails.application.routes.draw do
       patch :add_custom_code
       get :components_order
     end
+    resources :components_orders, only: [:index] do
+      get :print, on: :collection
+    end
   end 
   resources :transactions do
     member do

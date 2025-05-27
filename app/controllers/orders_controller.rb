@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show edit update destroy send_quotation_email quotation_preview components_order]
+  before_action :set_order,
+                only: %i[
+                  show
+                  edit
+                  update
+                  destroy
+                  send_quotation_email
+                  quotation_preview
+                ]
   before_action :set_clients_and_agents, except: %i[index show destroy]
   before_action :set_order_versions, only: %i[show]
-  before_action :set_final_version, only: %i[quotation_preview components_order]
+  before_action :set_final_version, only: %i[quotation_preview]
 
   # GET /orders
   def index
@@ -68,22 +76,6 @@ class OrdersController < ApplicationController
     @labor_total = calculate_labor_total(@version)
     @withholding_tax = (@labor_total * 0.03).round(2)
     render layout: 'print'
-  end
-
-  def components_order
-    # @order = Order.find(params[:id])
-    # @order_version = @order.latest_version
-
-    product_components = @version.products.includes(product_components: :component).flat_map(&:product_components)
-
-    @aluminium_components = product_components
-                            .select { |pc| pc.component.category == 'aluminum' }
-                            .group_by { |pc| pc.component.supplier }
-                            .transform_values do |components|
-      components.group_by(&:component).transform_values do |pcs|
-        pcs.sum(&:quantity)
-      end
-    end
   end
 
   def add_custom_code

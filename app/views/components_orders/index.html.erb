@@ -8,10 +8,7 @@
 <% @aluminium_components.each do |supplier, components| %>
   <h3 class="text-md font-bold mt-4 mb-2 flex justify-between items-center">
   <span><%= supplier&.name || "No Supplier" %></span>
-  <%#= link_to "Print", print_order_components_orders_path(@order.id, supplier.id), target: "_blank", class: "btn btn-sm btn-outline ml-2" %>
   <%= link_to "Print", print_order_components_orders_path(@order, supplier_id: supplier.id), target: "_blank", class: "btn btn-sm btn-outline ml-2" %>
-  <%= button_to "Send email to supplier", send_email_to_supplier_order_components_orders_path(@order, supplier_id: supplier.id), method: :post, class: "btn btn-sm btn-outline ml-2", data: { turbo_confirm: "Send email to supplier?" } %>
-
 
 </h3>
   <div class="overflow-x-auto border rounded mb-4">

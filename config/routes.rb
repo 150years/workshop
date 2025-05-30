@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     end
     resources :components_orders, only: [:index] do
       get :print, on: :collection
+      collection do
+        post :send_email_to_supplier
+      end
     end
   end 
   resources :transactions do

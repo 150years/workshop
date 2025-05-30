@@ -20,6 +20,29 @@ class ComponentsOrdersController < ApplicationController
                   .transform_values { |pcs| pcs.sum { |pc| pc.quantity.to_f * (pc.product.quantity || 1).to_f } }
   end
 
+  # def send_email_to_supplier
+  #   ComponentOrderMailer.send_component_order(@order).deliver_now
+  #   redirect_to order_components_orders_path, notice: 'Email was sent successfully.', status: :see_other
+  # end
+
+  def send_email_to_supplier
+    order = Order.find(params[:order_id])
+    version = order.final_or_latest_version
+    supplier = Supplier.find(params[:supplier_id])
+
+    pdf = ComponentOrderPdf.new(order, version).render
+
+    MailgunService.send_component_email(
+      to: supplier.email,
+      subject: "Component Order - #{order.name} #{version.full_quotation_number}",
+      html_body: render_to_string(template: 'component_order_mailer/send_component_order', layout: false),
+      pdf_data: pdf,
+      filename: "#{version.full_quotation_number}_#{order.name.parameterize}.pdf"
+    )
+
+    redirect_to order_components_orders_path(order), notice: 'Email was sent successfully.', status: :see_other
+  end
+
   private
 
   def set_order

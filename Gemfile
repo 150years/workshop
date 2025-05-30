@@ -25,10 +25,11 @@ gem 'pagy', '~> 9.3.4'
 gem 'ransack'
 gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'
-gem 'prawn'
-gem 'prawn-table'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'mailgun-ruby', '~>1.2.14'
+gem 'prawn'
+gem 'prawn-table'
 
 # Deploy
 gem 'kamal', require: false
@@ -55,7 +56,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'hotwire-spark'
-  gem 'letter_opener'
+  # gem 'letter_opener'
   gem 'letter_opener_web'
   gem 'web-console'
 end

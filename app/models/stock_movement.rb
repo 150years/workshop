@@ -33,6 +33,10 @@ class StockMovement < ApplicationRecord
 
   has_one_attached :image
 
+  attr_accessor :remove_image
+
+  before_save :purge_image_if_needed
+
   enum :movement_type, {
     inbound: 0,
     to_project: 1,
@@ -87,5 +91,9 @@ class StockMovement < ApplicationRecord
         errors.add(:quantity, "exceeds available quantity on project (#{available_on_project})")
       end
     end
+  end
+
+  def purge_image_if_needed
+    image.purge if ActiveModel::Type::Boolean.new.cast(remove_image)
   end
 end

@@ -22,7 +22,7 @@
   
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :created_at, "Date / Time", class: "text-sm font-medium leading-none" %>
-    <%= form.datetime_local_field :created_at, value: (form.object.created_at || Time.current).strftime("%Y-%m-%dT%H:%M"), class: "input" %>
+    <%= form.datetime_local_field :created_at, value: (form.object.created_at || Time.current).strftime("%Y-%m-%dT%H:%M"), class: "input", style: "width: 450px;" %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
@@ -30,35 +30,41 @@
     <%= form.select :component_id,
       options_from_collection_for_select(Component.all.order(:name), :id, ->(c) { "#{c.code} - #{c.name}" }, stock_movement.component_id),
       { include_blank: "Select component..." },
-      { data: { controller: "combobox" } } %>
+      { data: { controller: "combobox" }, style: "width: 450px;" } %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :order_id, class: "text-sm font-medium leading-none" %>
     <%= form.select :order_id,
       options_from_collection_for_select(Order.all, :id, :name, stock_movement.order_id),
-      { include_blank: "Not related to project" } %>
+      { include_blank: "Not related to project" }, { class: "input", style: "width: 450px;" } %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :movement_type, class: "text-sm font-medium leading-none" %>
-    <%= form.select :movement_type, StockMovement.movement_types.keys.map { |k| [k.humanize, k] }, include_blank: true %>
+    <%= form.select :movement_type, StockMovement.movement_types.keys.map { |k| [k.humanize, k] }, {include_blank: true}, { class: "input", style: "width: 450px;" } %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :quantity, class: "text-sm font-medium leading-none" %>
-    <%= form.number_field :quantity, class: "form-input", step: 1, min: 1 %>
+    <%= form.number_field :quantity, class: "form-input", step: 1, min: 1, class: "input", style: "width: 450px;" %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :comment, class: "text-sm font-medium leading-none" %>
-    <%= form.text_area :comment, rows: 2 %>
+    <%= form.text_area :comment, rows: 2, class: "input", style: "width: 450px;" %>
   </div>
 
   <div class="flex flex-col gap-half mbe-4">
     <%= form.label :image, class: "text-sm font-medium leading-none" %>
-    <%= form.file_field :image %>
+    <%= form.file_field :image, class: "input", style: "width: 450px;" %>
+  </div>
+
+  <div class="flex items-center gap-half mbe-4">
+    <%= form.check_box :remove_image %>
+    <%= form.label :remove_image, "Remove image" %>
   </div>
 
   <%= form.submit "Record movement", class: "btn btn-primary" %>
+  <%= link_to "Back", stock_movements_path, class: "btn" %>
 <% end %>

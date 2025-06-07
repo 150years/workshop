@@ -72,6 +72,15 @@ class StockMovementsController < ApplicationController
   end
 
   def stock_movement_params
-    params.expect(stock_movement: %i[component_id order_id quantity movement_type comment image created_at])
+    params.expect(stock_movement: %i[
+                    component_id
+                    order_id
+                    quantity
+                    movement_type
+                    comment
+                    image
+                    created_at
+                    remove_image
+                  ])
   end
 end

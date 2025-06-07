@@ -36,6 +36,7 @@
         <th>Type</th>
         <th>Qty</th>
         <th>Comment</th>
+        <th>Image</th>
         <th class="text-center">Actions</th>
       </tr>
     </thead>
@@ -48,6 +49,7 @@
           <td><%= movement.movement_type.humanize %></td>
           <td><%= movement.quantity %></td>
           <td><%= movement.comment %></td>
+          <td><%= link_to("Image", url_for(movement.image), target: "_blank") if movement.image.attached? %></td>
           <td class="text-center">
             <%= link_to "Edit", edit_stock_movement_path(movement), class: "text-blue-600", data: { turbo_frame: "_top" } %> |
             <%= link_to "Delete", stock_movement_path(movement, q: params[:q]&.permit!),

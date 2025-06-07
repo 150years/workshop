@@ -42,5 +42,7 @@ module Workshop
 
     # Active Storage
     config.active_storage.variant_processor = :vips
+
+    config.assets.paths << Rails.root.join('app/assets/icons')
   end
 end

@@ -31,6 +31,8 @@ class StockMovement < ApplicationRecord
   belongs_to :order, optional: true
   belongs_to :user, optional: true
 
+  has_one_attached :image
+
   enum :movement_type, {
     inbound: 0,
     to_project: 1,

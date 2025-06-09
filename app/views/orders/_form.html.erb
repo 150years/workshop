@@ -14,13 +14,6 @@
     <%= form.text_field :name, class: "input" %>
   </div>
   <div class="flex flex-col gap">
-    <%= form.label :status, class: "font-bold text-sm" %>
-    <%= form.select :status,
-        Order.statuses.keys.map { |s| [s.titleize, s] },
-        { include_blank: "Select status..." },
-        { data: { controller: "combobox" } } %>
-  </div>
-  <div class="flex flex-col gap">
     <%= form.label :client_id, class: "font-bold text-sm" %>
     <%= form.select :client_id,
         options_from_collection_for_select(@clients, :id, ->(c) { "#{c.name} - #{c.email}" }, order.client_id),
@@ -32,6 +25,17 @@
     <%= form.select :agent_id,
         options_from_collection_for_select(@agents, :id, ->(a) { a.name }, order.agent_id),
         { include_blank: "Select agent..." },
+        { data: { controller: "combobox" } } %>
+  </div>
+  <div class="flex flex-col gap">
+    <%= form.label :initial_profit, class: "font-bold text-sm" %>
+    <%= form.text_field :initial_profit, class: "input" %>
+  </div>
+  <div class="flex flex-col gap">
+    <%= form.label :status, class: "font-bold text-sm" %>
+    <%= form.select :status,
+        Order.statuses.keys.map { |s| [s.titleize, s] },
+        { include_blank: "Select status..." },
         { data: { controller: "combobox" } } %>
   </div>
   <div class="flex flex-col gap-half mbe-4">

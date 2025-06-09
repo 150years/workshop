@@ -64,7 +64,10 @@
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="15">Total</td>
+        <td colspan="14">Grand Totals:</td>
+        <td class="text-end">
+          <%= order_version.total_profit_amount.format %>
+        </td>
         <td class="text-end">
           <%= order_version.total_amount.format %>
         </td>

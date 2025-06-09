@@ -102,7 +102,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.expect(order: %i[client_id agent_id name status files: []])
+    params.expect(order: %i[client_id agent_id name initial_profit status files: []])
   end
 
   def set_order_versions

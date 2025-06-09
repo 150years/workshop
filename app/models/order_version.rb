@@ -95,4 +95,12 @@ class OrderVersion < ApplicationRecord
     order.order_versions.where.not(id: id).update_all(final_version: false)
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def total_profit_amount_cents
+    products.sum(&:total_profit_amount_cents)
+  end
+
+  def total_profit_amount
+    Money.new(total_profit_amount_cents, currency)
+  end
 end

@@ -46,7 +46,7 @@ class Order < ApplicationRecord
 
   before_commit :create_order_version, on: %i[create]
 
-  attr_accessor :initial_profit
+  attr_accessor :initial_profit, :skip_initial_version
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[id name status created_at]
@@ -72,6 +72,8 @@ class Order < ApplicationRecord
   private
 
   def create_order_version
+    return if skip_initial_version
+
     order_versions.create!(
       company: company,
       version_note: 'Initial version',

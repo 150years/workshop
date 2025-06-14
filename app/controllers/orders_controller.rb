@@ -26,12 +26,22 @@ class OrdersController < ApplicationController
   def show; end
 
   # GET /orders/new
+  # def new
+  #   @order = if params[:copy_from].blank?
+  #              Order.new
+  #            else
+  #              current_company.orders.find(params[:copy_from]).dup
+  #            end
+  # end
+
   def new
-    @order = if params[:copy_from].blank?
-               Order.new
-             else
-               current_company.orders.find(params[:copy_from]).dup
-             end
+    if params[:copy_from].present?
+      source_order = current_company.orders.find(params[:copy_from])
+      @order = OrderDuplicator.duplicate_order(source_order)
+      redirect_to edit_order_path(@order)
+    else
+      @order = Order.new
+    end
   end
 
   # GET /orders/1/edit

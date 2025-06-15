@@ -21,17 +21,24 @@
         <th>#</th>
         <th>Code</th>
         <th>Name</th>
-        <th>Amount</th>
-        <th>Amount manual</th>
+        <th>Quantity</th>
+        <th>Quantity manual</th>
         <th>Weight</th>
         <th>Price</th>
-        <th>Total</th>
+        <th>Amount</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <%= render partial: "product_components/product_component", collection: @product_components['aluminum'] %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">Total:</td>
+        <td><%= @product.aluminum_price.format %></td>
+        <td></td>
+      </tr>
+    </tfoot>
   </table>
   <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
     <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
@@ -58,6 +65,13 @@
     <tbody>
       <%= render partial: "product_components/product_component", collection: @product_components['glass'] %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">Total:</td>
+        <td><%= @product.glass_price.format %></td>
+        <td></td>
+      </tr>
+    </tfoot>
   </table>
   <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
     <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>
@@ -84,6 +98,13 @@
     <tbody>
       <%= render partial: "product_components/product_component", collection: @product_components['other'] %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">Total:</td>
+        <td><%= @product.other_price.format %></td>
+        <td></td>
+      </tr>
+    </tfoot>
   </table>
   <%= link_to new_product_component_path(@product), class: "btn i-full mb-4", data: {turbo_frame: "_self"} do %>
     <%= image_tag "circle-plus.svg", size: 16, aria: { hidden: true } %>

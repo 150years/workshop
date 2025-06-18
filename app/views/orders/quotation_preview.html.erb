@@ -132,12 +132,12 @@
           <span class="font-bold">Payment / กำหนดการชำระเงิน</span>
           <% if (@version.total_amount + vat).to_f > 50000 %>
             50%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= ((@version.total_amount + vat)*0.5).format %>
-            40%  Products ready for installation / สินค้าพร้อมติดตั้ง = <%= ((@version.total_amount + vat)*0.4).format %>
+            40%  When ready to start installation / มื่อพร้อมที่จะเริ่มการติดตั้ง = <%= ((@version.total_amount + vat)*0.4).format %>
             10%  Upon completion of work / เมื่องานเสร็จเรียบร้อย = <%= ((@version.total_amount + vat)*0.1).format %>
             Deposit is non-refundable in any cases / มัดจำไม่สามารถคืนได้ในทุก ๆ กรณี 
           <% elsif (@version.total_amount + vat).to_f < 50000 && (@version.total_amount + vat).to_f > 20000 %>
             50% Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ = <%= ((@version.total_amount + vat)*0.5).format %>
-            50% Products ready for installation/ สินค้าพร้อมติดตั้ง = <%= ((@version.total_amount + vat)*0.5).format %>
+            40%  When ready to start installation / มื่อพร้อมที่จะเริ่มการติดตั้ง = <%= ((@version.total_amount + vat)*0.5).format %>
           <% else %>
             100%  Deposit upon confirmatinon to order material / เมื่อยืนยันการสั่งซื้อวัสดุ  = <%= (@version.total_amount + vat).format %>
           <% end %>

@@ -8,7 +8,8 @@
       <%= link_to "Generate Components Order", order_components_orders_path(@order), class: "btn btn-outline" %>
       <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
-      <%= link_to "Copy", new_order_path(copy_from: order.id), class: "btn", data: { turbo_frame: "_top" } %>
+      <%#= link_to "Copy", duplicate_order_path(order), method: :post, class: "btn", data: { turbo_frame: "_top" } %>
+      <%= button_to 'Copy', duplicate_order_path(order), method: :post, class: "btn", data: { turbo_frame: "_top" } %>
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
     </div>
   </div>

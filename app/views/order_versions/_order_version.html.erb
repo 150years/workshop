@@ -9,7 +9,9 @@
 <%= link_to "Make final", mark_as_final_order_version_path(order_version.order_id, order_version), class: "btn text-blue-600 text-sm", data: { turbo_method: :patch, turbo_frame: "_top" } unless order_version.final_version %>
 </p>
 <div class="flex items-center justify-end gap">
-  <%= link_to 'Copy', new_order_version_path(order_version.order_id, copy_from: order_version.id), class: "btn", data: {turbo_frame: "_top"} %>
+  <%#= link_to 'Copy', new_order_version_path(order_version.order_id, copy_from: order_version.id), class: "btn", data: {turbo_frame: "_top"} %>
+  <%= button_to 'Copy', duplicate_order_version_path(order_version.order_id, order_version),
+               method: :post, class: "btn", data: { turbo_frame: "_top" } %>
   <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_frame: "_top"} %>
   <%= link_to 'Delete', order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?",turbo_frame: "_top" } %>
   + pdf

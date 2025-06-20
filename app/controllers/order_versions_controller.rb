@@ -15,13 +15,13 @@ class OrderVersionsController < ApplicationController
   #                    end
   # end
   def new
-    if params[:copy_from].present?
-      source_version = OrderVersion.find(params[:copy_from])
-      @order_version = OrderDuplicator.duplicate_version(source_version)
-      redirect_to edit_order_version_path(@order_version.order, @order_version)
-    else
-      @order_version = OrderVersion.new
-    end
+    # if params[:copy_from].present?
+    #   source_version = OrderVersion.find(params[:copy_from])
+    #   @order_version = OrderDuplicator.duplicate_version(source_version)
+    #   redirect_to edit_order_version_path(@order_version.order, @order_version)
+    # else
+    @order_version = OrderVersion.new
+    # end
   end
 
   # GET /order_versions/1/edit
@@ -56,6 +56,11 @@ class OrderVersionsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def duplicate
+    new_version = OrderDuplicator.duplicate_version(@order_version)
+    redirect_to edit_order_version_path(@order, new_version), notice: 'Version copied'
   end
 
   # DELETE /order_versions/1

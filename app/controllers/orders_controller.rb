@@ -35,13 +35,13 @@ class OrdersController < ApplicationController
   # end
 
   def new
-    if params[:copy_from].present?
-      source_order = current_company.orders.find(params[:copy_from])
-      @order = OrderDuplicator.duplicate_order(source_order)
-      redirect_to edit_order_path(@order)
-    else
-      @order = Order.new
-    end
+    # if params[:copy_from].present?
+    #   source_order = current_company.orders.find(params[:copy_from])
+    #   @order = OrderDuplicator.duplicate_order(source_order)
+    #   redirect_to edit_order_path(@order)
+    # else
+    @order = Order.new
+    # end
   end
 
   # GET /orders/1/edit
@@ -67,6 +67,12 @@ class OrdersController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def duplicate
+    source_order = current_company.orders.find(params[:id])
+    @order = OrderDuplicator.duplicate_order(source_order)
+    redirect_to edit_order_path(@order), notice: 'Order copied'
   end
 
   # DELETE /orders/1

@@ -20,12 +20,14 @@ Rails.application.routes.draw do
   resources :orders do
     resources :versions, except: %i[index], controller: 'order_versions' do
       patch :mark_as_final, on: :member
+      post :duplicate, on: :member
     end
     delete :remove_file, on: :member
     member do
       get :quotation_preview
       patch :add_custom_code
       get :components_order
+      post :duplicate
     end
     resources :components_orders, only: [:index] do
       get :print, on: :collection

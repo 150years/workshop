@@ -34,8 +34,12 @@ class ProductComponentsController < ApplicationController
   end
 
   def update_quantity
-    @product_component.update(quantity_manual: params[:product_component][:quantity_manual])
-    redirect_to order_path(@product_component.product.order_version.order)
+    if @product_component.update(quantity_manual: params[:product_component][:quantity_manual])
+      redirect_to order_path(@product_component.product.order_version.order), notice: 'Quantity updated'
+    else
+      flash[:alert] = @product_component.errors.full_messages.to_sentence
+      redirect_to order_path(@product_component.product.order_version.order)
+    end
   end
 
   # DELETE /product_components/1

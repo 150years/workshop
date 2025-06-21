@@ -44,6 +44,7 @@ class ProductComponent < ApplicationRecord
   belongs_to :component
 
   validates :quantity, :quantity_real, :ratio, :waste, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validate :quantity_manual_cannot_be_less_than_real
 
   after_validation :add_errors_to_component_id
   after_validation :calculate_quantity_real, if: -> { component_id.present? }
@@ -127,6 +128,14 @@ class ProductComponent < ApplicationRecord
   def calculation_variables
     # We need to transform the variables to their actual values
     CALCULATION_VARIABLES.transform_values { |proc| proc.call(self) }
+  end
+
+  def quantity_manual_cannot_be_less_than_real
+    return if quantity_manual.blank? || quantity_real.blank?
+
+    return unless quantity_manual < quantity_real
+
+    errors.add(:quantity_manual, "cannot be less than calculated real quantity (#{quantity_real})")
   end
 
   def add_errors_to_component_id

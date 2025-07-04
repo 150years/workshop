@@ -1,13 +1,10 @@
 <h1 class="text-xl font-bold mb-4">Installation Report - <%= @installation_report.order.name %></h1>
 
-<table class="table w-full border">
-  <thead>
-    <tr>
-      <th class="w-1/2">Product / Status / Comment</th>
-      <th>Photos</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render partial: "installation_reports/item", collection: @installation_report.installation_report_items, as: :item %>
-  </tbody>
-</table>
+<div class="flex flex-col gap-2">
+  <div class="flex flex-wrap gap-2">
+    <div class="flex-1 p-2" style="width:300px;">Product / Status / Comment</div>
+    <div class="flex-1 bg-gray-100 p-2">Photos</div>
+  </div>
+  <%= render partial: "installation_reports/item", collection: @installation_report.installation_report_items, as: :item %>
+</div>
+

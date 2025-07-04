@@ -1,0 +1,13 @@
+<h1 class="text-xl font-bold mb-4">Installation Report - <%= @installation_report.order.name %></h1>
+
+<table class="table w-full border">
+  <thead>
+    <tr>
+      <th class="w-1/2">Product / Status / Comment</th>
+      <th>Photos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: "installation_reports/item", collection: @installation_report.installation_report_items, as: :item %>
+  </tbody>
+</table>

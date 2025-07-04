@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_083209) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_122323) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -114,6 +114,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_083209) do
     t.index ["order_id"], name: "index_entries_on_order_id"
     t.index ["order_version_id"], name: "index_entries_on_order_version_id"
     t.index ["project_id"], name: "index_entries_on_project_id"
+  end
+
+  create_table "installation_report_items", force: :cascade do |t|
+    t.integer "installation_report_id", null: false
+    t.integer "product_id", null: false
+    t.string "status"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["installation_report_id"], name: "index_installation_report_items_on_installation_report_id"
+    t.index ["product_id"], name: "index_installation_report_items_on_product_id"
+  end
+
+  create_table "installation_reports", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_installation_reports_on_order_id"
   end
 
   create_table "keepr_accounts", force: :cascade do |t|
@@ -301,6 +319,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_083209) do
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
   add_foreign_key "components", "suppliers"
+  add_foreign_key "installation_report_items", "installation_reports"
+  add_foreign_key "installation_report_items", "products"
+  add_foreign_key "installation_reports", "orders"
   add_foreign_key "order_versions", "companies"
   add_foreign_key "order_versions", "orders"
   add_foreign_key "orders", "agents"

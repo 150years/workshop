@@ -31,6 +31,7 @@ class Order < ApplicationRecord
   belongs_to :agent, optional: true
   has_many :order_versions, dependent: :destroy
   has_many_attached :files
+  has_one :installation_report, dependent: :destroy
 
   enum :status,
        {

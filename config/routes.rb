@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  direct :rails_blob do |blob|
+    route_for(:rails_service_blob, blob.signed_id, blob.filename)
+  end
+  
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   # It should be before users controller to avoid conflicts
@@ -33,6 +37,11 @@ Rails.application.routes.draw do
       get :print, on: :collection
       collection do
         post :send_email_to_supplier
+      end
+    end
+    resource :installation_report, only: %i[create show] do
+      resources :installation_report_items, only: [:update] do
+        delete :purge_photo, on: :member
       end
     end
   end 

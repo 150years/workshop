@@ -3,12 +3,11 @@
     <h2 class="font-bold text-2xl">#<%= order.id %> <%= order.name %></h2>
   </div>
   <div class="flex items-center justify-end w-full gap">
-    <div class="flex items-center gap">
-      <%= link_to "Quotation", quotation_preview_order_path(order), target: "_blank", class: "btn btn--primary no-print" %>
-      <%= link_to "Generate Components Order", order_components_orders_path(@order), class: "btn btn-outline" %>
+    <div class="flex flex-wrap items-center gap">
+      <%= link_to "Quotation", quotation_preview_order_path(order), target: "_blank", class: "btn no-print" %>
+      <%= link_to "Components Order", order_components_orders_path(@order), class: "btn btn-outline" %>
       <%= button_to "IR", order_installation_report_path(@order), method: :post, class: "btn" %>
-
-      <%= link_to "View Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
+      <%= link_to "Balance", balances_path(order_id: order.id), class: "btn text-blue-600 text-sm" %>
       <%= link_to "Edit", edit_order_path(order), class: "btn" %>
       <%= button_to 'Copy', duplicate_order_path(order), method: :post, class: "btn", data: { turbo_frame: "_top" } %>
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>

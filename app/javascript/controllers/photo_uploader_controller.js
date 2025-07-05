@@ -10,7 +10,7 @@ export default class extends Controller {
       reader.onload = e => {
         img.src = e.target.result;
         img.onload = () => {
-          const scale = 640 / Math.max(img.width, img.height);
+          const scale = 1024 / Math.max(img.width, img.height);
           canvas.width = img.width * scale;
           canvas.height = img.height * scale;
           const ctx = canvas.getContext("2d");

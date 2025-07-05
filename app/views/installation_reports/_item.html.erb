@@ -1,5 +1,6 @@
+
 <div class="flex flex-wrap gap-2" id="<%= dom_id(item) %>">
-  <div class="flex-1 p-2" style="width:300px;">
+  <div class="flex-1 p-2" style="width:250px;">
     <div class="font-bold"><%= item.product.name %></div>
     <%= form_with model: item, url: order_installation_report_installation_report_item_path(item.installation_report.order, item), method: :patch, data: { turbo_frame: "_top" } do |f| %>
       <%= f.select :status, InstallationReportItem.statuses.keys.map { |k| [InstallationReportItem.statuses[k], k] }, {}, class: "input mb-2" %>
@@ -12,7 +13,7 @@
     <div class="flex flex-wrap gap-2 mb-2">
       <% item.photos.each do |photo| %>
         <div class="relative inline-block p-1">
-          <%= image_tag photo.variant(resize_to_limit: [300, 300]), class: "block" %>
+          <%= image_tag photo, class: "block" %>
 
           <%= button_to "Delete",
           purge_photo_order_installation_report_installation_report_item_path(
@@ -24,16 +25,17 @@
         </div>
       <% end %>
     </div>
-
     <%= form_with model: item,
                   url: order_installation_report_installation_report_item_path(item.installation_report.order, item),
                   html: { multipart: true },
                   method: :patch,
                   data: { turbo_stream: true } do |f| %>
-      <div class="flex items-center gap-2">
-        <%= f.file_field :photos, multiple: true, direct_upload: true, class: "no-print", data: { controller: "photo-uploader", action: "change->photo-uploader#resizeAndUpload" } %>
+      <div data-controller="photo-uploader" class="flex items-center gap-2">
+        <%= f.file_field :photos, multiple: true, direct_upload: true, class: "no-print", data: { action: "change->photo-uploader#resizeAndUpload" } %>
         <%= f.submit "Add photo", class: "btn no-print" %>
       </div>
     <% end %>
-  </td>
+
+  </div>
 </div>
+

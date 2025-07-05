@@ -51,3 +51,6 @@ application.register("tabs", TabsController)
 
 import TurboConfirmController from "./turbo_confirm_controller"
 application.register("turbo-confirm", TurboConfirmController)
+
+import PhotoUploaderController from "./photo_uploader_controller"
+application.register("photo-uploader", PhotoUploaderController)

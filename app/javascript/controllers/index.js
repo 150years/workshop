@@ -54,3 +54,6 @@ application.register("turbo-confirm", TurboConfirmController)
 
 import PhotoUploaderController from "./photo_uploader_controller"
 application.register("photo-uploader", PhotoUploaderController)
+
+import TranslatorController from "./translator_controller"
+application.register("translator", TranslatorController)

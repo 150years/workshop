@@ -1,5 +1,10 @@
 ---
 releases:
+- version: 0.46.0
+  date: 06-07-2025
+  notes:
+  - 'IR - show #'
+  - 'IR - add google translate button fromto english'
 - version: 0.45.0
   date: 04-07-2025
   notes:

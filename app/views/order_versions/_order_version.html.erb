@@ -9,14 +9,10 @@
 <%= link_to "Make final", mark_as_final_order_version_path(order_version.order_id, order_version), class: "btn text-blue-600 text-sm", data: { turbo_method: :patch, turbo_frame: "_top" } unless order_version.final_version %>
 </p>
 <div class="flex items-center justify-end gap">
-  <%#= link_to 'Copy', new_order_version_path(order_version.order_id, copy_from: order_version.id), class: "btn", data: {turbo_frame: "_top"} %>
   <%= button_to 'Copy', duplicate_order_version_path(order_version.order_id, order_version),
                method: :post, class: "btn", data: { turbo_frame: "_top" } %>
   <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_frame: "_top"} %>
   <%= link_to 'Delete', order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?",turbo_frame: "_top" } %>
-  + pdf
-  + bin
-
 </div>
 <div class="mbs-2">
   <div class="flex items-center justify-between w-full gap mbe-2">
@@ -41,6 +37,7 @@
   <table class="table  min-w-[1500px]">
     <thead>
       <tr>
+        <th>#</th>
         <th>Image</th>
         <th>Name</th>
         <th>Qty</th>
@@ -61,7 +58,10 @@
       </tr>
     </thead>
     <tbody id="<%= dom_id(order_version, 'products') %>">
-      <%= render partial: "products/product_order_row", collection: order_version.products.with_image_variants, as: :product, cached: true %>
+      <%#= render partial: "products/product_order_row", collection: order_version.products.with_image_variants, as: :product, cached: true %>
+      <% order_version.products.with_image_variants.each_with_index do |product, index| %>
+        <%= render partial: "products/product_order_row", locals: { product: product, index: index } %>
+      <% end %>
     </tbody>
     <tfoot>
       <tr>

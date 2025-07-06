@@ -6,6 +6,7 @@
 #
 #  id                     :integer          not null, primary key
 #  comment                :text
+#  comment_thai           :text
 #  status                 :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null

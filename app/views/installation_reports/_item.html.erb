@@ -1,48 +1,51 @@
 <div class="flex flex-wrap gap-2" id="<%= dom_id(item) %>">
   <div class="flex-1 p-2" style="width:250px;">
-    <div class="font-bold"><%= item.product.name %></div>
-    <%= form_with model: item, url: order_installation_report_installation_report_item_path(item.installation_report.order, item), method: :patch, data: { turbo_frame: "_top" } do |f| %>
+    <div class="font-bold"><%= "#{index.to_i+1} #{item.product.name}" %></div>
+    <%= form_with model: item, url: order_installation_report_installation_report_item_path(item.installation_report.order, item), method: :patch, data: { turbo_frame: "_top", controller: "translator" } do |f| %>
       <%= f.select :status, InstallationReportItem.statuses.keys.map { |k| [InstallationReportItem.statuses[k], k] }, {}, class: "input mb-2" %>
-      <%= f.text_area :comment, rows: 2, class: "input w-full mb-2", placeholder: "Comment" %>
+      <%= f.text_area :comment, rows: 2, class: "input w-full mb-2", placeholder: "Comment", data: { translator_target: "comment" } %>
+      <%= f.text_area :comment_thai, rows: 2, class: "input w-full mb-2", placeholder: "Comment thai", data: { translator_target: "commentThai" }  %>
+
+      <%= button_tag "Translate", type: "button", class: "btn no-print", data: { action: "click->translator#translate" } %>
+
       <%= f.submit "Update", class: "btn no-print" %>
     <% end %>
+    <span class="text-sm">Updated on: <%=  item.updated_at.strftime("%d.%m.%Y") %></span>
   </div>
 
   <div class="flex-1 p-2">
-    
-    <% 2.times do |i| %>
+    <% if item.photos.count < 2 %>
+      <%= form_with model: item,
+                    url: order_installation_report_installation_report_item_path(item.installation_report.order, item, index: index),
+                    html: { multipart: true },
+                    method: :patch,
+                    data: { turbo_stream: true } do |f| %>
+        <a href="#"
+          class="btn no-print"
+          onclick="this.nextElementSibling.click(); return false;">
+          Add photo
+        </a>
+        <input type="file"
+                name="installation_report_item[photos][]"
+                accept="image/*"
+                direct_upload="true"
+                data-controller="photo-uploader"
+                data-action="change->photo-uploader#resizeAndUpload"
+                style="display:none" />
+          
+      <% end %>
+    <% end %>    
+    <% item.photos.each do |photo| %>
       <div class="relative inline-block p-1">
-        <% if item.photos[i] %>
-            <%#= image_tag item.photos[i].variant(resize_to_limit: [300, 300]), class: "block" %>
-            <%= image_tag item.photos[i], width: "200", class: "block" %>
-            <%= button_to "Delete",
-                        purge_photo_order_installation_report_installation_report_item_path(
-                          item.installation_report.order, item, blob_id: item.photos[i].signed_id
-                        ),
-                        method: :delete,
-                        data: { turbo_confirm: "Delete this photo?" },
-                        class: "no-print" %>
-        <% else %>
-          <%= form_with model: item,
-                        url: order_installation_report_installation_report_item_path(item.installation_report.order, item),
-                        html: { multipart: true },
-                        method: :patch,
-                        data: { turbo_stream: true } do |f| %>
-              <a href="#"
-                class="no-print"
-                onclick="this.nextElementSibling.click(); return false;">
-                Add photo
-              </a>
-              <input type="file"
-                      name="installation_report_item[photos][]"
-                      accept="image/*"
-                      direct_upload="true"
-                      data-controller="photo-uploader"
-                      data-action="change->photo-uploader#resizeAndUpload"
-                      style="display:none" />
-        
-          <% end %>
-        <% end %>
+        <%#= image_tag item.photos[i].variant(resize_to_limit: [300, 300]), class: "block" %>
+        <%= image_tag photo, width: "200", class: "block" %>
+        <%= button_to "Delete",
+                    purge_photo_order_installation_report_installation_report_item_path(
+                      item.installation_report.order, item, blob_id: photo.signed_id, index: index
+                    ),
+                    method: :delete,
+                    data: { turbo_confirm: "Delete this photo?" },
+                    class: "no-print" %>
       </div>
     <% end %>
   </div>

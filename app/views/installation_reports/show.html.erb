@@ -1,10 +1,15 @@
-<h1 class="text-xl font-bold mb-4">Installation Report - <%= @installation_report.order.name %></h1>
+<h1 class="text-xl font-bold ">Installation Report - <%= @installation_report.order.name %></h1>
+<div class="text-sm">Created on: <%=  @installation_report.created_at.strftime("%d.%m.%Y") %><br>
+Updated on: <%=  @installation_report.updated_at.strftime("%d.%m.%Y") %></div>
 
 <div class="flex flex-col gap-2">
   <div class="flex flex-wrap gap-2">
     <div class="flex-1 p-2" style="width:250px;">Product / Status / Comment</div>
     <div class="flex-1 bg-gray-100 p-2">Photos</div>
   </div>
-  <%= render partial: "installation_reports/item", collection: @installation_report.installation_report_items, as: :item %>
+  <%#= render partial: "installation_reports/item", collection: @installation_report.installation_report_items, as: :item %>
+  <% @installation_report.installation_report_items.each_with_index do |item, index| %>
+    <%= render partial: "installation_reports/item", locals: { item: item, index: index } %>
+  <% end %>
 </div>
 

@@ -91,3 +91,11 @@ def send_email_to_supplier
   redirect_to order_components_orders_path(order), notice: 'Email was sent successfully.', status: :see_other
 end
 ```
+
+* Подключение JS/CSS в проекте
+В проекте используется прямое подключение JS/CSS без fingerprint через стандартные Rails-теги:
+```
+<%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+```
+Файлы собираются с помощью Bun в app/assets/builds

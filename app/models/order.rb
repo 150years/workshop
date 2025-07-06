@@ -62,7 +62,7 @@ class Order < ApplicationRecord
   end
 
   def latest_version_total
-    final_or_latest_version.reload.total_amount
+    Money.new(final_or_latest_version&.reload&.total_amount_cents || 0, 'THB')
   end
 
   private

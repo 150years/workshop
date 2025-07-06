@@ -7,21 +7,8 @@ class OrderVersionsController < ApplicationController
   def show; end
 
   # GET /order_versions/new
-  # def new
-  #   @order_version = if params[:copy_from].blank?
-  #                      OrderVersion.new
-  #                    else
-  #                      OrderVersion.find(params[:copy_from]).dup
-  #                    end
-  # end
   def new
-    # if params[:copy_from].present?
-    #   source_version = OrderVersion.find(params[:copy_from])
-    #   @order_version = OrderDuplicator.duplicate_version(source_version)
-    #   redirect_to edit_order_version_path(@order_version.order, @order_version)
-    # else
     @order_version = OrderVersion.new
-    # end
   end
 
   # GET /order_versions/1/edit
@@ -51,6 +38,10 @@ class OrderVersionsController < ApplicationController
           ov.save!
         end
       end
+
+      # Update product prices and order total
+      @order_version.products.each(&:update_price)
+      @order_version.update_total_amount
 
       redirect_to @order, notice: 'Order version was successfully updated.', status: :see_other
     else

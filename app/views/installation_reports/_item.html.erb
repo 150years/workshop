@@ -1,4 +1,3 @@
-
 <div class="flex flex-wrap gap-2" id="<%= dom_id(item) %>">
   <div class="flex-1 p-2" style="width:250px;">
     <div class="font-bold"><%= item.product.name %></div>
@@ -10,32 +9,41 @@
   </div>
 
   <div class="flex-1 p-2">
-    <div class="flex flex-wrap gap-2 mb-2">
-      <% item.photos.each do |photo| %>
-        <div class="relative inline-block p-1">
-          <%= image_tag photo, class: "block" %>
-
-          <%= button_to "Delete",
-          purge_photo_order_installation_report_installation_report_item_path(
-            item.installation_report.order, item, blob_id: photo.signed_id
-          ),
-          method: :delete,
-          data: { turbo_confirm: "Delete this photo?" },
-          class: "text-xs text-red-600 no-print" %>
-        </div>
-      <% end %>
-    </div>
-    <%= form_with model: item,
-                  url: order_installation_report_installation_report_item_path(item.installation_report.order, item),
-                  html: { multipart: true },
-                  method: :patch,
-                  data: { turbo_stream: true } do |f| %>
-      <div data-controller="photo-uploader" class="flex items-center gap-2">
-        <%= f.file_field :photos, multiple: true, direct_upload: true, class: "no-print", data: { action: "change->photo-uploader#resizeAndUpload" } %>
-        <%= f.submit "Add photo", class: "btn no-print" %>
+    
+    <% 2.times do |i| %>
+      <div class="relative inline-block p-1">
+        <% if item.photos[i] %>
+            <%#= image_tag item.photos[i].variant(resize_to_limit: [300, 300]), class: "block" %>
+            <%= image_tag item.photos[i], width: "200", class: "block" %>
+            <%= button_to "Delete",
+                        purge_photo_order_installation_report_installation_report_item_path(
+                          item.installation_report.order, item, blob_id: item.photos[i].signed_id
+                        ),
+                        method: :delete,
+                        data: { turbo_confirm: "Delete this photo?" },
+                        class: "no-print" %>
+        <% else %>
+          <%= form_with model: item,
+                        url: order_installation_report_installation_report_item_path(item.installation_report.order, item),
+                        html: { multipart: true },
+                        method: :patch,
+                        data: { turbo_stream: true } do |f| %>
+              <a href="#"
+                class="no-print"
+                onclick="this.nextElementSibling.click(); return false;">
+                Add photo
+              </a>
+              <input type="file"
+                      name="installation_report_item[photos][]"
+                      accept="image/*"
+                      direct_upload="true"
+                      data-controller="photo-uploader"
+                      data-action="change->photo-uploader#resizeAndUpload"
+                      style="display:none" />
+        
+          <% end %>
+        <% end %>
       </div>
     <% end %>
-
   </div>
 </div>
-

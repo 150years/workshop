@@ -1,4 +1,4 @@
-<div id="<%= dom_id order %>" class="card flex flex-col gap">
+<div id="<%= dom_id order %>" class="card flex flex-col gap border">
   <div class="flex">
     <h2 class="font-bold text-2xl">#<%= order.id %> <%= order.name %></h2>
   </div>
@@ -13,19 +13,10 @@
       <%= link_to "Destroy", order, class: "btn", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
     </div>
   </div>
-  <div class="flex flex-col gap">
-    <div class="flex items-center gap">
-      <span class="font-bold">Status: </span>
-      <%= order.status.humanize %>
-    </div>
-    <div class="flex items-center gap">
-      <span class="font-bold">Client:</span>
-      <span><%= order.client.name %></span>
-    </div>
-    <div class="flex items-center gap">
-      <span class="font-bold">Agent:</span>
-      <span><%= order.agent.name if order.agent.present? %></span>
-    </div>
+  <div class="flex flex-col">
+    <p>Status: <%= order.status.humanize %></p>
+    <p>Client: <%= order.client.name %></p>
+    <p>Agent: <%= order.agent.name if order.agent.present? %></p>
     <div class="flex items-start gap-2 py-1">
     <span class="font-bold mt-1">Files:</span>&nbsp;
     <div class="flex flex-wrap gap-x-2 gap-y-1">
@@ -47,7 +38,7 @@
       <% end %>
     </div>
   </div>
-    <div class="flex flex-col gap">
+    <div class="flex flex-col">
       <span class="font-bold">Order Versions</span>
       <div class="tabs" data-controller="tabs">
         <%= order_version_tabs(order, @order_versions) %>

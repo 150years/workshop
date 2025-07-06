@@ -51,13 +51,6 @@ class OrderVersion < ApplicationRecord
 
   scope :final_or_latest, -> { order(final_version: :desc, created_at: :desc).first }
 
-  # def update_total_amount
-  #   # self.total_amount_cents = products.sum(&:price_cents)
-  #   total = products.sum { |product| (product.price_cents || 0) * (product.quantity || 1) }
-  #   self.total_amount_cents = total
-  #   save
-  # end
-
   def update_total_amount
     total = products.reload.sum(&:total_price_with_profit_cents)
     self.total_amount_cents = total

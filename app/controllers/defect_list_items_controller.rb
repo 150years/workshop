@@ -17,11 +17,14 @@ class DefectListItemsController < ApplicationController
   end
 
   def update
-    if @item.update(defect_list_item_params) && params[:defect_list_item][:photos]
+    # загружаем фото, если они есть
+    if params[:defect_list_item]&.[](:photos)
       params[:defect_list_item][:photos].each do |photo|
         @item.photos.attach(photo)
       end
     end
+
+    @item.update(defect_list_item_params)
 
     respond_to do |format|
       format.turbo_stream do
@@ -68,6 +71,6 @@ class DefectListItemsController < ApplicationController
   end
 
   def defect_list_item_params
-    params.expect(defect_list_item: %i[status comment comment_thai])
+    params.fetch(:defect_list_item, {}).permit(:status, :comment, :comment_thai)
   end
 end

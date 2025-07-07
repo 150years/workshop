@@ -24,12 +24,24 @@
         <a href="#"
           class="btn no-print"
           onclick="this.nextElementSibling.click(); return false;">
-          Add photo
+          Camera
         </a>
         <input type="file"
                 name="installation_report_item[photos][]"
                 accept="image/*"
                 capture="environment"
+                direct_upload="true"
+                data-controller="photo-uploader"
+                data-action="change->photo-uploader#resizeAndUpload"
+                style="display:none" />
+        <a href="#"
+          class="btn no-print"
+          onclick="this.nextElementSibling.click(); return false;">
+          Gallery
+        </a>
+        <input type="file"
+                name="installation_report_item[photos][]"
+                accept="image/*"
                 direct_upload="true"
                 data-controller="photo-uploader"
                 data-action="change->photo-uploader#resizeAndUpload"

@@ -45,7 +45,7 @@ class DefectListItemsController < ApplicationController
 
   def purge_photo
     photo = @item.photos.find(params[:photo_id])
-    photo.purge_later
+    photo.purge
 
     respond_to do |format|
       format.turbo_stream do
@@ -68,6 +68,6 @@ class DefectListItemsController < ApplicationController
   end
 
   def defect_list_item_params
-    params.require(:defect_list_item).permit(:status, :comment, :comment_thai)
+    params.expect(defect_list_item: %i[status comment comment_thai])
   end
 end

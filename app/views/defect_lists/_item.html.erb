@@ -1,0 +1,50 @@
+<turbo-frame id="<%= dom_id(item) %>">
+  <div class="flex gap-2 items-start">
+    <div class="flex-1">
+      <%= image_or_placeholder(item.product.image, 100, 150) %>
+      <%= form_with model: item, url: order_defect_list_defect_list_item_path(item.defect_list.order, item), method: :patch, data: { controller: "translator" } do |form| %>
+        <%= form.select :status, DefectListItem.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "input" %>
+        <%= form.text_field :comment, placeholder: "Comment", class: "input", data: { translator_target: "comment" } %>
+        <%= form.text_field :comment_thai, placeholder: "Comment Thai", class: "input", data: { translator_target: "commentThai" } %>
+        <%= button_tag "Translate", type: "button", class: "btn no-print", data: { action: "click->translator#translate" } %>
+        <%= form.submit "Update", class: "btn" %>
+        <%= link_to "Delete", 
+            order_defect_list_defect_list_item_path(item.defect_list.order, item), 
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+            class: "btn" %>
+      <% end %>
+    </div>
+
+    <div class="flex-1">
+      <div class="flex flex-wrap gap-1">
+        <%= form_with model: item,
+                    url: order_defect_list_defect_list_item_path(item.defect_list.order, item),
+                    html: { multipart: true },
+                    method: :patch,
+                    data: { turbo_stream: true } do |f| %>
+        <a href="#"
+          class="btn no-print"
+          onclick="this.nextElementSibling.click(); return false;">
+          Add photo
+        </a>
+        <input type="file"
+                name="defect_list_item[photos][]"
+                accept="image/*"
+                capture="environment"
+                direct_upload="true"
+                data-controller="photo-uploader"
+                data-action="change->photo-uploader#resizeAndUpload"
+                style="display:none" />
+          
+      <% end %>
+        <% item.photos.each do |photo| %>
+          <div class="relative">
+            <%= image_tag photo, width: "200", class: "block" %>
+            <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, photo_id: photo.id),
+                        data: { turbo_method: :delete, turbo_confirm: "Delete photo?" }, class: "absolute top-0 right-0" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_06_112915) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_07_114059) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -94,6 +94,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_06_112915) do
     t.integer "supplier_id"
     t.index ["company_id"], name: "index_components_on_company_id"
     t.index ["supplier_id"], name: "index_components_on_supplier_id"
+  end
+
+  create_table "defect_list_items", force: :cascade do |t|
+    t.integer "defect_list_id", null: false
+    t.integer "product_id", null: false
+    t.string "status"
+    t.string "comment"
+    t.string "comment_thai"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["defect_list_id"], name: "index_defect_list_items_on_defect_list_id"
+    t.index ["product_id"], name: "index_defect_list_items_on_product_id"
+  end
+
+  create_table "defect_lists", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_defect_lists_on_order_id"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -320,6 +339,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_06_112915) do
   add_foreign_key "clients", "companies"
   add_foreign_key "components", "companies"
   add_foreign_key "components", "suppliers"
+  add_foreign_key "defect_list_items", "defect_lists"
+  add_foreign_key "defect_list_items", "products"
+  add_foreign_key "defect_lists", "orders"
   add_foreign_key "installation_report_items", "installation_reports"
   add_foreign_key "installation_report_items", "products"
   add_foreign_key "installation_reports", "orders"

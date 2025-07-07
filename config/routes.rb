@@ -44,6 +44,12 @@ Rails.application.routes.draw do
         delete :purge_photo, on: :member
       end
     end
+    resource :defect_list, only: %i[create show] do
+      resources :defect_list_items, only: %i[create update destroy] do
+        delete :purge_photo, on: :member
+      end
+    end
+
   end 
   resources :transactions do
     member do

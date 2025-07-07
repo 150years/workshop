@@ -50,6 +50,7 @@ class Product < ApplicationRecord
   has_many :product_components, dependent: :destroy
   has_many :components, through: :product_components
   has_many :installation_report_items, dependent: :destroy
+  has_many :defect_list_items, dependent: :destroy
   has_one_attached :image, dependent: :purge
 
   validates :name, :width, :height, presence: true

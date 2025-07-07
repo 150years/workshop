@@ -1,6 +1,7 @@
 <div class="flex flex-wrap gap-2" id="<%= dom_id(item) %>">
   <div class="flex-1 p-2" style="width:250px;">
     <div class="font-bold"><%= "#{index.to_i+1} #{item.product.name}" %></div>
+    <%= image_or_placeholder(item.product.image, 100, 150) %>
     <%= form_with model: item, url: order_installation_report_installation_report_item_path(item.installation_report.order, item), method: :patch, data: { turbo_frame: "_top", controller: "translator" } do |f| %>
       <%= f.select :status, InstallationReportItem.statuses.keys.map { |k| [InstallationReportItem.statuses[k], k] }, {}, class: "input mb-2" %>
       <%= f.text_area :comment, rows: 2, class: "input w-full mb-2", placeholder: "Comment", data: { translator_target: "comment" } %>

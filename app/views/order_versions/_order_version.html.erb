@@ -5,9 +5,8 @@
 <p>Version Note: <%= order_version.version_note %></p>
 <p>Note for client: <%= order_version.note_for_client.presence || "—" %></p>
 <p>Final Version: <%= order_version.final_version ? 'Yes' : 'No' %></p>
-<%= link_to "Make final", mark_as_final_order_version_path(order_version.order_id, order_version), class: "btn text-blue-600 text-sm", data: { turbo_method: :patch, turbo_frame: "_top" } unless order_version.final_version %>
-</p>
 <div class="flex items-center justify-end gap">
+  <%= link_to "Make final", mark_as_final_order_version_path(order_version.order_id, order_version), class: "btn", data: { turbo_method: :patch, turbo_frame: "_top" } unless order_version.final_version %>
   <%= button_to 'Copy', duplicate_order_version_path(order_version.order_id, order_version),
                method: :post, class: "btn", data: { turbo_frame: "_top" } %>
   <%= link_to 'Edit', edit_order_version_path(order_version.order_id, order_version), class: "btn", data: {turbo_frame: "_top"} %>

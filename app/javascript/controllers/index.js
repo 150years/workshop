@@ -57,3 +57,6 @@ application.register("photo-uploader", PhotoUploaderController)
 
 import TranslatorController from "./translator_controller"
 application.register("translator", TranslatorController)
+
+import AutoResizeController from "./auto_resize_controller"
+application.register("auto_resize", AutoResizeController)

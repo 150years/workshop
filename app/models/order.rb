@@ -32,6 +32,7 @@ class Order < ApplicationRecord
   has_many :order_versions, dependent: :destroy
   has_many_attached :files
   has_one :installation_report, dependent: :destroy
+  has_one :defect_list, dependent: :destroy
 
   enum :status,
        {

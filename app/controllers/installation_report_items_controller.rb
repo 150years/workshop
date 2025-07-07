@@ -6,20 +6,26 @@ class InstallationReportItemsController < ApplicationController
   def update # rubocop:disable Metrics/AbcSize
     index = params[:index]
 
-    if params[:installation_report_item][:photos]
-      params[:installation_report_item][:photos].each do |photo|
-        @item.photos.attach(photo)
+    # Сначала прикрепляем фото (если есть)
+    params[:installation_report_item][:photos]&.each do |photo|
+      @item.photos.attach(photo)
+    end
+
+    # Обновляем другие атрибуты
+    success = @item.update(item_params)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(@item, partial: 'installation_reports/item',
+                                                         locals: { item: @item, index: index })
       end
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(@item, partial: 'installation_reports/item',
-                                                           locals: { item: @item, index: index })
+      if success
+        format.html { redirect_to order_installation_report_path(@item.installation_report.order), notice: 'Updated' }
+      else
+        format.html do
+          redirect_to order_installation_report_path(@item.installation_report.order), notice: 'Update failed'
         end
-        format.html { redirect_to order_installation_report_path(@item.installation_report.order) }
       end
-    else
-      @item.update(item_params)
-      redirect_to order_installation_report_path(@item.installation_report.order), notice: 'Updated'
     end
   end
 

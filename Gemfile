@@ -21,7 +21,7 @@ gem 'rails_app_version', '1.3.2'
 # Application
 gem 'css-zero', '1.1.15'
 gem 'devise', '4.9.4'
-gem 'pagy', '~> 9.3.4'
+gem 'pagy', '~> 9.3.5'
 gem 'ransack'
 gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'

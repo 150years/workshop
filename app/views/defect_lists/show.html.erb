@@ -1,9 +1,14 @@
 <h1 class="text-xl font-bold">Defect List - <%= @defect_list.order.name %></h1>
 
-<div class="text-sm">
+<div class="flex-1 text-end">
+<%= link_to "Destroy", order_defect_list_path(@order), class: "btn no-print", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+</div>
+
+<div class="flex-1 text-sm">
   Created on: <%= @defect_list.created_at.strftime("%d.%m.%Y") %><br>
   Updated on: <%= @defect_list.updated_at.strftime("%d.%m.%Y") %>
 </div>
+
 
 <div class="flex flex-col gap-2">
   <div id="defect_list_items">

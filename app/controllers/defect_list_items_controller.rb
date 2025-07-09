@@ -26,6 +26,8 @@ class DefectListItemsController < ApplicationController
 
     @item.update(defect_list_item_params)
 
+    @item.defect_list.touch # rubocop:disable Rails/SkipsModelValidations
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(@item, partial: 'defect_lists/item',

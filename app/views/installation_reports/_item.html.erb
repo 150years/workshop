@@ -4,11 +4,9 @@
     <%= image_or_placeholder(item.product.image, 100, 150) %>
     <%= form_with model: item, url: order_installation_report_installation_report_item_path(item.installation_report.order, item, index: index ), method: :patch, data: { turbo_frame: "_top", controller: "translator" } do |f| %>
       <%= f.select :status, InstallationReportItem.statuses.keys.map { |k| [InstallationReportItem.statuses[k], k] }, {}, class: "input mb-2" %>
-      <%= f.text_area :comment, rows: 2, class: "input w-full mb-2", placeholder: "Comment", data: { translator_target: "comment" } %>
-      <%= f.text_area :comment_thai, rows: 2, class: "input w-full mb-2", placeholder: "Comment thai", data: { translator_target: "commentThai" }  %>
-
+      <%= f.text_area :comment, rows: 1, class: "input w-full mb-2", placeholder: "Comment", data: { controller: "auto_resize", action: "input->auto_resize#adjust",  translator_target: "comment" } %>
+      <%= f.text_area :comment_thai, rows: 1, class: "input w-full mb-2", placeholder: "Comment thai", data: { controller: "auto_resize", action: "input->auto_resize#adjust",  translator_target: "commentThai" }  %>
       <%= button_tag "Translate", type: "button", class: "btn no-print", data: { action: "click->translator#translate" } %>
-
       <%= f.submit "Update", class: "btn no-print" %>
     <% end %>
     <span class="text-sm">Updated on: <%=  item.updated_at.strftime("%d.%m.%Y") %></span>
@@ -49,8 +47,10 @@
           
       <% end %>
     <% end %>    
+  </div>
+  <div class="flex-1 p-2">
     <% item.photos.each do |photo| %>
-      <div class="relative inline-block p-1">
+      <div class=" relative inline-block p-1">
         <%#= image_tag item.photos[i].variant(resize_to_limit: [300, 300]), class: "block" %>
         <%= image_tag photo, width: "200", class: "block" %>
         <%= button_to "Delete",

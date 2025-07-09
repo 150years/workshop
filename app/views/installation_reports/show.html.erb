@@ -1,4 +1,8 @@
 <h1 class="text-xl font-bold ">Installation Report - <%= @installation_report.order.name %></h1>
+<div class="flex-1 text-end">
+<%= link_to "Destroy", order_installation_report_path(@order), class: "btn no-print", data: { turbo_method: :delete, turbo_confirm: "Are you absolutely sure?" } %>
+</div>
+
 <div class="text-sm">Created on: <%=  @installation_report.created_at.strftime("%d.%m.%Y") %><br>
 Updated on: <%=  @installation_report.updated_at.strftime("%d.%m.%Y") %></div>
 

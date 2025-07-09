@@ -31,6 +31,7 @@ RSpec.describe 'InstallationReports', type: :request do
   end
 
   describe 'GET /orders/:order_id/installation_report' do
+    include ActiveSupport::Testing::TimeHelpers
     let!(:report) { order.create_installation_report! }
     let!(:item) { report.installation_report_items.create!(product: product) }
 
@@ -38,6 +39,18 @@ RSpec.describe 'InstallationReports', type: :request do
       get order_installation_report_path(order)
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(product.name)
+    end
+  end
+
+  describe 'DELETE /orders/:order_id/defect_list' do
+    let!(:report) { order.create_installation_report! }
+
+    it 'destroys the defect list' do
+      expect do
+        delete order_installation_report_path(order)
+      end.to change(InstallationReport, :count).by(-1)
+
+      expect(response).to redirect_to(order_path(order))
     end
   end
 end

@@ -60,3 +60,6 @@ application.register("translator", TranslatorController)
 
 import AutoResizeController from "./auto_resize_controller"
 application.register("auto_resize", AutoResizeController)
+
+import MarkerController from "./marker_controller"
+application.register("marker", MarkerController)

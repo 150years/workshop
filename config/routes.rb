@@ -42,11 +42,13 @@ Rails.application.routes.draw do
     resource :installation_report, only: %i[create show destroy] do
       resources :installation_report_items, only: [:update] do
         delete :purge_photo, on: :member
+        patch :edit_photo, on: :member
       end
     end
     resource :defect_list, only: %i[create show destroy] do
       resources :defect_list_items, only: %i[create update destroy] do
         delete :purge_photo, on: :member
+        patch :edit_photo, on: :member
       end
     end
 

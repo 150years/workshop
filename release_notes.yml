@@ -1,5 +1,23 @@
 ---
 releases:
+- version: 0.49.0
+  date: 09-07-2025
+  notes:
+  - 'Ability to delete reports DL and IR'
+  - 'Update dates of report when item updated'
+  - 'IR text area auto-rezise same as in DL'
+  - 'DL hide Delete button for photo when print'
+  - 'DL ability to add photo as result'
+  - 'IR, DL add ability to mark on photo'
+- version: 0.48.0
+  date: 08-07-2025
+  notes:
+  - 'Add functionality: Project defect list (DL)'
+- version: 0.47.0
+  date: 06-07-2025
+  notes:
+  - 'DL - show #'
+  - 'IR - add google translate button fromto english'
 - version: 0.46.0
   date: 06-07-2025
   notes:

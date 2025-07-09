@@ -52,7 +52,15 @@
     <% item.photos.each do |photo| %>
       <div class=" relative inline-block p-1">
         <%#= image_tag item.photos[i].variant(resize_to_limit: [300, 300]), class: "block" %>
-        <%= image_tag photo, width: "200", class: "block" %>
+        <%#= image_tag photo, width: "200", class: "block" %>
+        <%= image_tag photo, width: "200", class: "block cursor-pointer",
+              data: {
+                controller: "marker",
+                marker_url_value: edit_photo_order_installation_report_installation_report_item_path(item.installation_report.order, item, index: index),
+                marker_field_value: "photo",
+                marker_attachment_id_value: photo.id
+              } %>
+
         <%= button_to "Delete",
                     purge_photo_order_installation_report_installation_report_item_path(
                       item.installation_report.order, item, blob_id: photo.signed_id, index: index

@@ -2,7 +2,7 @@
 
 class DefectListItemsController < ApplicationController
   before_action :set_defect_list
-  before_action :set_defect_list_item, only: %i[update destroy purge_photo]
+  before_action :set_defect_list_item, only: %i[update destroy purge_photo edit_photo]
 
   def create
     @item = @defect_list.defect_list_items.create!(product_id: params[:product_id], status: :other)
@@ -35,6 +35,27 @@ class DefectListItemsController < ApplicationController
                                                          locals: { item: @item })
       end
       format.html { redirect_to order_defect_list_path(@defect_list.order) }
+    end
+  end
+
+  def edit_photo
+    field = params[:field] # например, "photo_before" или "photo_after"
+    file = params[:defect_list_item]&.[](field.to_s)
+
+    if file.present? && %w[photo_before photo_after].include?(field)
+      @item.send(field).attach(file)
+      @item.defect_list.touch # rubocop:disable Rails/SkipsModelValidations
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(@item,
+                                                    partial: 'defect_lists/item',
+                                                    locals: { item: @item })
+        end
+        format.html { head :ok }
+      end
+    else
+      head :unprocessable_entity
     end
   end
 

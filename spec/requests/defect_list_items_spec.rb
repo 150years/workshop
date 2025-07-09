@@ -55,17 +55,6 @@ RSpec.describe 'DefectListItems', type: :request do
     end
   end
 
-  # describe 'DELETE /orders/:order_id/defect_list/defect_list_items/:id/purge_photo' do
-  #   it 'purges photo' do
-  #     item.photos.attach(io: Rails.root.join('spec/fixtures/files/image.jpg').open, filename: 'image.jpg', content_type: 'image/jpeg')
-  #     photo = item.photos.first
-
-  #     delete purge_photo_order_defect_list_defect_list_item_path(order, item, photo_id: photo.id), as: :turbo_stream
-  #     expect(response.media_type).to eq('text/vnd.turbo-stream.html')
-  #     expect(item.reload.photos).to be_empty
-  #   end
-  # end
-
   describe 'PATCH /orders/:order_id/defect_list/defect_list_items/:id with photo_before and photo_after' do
     let(:file) { fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg') }
 
@@ -81,6 +70,18 @@ RSpec.describe 'DefectListItems', type: :request do
         patch order_defect_list_defect_list_item_path(order, item),
               params: { defect_list_item: { photo_after: file } }, as: :turbo_stream
       end.to change { item.reload.photo_after.attached? }.from(false).to(true)
+    end
+  end
+
+  describe 'PATCH /orders/:order_id/defect_list/defect_list_items/:id/edit_photo' do
+    it 'attaches photo_before via edit_photo' do
+      file = fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/png')
+
+      patch edit_photo_order_defect_list_defect_list_item_path(order, item, field: 'photo_before'),
+            params: { defect_list_item: { photo_before: file } }
+
+      expect(response).to have_http_status(:success).or have_http_status(:ok)
+      expect(item.reload.photo_before).to be_attached
     end
   end
 

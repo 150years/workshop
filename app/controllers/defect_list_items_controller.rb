@@ -38,12 +38,17 @@ class DefectListItemsController < ApplicationController
     end
   end
 
-  def edit_photo
+  def edit_photo # rubocop:disable Metrics/MethodLength
     field = params[:field] # например, "photo_before" или "photo_after"
     file = params[:defect_list_item]&.[](field.to_s)
 
     if file.present? && %w[photo_before photo_after].include?(field)
-      @item.send(field).attach(file)
+      case field
+      when 'photo_before'
+        @item.photo_before.attach(file)
+      when 'photo_after'
+        @item.photo_after.attach(file)
+      end
       @item.defect_list.touch # rubocop:disable Rails/SkipsModelValidations
 
       respond_to do |format|

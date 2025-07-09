@@ -5,7 +5,7 @@ namespace :defect_list do
   task split_photos_to_individual_items: :environment do
     count = 0
 
-    DefectListItem.includes(:photos_attachment, :photos_blob).find_each do |item|
+    DefectListItem.includes(photos_attachments: :blob).find_each do |item|
       next if item.photos.blank?
 
       puts "DL for project ##{item.defect_list.order.name}"

@@ -14,6 +14,8 @@ class InstallationReportItemsController < ApplicationController
     # Обновляем другие атрибуты
     success = @item.update(item_params)
 
+    @item.installation_report.touch # rubocop:disable Rails/SkipsModelValidations
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(@item, partial: 'installation_reports/item',

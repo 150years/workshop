@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'active_support/testing/time_helpers'
 
 RSpec.describe 'DefectListItems', type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:user) { create(:user) }
   let(:order) { create(:order) }
   let(:defect_list) { create(:defect_list, order: order) }
@@ -28,6 +31,17 @@ RSpec.describe 'DefectListItems', type: :request do
 
       expect(response.media_type).to eq('text/vnd.turbo-stream.html')
       expect(item.reload.comment).to eq('Updated comment')
+    end
+
+    it 'updates updated_at on parent installation_report' do
+      original_time = item.defect_list.updated_at
+
+      travel 1.minute do
+        patch order_defect_list_defect_list_item_path(order, item),
+              params: { defect_list_item: { comment: 'new comment' }, index: 0 }
+
+        expect(item.defect_list.reload.updated_at).to be > original_time
+      end
     end
   end
 

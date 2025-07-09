@@ -31,4 +31,16 @@ RSpec.describe 'DefectLists', type: :request do
       end
     end
   end
+
+  describe 'DELETE /orders/:order_id/defect_list' do
+    let!(:defect_list) { create(:defect_list, order: order) }
+
+    it 'destroys the defect list' do
+      expect do
+        delete order_defect_list_path(order)
+      end.to change(DefectList, :count).by(-1)
+
+      expect(response).to redirect_to(order_path(order))
+    end
+  end
 end

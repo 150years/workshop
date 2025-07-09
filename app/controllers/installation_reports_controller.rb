@@ -27,6 +27,18 @@ class InstallationReportsController < ApplicationController
     end
   end
 
+  def destroy
+    @installation_report = @order.installation_report
+    @installation_report.destroy
+
+    if @installation_report
+      @installation_report.destroy
+      redirect_to order_path(@order), notice: 'Instalation report deleted'
+    else
+      redirect_to order_path(@order), alert: 'No Instalation report found'
+    end
+  end
+
   private
 
   def set_order

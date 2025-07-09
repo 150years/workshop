@@ -1,12 +1,12 @@
 <turbo-frame id="<%= dom_id(item) %>">
   <div class="flex flex-wrap gap-2">
-    <div class="flex-1 p-2" style="width:250px;">
+    <div class="flex-1 flex-wrap p-2" style="width:250px;">
       <div class="font-bold"><%= "#{item.product.name}" %></div>
       <div class="mb-2"><%= image_or_placeholder(item.product.image, 100, 150) %></div>
       <%= form_with model: item, url: order_defect_list_defect_list_item_path(item.defect_list.order, item), method: :patch, data: { controller: "translator" } do |form| %>
         <%= form.select :status, DefectListItem.statuses.map { |key, value| [value, key] }, {}, class: "input" %>
-        <%= form.text_area :comment, class: "input mb-2", rows: 1, data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "comment" } %>
-        <%= form.text_area :comment_thai, class: "input", rows: 1, data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "commentThai" } %>
+        <%= form.text_area :comment, class: "input mb-2", rows: 1, placeholder: "Comment", data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "comment" } %>
+        <%= form.text_area :comment_thai, class: "input", rows: 1, placeholder: "Comment thai", data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "commentThai" } %>
         <%= button_tag "Translate", type: "button", class: "btn no-print", data: { action: "click->translator#translate" } %>
         <%= form.submit "Update", class: "btn no-print" %>
         <%= link_to "Delete", 
@@ -55,7 +55,7 @@
           <div class="relative inline-block p-1">
             <%= image_tag photo, width: "200", class: "block" %>
             <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, photo_id: photo.id),
-                        data: { turbo_method: :delete, turbo_confirm: "Delete photo?" }, class: "absolute top-0 right-0" %>
+                        data: { turbo_method: :delete, turbo_confirm: "Delete photo?" }, class: "absolute top-0 right-0 no-print" %>
           </div>
         <% end %>
     </div>

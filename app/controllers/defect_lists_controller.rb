@@ -24,6 +24,18 @@ class DefectListsController < ApplicationController
     end
   end
 
+  def destroy
+    @defect_list = @order.defect_list
+    @defect_list.destroy
+
+    if @defect_list
+      @defect_list.destroy
+      redirect_to order_path(@order), notice: 'Defect list deleted'
+    else
+      redirect_to order_path(@order), alert: 'No defect list found'
+    end
+  end
+
   private
 
   def set_order

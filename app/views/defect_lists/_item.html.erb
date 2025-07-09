@@ -1,63 +1,110 @@
 <turbo-frame id="<%= dom_id(item) %>">
   <div class="flex flex-wrap gap-2">
-    <div class="flex-1 flex-wrap p-2" style="width:250px;">
+    <div class="flex-1 flex-wrap" style="width:250px;">
       <div class="font-bold"><%= "#{item.product.name}" %></div>
       <div class="mb-2"><%= image_or_placeholder(item.product.image, 100, 150) %></div>
+
       <%= form_with model: item, url: order_defect_list_defect_list_item_path(item.defect_list.order, item), method: :patch, data: { controller: "translator" } do |form| %>
         <%= form.select :status, DefectListItem.statuses.map { |key, value| [value, key] }, {}, class: "input" %>
         <%= form.text_area :comment, class: "input mb-2", rows: 1, placeholder: "Comment", data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "comment" } %>
         <%= form.text_area :comment_thai, class: "input", rows: 1, placeholder: "Comment thai", data: { controller: "auto_resize", action: "input->auto_resize#adjust", translator_target: "commentThai" } %>
         <%= button_tag "Translate", type: "button", class: "btn no-print", data: { action: "click->translator#translate" } %>
         <%= form.submit "Update", class: "btn no-print" %>
-        <%= link_to "Delete", 
-            order_defect_list_defect_list_item_path(item.defect_list.order, item), 
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-            class: "btn no-print" %>
+        <%= link_to "Delete", order_defect_list_defect_list_item_path(item.defect_list.order, item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn no-print" %>
       <% end %>
-      <span class="text-sm">Updated on: <%=  item.updated_at.strftime("%d.%m.%Y") %></span>
+
+      <span class="text-sm">Updated on: <%= item.updated_at.strftime("%d.%m.%Y") %></span>
     </div>
 
-    <div class="flex-1 p-2">
-      <div class="flex">
+    <div class="flex-1">
+      <!-- Before photo -->
+      <div class="font-bold text-sm">Before</div>
+      <% if item.photo_before.attached? %>
+        <div class="relative inline-block p-1">
+          <%#= image_tag item.photo_before.variant(resize_to_limit: [200, 200]), class: "block" %>
+          <%= image_tag item.photo_before, width: "200", class: "block" if item.photo_before.attached? %>
+          <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, which: "before"),
+                      data: { turbo_method: :delete, turbo_confirm: "Delete photo before?" },
+                      class: "btn no-print" %>
+        </div>
+      <% else %>
         <%= form_with model: item,
-                    url: order_defect_list_defect_list_item_path(item.defect_list.order, item),
-                    html: { multipart: true },
-                    method: :patch do |f| %>
-        <a href="#"
-          class="btn no-print"
-          onclick="this.nextElementSibling.click(); return false;">
-          Camera
-        </a>
-        <input type="file"
-                name="defect_list_item[photos][]"
-                accept="image/*"
-                capture="environment"
-                direct_upload="true"
-                data-controller="photo-uploader"
-                data-action="change->photo-uploader#resizeAndUpload"
-                style="display:none" />
-        <a href="#"
-          class="btn no-print"
-          onclick="this.nextElementSibling.click(); return false;">
-          Gallery
-        </a>
-        <input type="file"
-                name="defect_list_item[photos][]"
-                accept="image/*"
-                direct_upload="true"
-                data-controller="photo-uploader"
-                data-action="change->photo-uploader#resizeAndUpload"
-                style="display:none" />
-          
+                      url: order_defect_list_defect_list_item_path(item.defect_list.order, item),
+                      html: { multipart: true },
+                      method: :patch,
+                      data: { turbo_stream: true } do |f| %>
+          <a href="#"
+            class="btn no-print"
+            onclick="this.nextElementSibling.click(); return false;">
+            Camera
+          </a>
+          <input type="file"
+                  name="defect_list_item[photo_before]"
+                  accept="image/*"
+                  capture="environment"
+                  direct_upload="true"
+                  data-controller="photo-uploader"
+                  data-action="change->photo-uploader#resizeAndUpload"
+                  style="display:none" />
+          <a href="#"
+            class="btn no-print"
+            onclick="this.nextElementSibling.click(); return false;">
+            Gallery
+          </a>
+          <input type="file"
+                  name="defect_list_item[photo_before]"
+                  accept="image/*"
+                  direct_upload="true"
+                  data-controller="photo-uploader"
+                  data-action="change->photo-uploader#resizeAndUpload"
+                  style="display:none" />
         <% end %>
-      </div>
-        <% item.photos.each do |photo| %>
-          <div class="relative inline-block p-1">
-            <%= image_tag photo, width: "200", class: "block" %>
-            <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, photo_id: photo.id),
-                        data: { turbo_method: :delete, turbo_confirm: "Delete photo?" }, class: "absolute top-0 right-0 no-print" %>
-          </div>
+      <% end %>
+    </div>
+    <div class="flex-1">
+      <!-- After photo -->
+      <div class="font-bold text-sm">After</div>
+      <% if item.photo_after.attached? %>
+        <div class="relative inline-block p-1">
+          <%#= image_tag item.photo_after.variant(resize_to_limit: [200, 200]), class: "block" %>
+          <%= image_tag item.photo_after, width: "200", class: "block" if item.photo_after.attached? %>
+          <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, which: "after"),
+                      data: { turbo_method: :delete, turbo_confirm: "Delete photo after?" },
+                      class: "btn no-print" %>
+        </div>
+      <% else %>
+        <%= form_with model: item,
+                      url: order_defect_list_defect_list_item_path(item.defect_list.order, item),
+                      html: { multipart: true },
+                      method: :patch,
+                      data: { turbo_stream: true } do |f| %>
+          <a href="#"
+            class="btn no-print"
+            onclick="this.nextElementSibling.click(); return false;">
+            Camera
+          </a>
+          <input type="file"
+                  name="defect_list_item[photo_after]"
+                  accept="image/*"
+                  capture="environment"
+                  direct_upload="true"
+                  data-controller="photo-uploader"
+                  data-action="change->photo-uploader#resizeAndUpload"
+                  style="display:none" />
+          <a href="#"
+            class="btn no-print"
+            onclick="this.nextElementSibling.click(); return false;">
+            Gallery
+          </a>
+          <input type="file"
+                  name="defect_list_item[photo_after]"
+                  accept="image/*"
+                  direct_upload="true"
+                  data-controller="photo-uploader"
+                  data-action="change->photo-uploader#resizeAndUpload"
+                  style="display:none" />
         <% end %>
+      <% end %>
     </div>
   </div>
 </turbo-frame>

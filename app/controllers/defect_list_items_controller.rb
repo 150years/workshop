@@ -16,12 +16,13 @@ class DefectListItemsController < ApplicationController
     end
   end
 
-  def update
-    # загружаем фото, если они есть
-    if params[:defect_list_item]&.[](:photos)
-      params[:defect_list_item][:photos].each do |photo|
-        @item.photos.attach(photo)
-      end
+  def update # rubocop:disable Metrics/AbcSize
+    if params[:defect_list_item][:photo_before].present?
+      @item.photo_before.attach(params[:defect_list_item][:photo_before])
+    end
+
+    if params[:defect_list_item][:photo_after].present?
+      @item.photo_after.attach(params[:defect_list_item][:photo_after])
     end
 
     @item.update(defect_list_item_params)
@@ -49,8 +50,12 @@ class DefectListItemsController < ApplicationController
   end
 
   def purge_photo
-    photo = @item.photos.find(params[:photo_id])
-    photo.purge
+    case params[:which]
+    when 'before'
+      @item.photo_before.purge if @item.photo_before.attached?
+    when 'after'
+      @item.photo_after.purge if @item.photo_after.attached?
+    end
 
     respond_to do |format|
       format.turbo_stream do
@@ -64,7 +69,6 @@ class DefectListItemsController < ApplicationController
   private
 
   def set_defect_list
-    # @defect_list = DefectList.find(params[:defect_list_id])
     @defect_list = Order.find(params[:order_id]).defect_list
   end
 

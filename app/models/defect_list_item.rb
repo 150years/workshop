@@ -26,7 +26,7 @@
 class DefectListItem < ApplicationRecord
   belongs_to :defect_list
   belongs_to :product
-  # has_many_attached :photos
+  has_many_attached :photos
   has_one_attached :photo_before
   has_one_attached :photo_after
 

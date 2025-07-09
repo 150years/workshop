@@ -22,7 +22,13 @@
       <% if item.photo_before.attached? %>
         <div class="relative inline-block p-1">
           <%#= image_tag item.photo_before.variant(resize_to_limit: [200, 200]), class: "block" %>
-          <%= image_tag item.photo_before, width: "200", class: "block" if item.photo_before.attached? %>
+          <%#= image_tag item.photo_before, width: "200", class: "block" if item.photo_before.attached? %>
+          <%= image_tag item.photo_before, width: "200", class: "block cursor-pointer",
+                data: {
+                  controller: "marker",
+                  marker_url_value: edit_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, field: "photo_before"),
+                  marker_field_value: "photo_before"
+                } %>
           <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, which: "before"),
                       data: { turbo_method: :delete, turbo_confirm: "Delete photo before?" },
                       class: "btn no-print" %>
@@ -67,7 +73,14 @@
       <% if item.photo_after.attached? %>
         <div class="relative inline-block p-1">
           <%#= image_tag item.photo_after.variant(resize_to_limit: [200, 200]), class: "block" %>
-          <%= image_tag item.photo_after, width: "200", class: "block" if item.photo_after.attached? %>
+          <%#= image_tag item.photo_after, width: "200", class: "block" if item.photo_after.attached? %>
+          <%= image_tag item.photo_after, width: "200", class: "block cursor-pointer",
+                data: {
+                controller: "marker",
+                # marker_url_value: order_defect_list_defect_list_item_path(item.defect_list.order, item),
+                marker_url_value: edit_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, field: "photo_after"),
+                marker_field_value: "photo_after"
+                } %>
           <%= link_to "Delete", purge_photo_order_defect_list_defect_list_item_path(item.defect_list.order, item, which: "after"),
                       data: { turbo_method: :delete, turbo_confirm: "Delete photo after?" },
                       class: "btn no-print" %>

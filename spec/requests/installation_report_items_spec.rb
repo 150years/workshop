@@ -21,6 +21,21 @@ RSpec.describe 'InstallationReportItems', type: :request do
     expect(item.reload.photos).to be_attached
   end
 
+  describe 'PATCH /orders/:order_id/installation_report/installation_report_items/:id/edit_photo' do
+    it 'replaces a specific photo via edit_photo' do
+      file = fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/png')
+      item.photos.attach(file)
+      attachment_id = item.photos.first.id
+      new_file = fixture_file_upload(Rails.root.join('spec/fixtures/files/image2.jpg'), 'image/png')
+      patch edit_photo_order_installation_report_installation_report_item_path(order, item, index: 0),
+            params: { photo: new_file, attachment_id: attachment_id }
+
+      expect(response).to have_http_status(:ok).or have_http_status(:success)
+      expect(item.reload.photos.count).to eq(1)
+      expect(item.photos.first.filename.to_s).to eq('marked.png')
+    end
+  end
+
   it 'purges photo' do
     file = fixture_file_upload(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg')
     item.photos.attach(file)

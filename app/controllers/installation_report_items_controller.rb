@@ -31,8 +31,31 @@ class InstallationReportItemsController < ApplicationController
     end
   end
 
+  def edit_photo # rubocop:disable Metrics/AbcSize
+    index = params[:index]
+
+    if params[:photo].present? && params[:attachment_id].present?
+      blob = ActiveStorage::Blob.create_and_upload!(io: params[:photo], filename: 'marked.png')
+      old_attachment = @item.photos.attachments.find_by(id: params[:attachment_id])
+      old_attachment.purge if old_attachment.present?
+      @item.photos.attach(blob)
+
+      @item.installation_report.touch # rubocop:disable Rails/SkipsModelValidations
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(@item,
+                                                    partial: 'installation_reports/item',
+                                                    locals: { item: @item, index: index })
+        end
+        format.html { head :ok }
+      end
+    else
+      head :unprocessable_entity
+    end
+  end
+
   def purge_photo
-    # @item = InstallationReportItem.find(params[:id])
     blob = ActiveStorage::Blob.find_signed(params[:blob_id])
     attachment = @item.photos.attachments.find_by(blob_id: blob.id)
     attachment&.purge

@@ -11,6 +11,7 @@ gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bootsnap', require: false
+gem 'aws-sdk-s3', '~> 1.136', require: false
 
 # System dependencies
 gem 'solid_cache'

@@ -28,7 +28,7 @@ gem 'money-rails', '~> 1.12'
 gem 'dentaku', '~> 3.5.4'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-gem 'mailgun-ruby', '~>1.3.7'
+gem 'mailgun-ruby', '~>1.4.0'
 gem 'prawn'
 gem 'prawn-table'
 

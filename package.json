@@ -8,7 +8,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.20",
     "autoprefixer": "^10.4.21",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "markerjs2": "^2.32.4",
     "select2": "^4.1.0-rc.0"
   },
